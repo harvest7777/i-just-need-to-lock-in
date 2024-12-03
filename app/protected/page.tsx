@@ -13,7 +13,8 @@ export default async function ProtectedPage() {
   }
 
   return (
-    <div className="flex-1 w-full flex flex-col gap-12">
-    </div>
+    <main>
+      <h1>This is the auth user's home page</h1>
+    </main>
   );
 }
