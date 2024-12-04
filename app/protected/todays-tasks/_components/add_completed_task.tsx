@@ -1,46 +1,98 @@
 "use client";
-import React, { useState } from "react";
-import { insertCompletedTask } from "../_services/InsertCompletedTask";
-// UI for adding an already completd task
-export default function AddCompletedTask() {
-    // Handle all value changes of added task name and minutes spent doing
-    const [taskName, setTaskName] = useState('');
-    const [taskMinutes, setTaskMinutes] = useState('');
-    
-    const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setTaskName(e.target.value);
-    }
-    
-    const handleMinuteChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setTaskMinutes(e.target.value);
-    }
-    
-    const isValidInput = (): boolean => {
-        return (taskName != '' && taskMinutes != '');
-    }
+import React, { useEffect, useState } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { insertCompletedTask } from "../_services/InsertTask";
+import { fetchCompletedTasksToday, fetchIncompleteTasksToday } from "../_services/FetchTasks";
+import { Task } from "../_services/TaskSchema";
+// Define the type for form data
+interface FormData {
+  taskName: string;
+  taskMinutes: string;
+}
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        if(isValidInput())
-        {
-            const tasksMinutesNumber: number = parseInt(taskMinutes, 10);
-            try {
-                await insertCompletedTask(taskName, tasksMinutesNumber);
-            } catch(error) {
-                console.log("Error submitting completed task.", error);
-            }
-        }
-        setTaskName('');
-        setTaskMinutes('');
+export default function AddCompletedTask() {
+  // State for completed tasks
+  const [completedTasks, setCompletedTasks] = useState<Task[]>([]);
+
+  // Destructure necessary methods from React Hook Form
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>();
+
+  // Fetch completed tasks when component mounts
+  useEffect(() => {
+    const loadTasks = async () => {
+      try {
+        const tasks = await fetchCompletedTasksToday("America/Los_Angeles"); // Fetch the tasks
+        setCompletedTasks(tasks); // Update state with fetched tasks
+      } catch (error) {
+        console.log("Error fetching completed tasks.", error);
+      }
+    };
+
+    loadTasks();
+  }, []);
+
+  // Submit handler
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
+    const tasksMinutesNumber: number = parseInt(data.taskMinutes, 10);
+    if (data.taskName && tasksMinutesNumber >= 0) {
+      try {
+        await insertCompletedTask(data.taskName, true, tasksMinutesNumber); // Insert new task
+        reset();  // Reset form after submission
+        const tasks = await fetchCompletedTasksToday("America/Los_Angeles"); // Reload tasks after insert
+        setCompletedTasks(tasks); // Update the task list
+      } catch (error) {
+        console.log("Error submitting completed task.", error);
+      }
     }
-        
-    return(
-        <>
-            <form onSubmit={handleSubmit}>
-                <input value={taskName} onChange={handleNameChange} placeholder="task name"></input>
-                <input type="number" value={taskMinutes} onChange={handleMinuteChange} placeholder="minutes spent"></input>
-                <button type="submit">submit task</button>
-            </form> 
-        </>
-    )
+  };
+
+  return (
+    <>
+      <form className="flex" onSubmit={handleSubmit(onSubmit)}>
+        {/* Task Name Input */}
+        <div>
+          <input
+            placeholder="Task name"
+            {...register("taskName", { required: "Task name is required" })}
+          />
+          {errors.taskName && <p>{errors.taskName.message}</p>}
+        </div>
+
+        {/* Task Minutes Input */}
+        <div>
+          <input
+            type="number"
+            placeholder="Minutes spent"
+            {...register("taskMinutes", {
+              required: "Minutes spent is required",
+              pattern: {
+                value: /^[0-9]+$/,
+                message: "Please enter a valid number"
+              }
+            })}
+          />
+          {errors.taskMinutes && <p>{errors.taskMinutes.message}</p>}
+        </div>
+
+        {/* Submit Button */}
+        <button type="submit">Add Completed Task</button>
+      </form>
+
+      {/* Completed Tasks List */}
+      <div>
+        <h2>Completed Tasks</h2>
+        {completedTasks.length > 0 ? (
+          <ul>
+            {completedTasks.map((task, index) => (
+              <li key={index}>
+                {task.name} - {task.minutes_spent} minutes
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No completed tasks available.</p>
+        )}
+      </div>
+    </>
+  );
 }
