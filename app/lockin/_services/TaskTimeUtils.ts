@@ -52,14 +52,12 @@ export const pauseTask= async (taskId: number) => {
     return updatedTask;
 
 }
-
 export const completeTask= async (taskId: number) => {
     // Updates the unique task and returns it
     const supabase = await createClient();
 
-
     // We do not want the task to forever count last start time because it's finished
-    pauseTask(taskId);
+    await pauseTask(taskId);
 
     const {data, error} = await supabase
     .from("tasks")
