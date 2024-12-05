@@ -16,8 +16,12 @@ interface CompletedTaskFormData {
 }
   
 export default function LockIn() {
+    // Used to determine which tasks are completed or not
     const [dailyTasks, setDailyTasks] = useState<Task[]>();
+
+    // Focused task must be able to be started, paused, ended
     const [focusedTask, setFocusedTask] = useState<Task|null>(null);
+    const [startedFocusedTask, setStartedFocusedTask] = useState<boolean>(false);
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>();
     const { register: registerCompletedTask, handleSubmit: handleCompletedTaskSubmit, reset: resetCompletedTaskForm, formState: { errors: completedTaskErrors } } = useForm<CompletedTaskFormData>();
@@ -49,9 +53,15 @@ export default function LockIn() {
         setFocusedTask(taskToFocus);
     } 
 
+    const handleStartTask= async (taskId: number) => {
+        startTask(taskId);
+        setStartedFocusedTask(true);
+    }
+
     // Pause a task and refresh
     const handlePauseTask = async (taskId: number) => {
         pauseTask(taskId);
+        setStartedFocusedTask(false);
         // TODO: Refactor this to only update the task that got changed
         fetchTasks();
     }
@@ -67,7 +77,7 @@ export default function LockIn() {
     // On every page load, fetch ALL the tasks from today
     useEffect(() => {
         fetchTasks();
-    }, [dailyTasks])
+    }, [dailyTasks, startedFocusedTask])
 
     return(
         // Page container
@@ -149,8 +159,11 @@ export default function LockIn() {
                 <div className="flex flex-col">
                     <h1 className="text-2xl font-bold">CURRENT LOCKED IN TASK:</h1>
                     <h1 className="text-xl font-semibold">{focusedTask?.name}</h1>
-                    <button onClick={() => startTask(focusedTask.task_id)}>START</button>
-                    <button onClick={() => handlePauseTask(focusedTask.task_id)}>PAUSE</button>
+                    {!startedFocusedTask? (
+                        <button onClick={() => handleStartTask(focusedTask.task_id)}>START</button>
+                    ): (
+                        <button onClick={() => handlePauseTask(focusedTask.task_id)}>PAUSE</button>
+                    )}
                     <button onClick={() => handleCompleteTask(focusedTask.task_id)}>COMPLETE</button>
                 </div>
             )}
