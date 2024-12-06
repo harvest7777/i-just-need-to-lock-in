@@ -4,6 +4,6 @@ export interface Task {
     name: string;
     is_complete: boolean;
     last_start_time?: string | null; // Optional field: timestamp of last start
-    minutes_spent: number; // Optional field: track minutes spent
+    seconds_spent: number; // Optional field: track minutes spent
   }
   
