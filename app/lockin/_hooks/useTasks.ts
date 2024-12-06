@@ -25,8 +25,14 @@ export const useTasks = () => {
         fetchTasks();
     }, [startedFocusedTask]);
 
-    const lockIntoTask = (taskToFocus: Task) => {
+    const lockIntoTask = async (taskToFocus: Task) => {
+        // If a task is already focused, pause it first
+        if(focusedTask!=null)
+        {
+            await handlePauseTask(focusedTask.task_id);
+        }
         setFocusedTask(taskToFocus);
+        handleStartTask(taskToFocus.task_id);
     };
 
     const handleStartTask = async (taskId: number) => {

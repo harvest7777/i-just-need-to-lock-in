@@ -25,7 +25,7 @@ const NewCompletedTaskForm: React.FC<NewTaskFormProps> = ({addCompletedTask}) =>
                     type="text"
                     placeholder="Completed task name"
                     {...register("taskName", { required: "Task name is required" })}
-                    className="border p-2 rounded"
+                    className="p-2 outline outline-black"
                 />
                 {errors.taskName && <p className="text-red-500">{errors.taskName.message}</p>}
             </div>
@@ -37,12 +37,11 @@ const NewCompletedTaskForm: React.FC<NewTaskFormProps> = ({addCompletedTask}) =>
                     type="number"
                     placeholder="Seconds spent"
                     {...register("taskSeconds", { required: "Seconds are required", min: 1 })}
-                    className="border p-2 rounded"
+                    className="p-2 outline outline-black "
                 />
                 {errors.taskSeconds && <p className="text-red-500">{errors.taskSeconds.message}</p>}
-
             </div>
-            <button type="submit" className="bg-green-500 text-white p-2 rounded h-10 w-1/4">Add</button>
+            <button type="submit" className="bg-green-500 text-white p-2 outline outline-black h-10 w-1/4">Add</button>
         </form>
     )
 }
