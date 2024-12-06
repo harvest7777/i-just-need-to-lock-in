@@ -17,6 +17,7 @@ const Stopwatch: React.FC<StopWatchProps> = ({taskId, startedFocusedTask}) => {
     useEffect(() => {
         // Fetch initial time when the component mounts
         getMostUpdatedSeconds(taskId);
+        console.log("Stopwatch mounted!")
     }, [taskId]);
 
     useEffect(() => {
@@ -45,8 +46,8 @@ const Stopwatch: React.FC<StopWatchProps> = ({taskId, startedFocusedTask}) => {
     };
 
     return (
-        <div className="flex flex-col items-center space-y-4">
-        <h1 className="text-3xl font-bold">{formatTime(time)}</h1>
+        <div className="flex flex-col items-center bg-red-100">
+        <h1 className="text-3xl font-bold w-min bg-orange-50">{formatTime(time)}</h1>
         </div>
     );
 };
