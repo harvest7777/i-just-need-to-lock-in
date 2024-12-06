@@ -16,7 +16,7 @@ const IncompleteTasks : React.FC<IncompleteTasksProps> = ({ dailyTasks, lockInto
             !task.is_complete && (
             <div className="flex space-x-2" key={task.task_id}>
                 <p className="w-44">{task.name}</p> 
-                <p>{task.minutes_spent}</p>
+                <p>{task.seconds_spent}</p>
                 <button onClick={() => lockIntoTask(task)}>LOCK INTO THIS TASK</button>
             </div>                   
             )

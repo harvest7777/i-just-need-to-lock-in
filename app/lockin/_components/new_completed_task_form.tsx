@@ -3,17 +3,17 @@ import { useForm } from "react-hook-form";
 
 interface FormData {
     taskName: string;
-    taskMinutes: number;
+    taskSeconds: number;
 }
 interface NewTaskFormProps {
-    addCompletedTask: (taskName: string, taskMinutes: number) => Promise<void>;
+    addCompletedTask: (taskName: string, taskSeconds: number) => Promise<void>;
 }
 
 const NewCompletedTaskForm: React.FC<NewTaskFormProps> = ({addCompletedTask}) => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>();
 
     const onSubmit = (data: FormData) => {
-        addCompletedTask(data.taskName, data.taskMinutes);
+        addCompletedTask(data.taskName, data.taskSeconds);
         reset();
     };
     return(
@@ -30,16 +30,16 @@ const NewCompletedTaskForm: React.FC<NewTaskFormProps> = ({addCompletedTask}) =>
                 {errors.taskName && <p className="text-red-500">{errors.taskName.message}</p>}
             </div>
 
-            {/* Minutes container */}
+            {/* Seconds container */}
             <div className="flex flex-col w-1/4">
                 <input
-                    id="tTaskMinutes"
+                    id="taskSeconds"
                     type="number"
-                    placeholder="Minutes spent"
-                    {...register("taskMinutes", { required: "Minutes are required", min: 1 })}
+                    placeholder="Seconds spent"
+                    {...register("taskSeconds", { required: "Seconds are required", min: 1 })}
                     className="border p-2 rounded"
                 />
-                {errors.taskMinutes && <p className="text-red-500">{errors.taskMinutes.message}</p>}
+                {errors.taskSeconds && <p className="text-red-500">{errors.taskSeconds.message}</p>}
 
             </div>
             <button type="submit" className="bg-green-500 text-white p-2 rounded h-10 w-1/4">Add</button>

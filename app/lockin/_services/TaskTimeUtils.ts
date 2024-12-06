@@ -16,12 +16,12 @@ export const startTask = async (taskId: number) => {
     return data;
 }
 export const pauseTask= async (taskId: number) => {
-    // Pauses the unique task by updating its minutes and setting last start to null and returns it
+    // Pauses the unique task by updating its seconds and setting last start to null and returns it
     const supabase = await createClient();
 
     const {data: curTask, error: errorFetch} = await supabase
     .from("tasks")
-    .select("last_start_time, minutes_spent")
+    .select("last_start_time, seconds_spent")
     .eq("task_id", taskId)
     .single();
 
@@ -35,14 +35,14 @@ export const pauseTask= async (taskId: number) => {
     const nowUTC = new Date();
     const lastStartTimeUTC = new Date(lastStartTimeString);
 
-    const additionalMinutes = Math.floor((nowUTC.getTime()-lastStartTimeUTC.getTime())/60000);
-    const newMinutesSpent = additionalMinutes + curTask.minutes_spent;
-    console.log(newMinutesSpent);
+    const additionalSeconds = Math.floor((nowUTC.getTime()-lastStartTimeUTC.getTime())/1000);
+    const newSecondsSpent = additionalSeconds + curTask.seconds_spent;
+    console.log(newSecondsSpent);
 
     const {data: updatedTask, error: errorUpdate} = await supabase
     .from("tasks")
     .update({ 
-        minutes_spent: newMinutesSpent,
+        seconds_spent: newSecondsSpent,
         last_start_time: null,
     })
     .eq("task_id", taskId)
@@ -70,14 +70,14 @@ export const completeTask= async (taskId: number) => {
     return data;
 }
 
-export const getTaskMinutes = async(taskId: number) => {
+export const getTaskSeconds = async(taskId: number) => {
     const supabase = await createClient();
     const{data, error} = await supabase
     .from("tasks")
-    .select("minutes_spent")
+    .select("seconds_spent")
     .eq("task_id", taskId)
     .single();
 
     if(error) throw error;
-    return data.minutes_spent;
+    return data.seconds_spent;
 }

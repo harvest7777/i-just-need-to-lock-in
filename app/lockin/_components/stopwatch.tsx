@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getTaskMinutes } from "../_services/TaskTimeUtils";
+import { getTaskSeconds } from "../_services/TaskTimeUtils";
 
 interface StopWatchProps {
     taskId: number;
@@ -9,15 +9,14 @@ interface StopWatchProps {
 const Stopwatch: React.FC<StopWatchProps> = ({taskId, startedFocusedTask}) => {
     const [time, setTime] = useState(0); // Time in seconds
 
-    const getMostUpdatedMinutes = async(taskId: number) => {
-        const minutes = await getTaskMinutes(taskId);
-        const seconds = minutes*60;
+    const getMostUpdatedSeconds = async(taskId: number) => {
+        const seconds = await getTaskSeconds(taskId);
         setTime(seconds);
     }
 
     useEffect(() => {
         // Fetch initial time when the component mounts
-        getMostUpdatedMinutes(taskId);
+        getMostUpdatedSeconds(taskId);
     }, [taskId]);
 
     useEffect(() => {

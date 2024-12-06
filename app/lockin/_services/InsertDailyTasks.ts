@@ -17,7 +17,7 @@ export const InsertDailyTask = async (taskName: string) => {
     console.log(data);
     return data;
 }
-export const InsertCompletedTask= async (taskName: string, taskMinutes: number) => {
+export const InsertCompletedTask= async (taskName: string, taskSeconds: number) => {
     const supabase = await createClient();
     const user = supabase.auth.getUser();
     const userId = (await user).data.user?.id;
@@ -27,7 +27,7 @@ export const InsertCompletedTask= async (taskName: string, taskMinutes: number) 
     .insert({
         user_id: userId,
         name: taskName,        
-        minutes_spent: taskMinutes,
+        secondsSpent: taskSeconds,
         is_complete: true,
     })
 

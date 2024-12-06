@@ -52,8 +52,8 @@ export const useTasks = () => {
         fetchTasks(); // Refresh task list after adding new task
     };
 
-    const addCompletedTask = async (taskName: string, minutesSpent: number) => {
-        await InsertCompletedTask(taskName, minutesSpent);
+    const addCompletedTask = async (taskName: string, secondsSpent: number) => {
+        await InsertCompletedTask(taskName, secondsSpent);
         fetchTasks(); // Refresh task list after adding completed task
     };
 
