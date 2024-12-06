@@ -69,3 +69,15 @@ export const completeTask= async (taskId: number) => {
     if(error) throw(error);
     return data;
 }
+
+export const getTaskMinutes = async(taskId: number) => {
+    const supabase = await createClient();
+    const{data, error} = await supabase
+    .from("tasks")
+    .select("minutes_spent")
+    .eq("task_id", taskId)
+    .single();
+
+    if(error) throw error;
+    return data.minutes_spent;
+}

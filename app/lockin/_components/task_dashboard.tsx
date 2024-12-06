@@ -5,7 +5,7 @@ import IncompleteTasks from "./incomplete_tasks";
 import LockedInTask from "./locked_in_task";
 import NewTaskForm from "./new_task_form";
 import NewCompletedTaskForm from "./new_completed_task_form";
-
+import Stopwatch from "./stopwatch";
   
 export default function LockIn() {
     const { 
@@ -39,6 +39,7 @@ export default function LockIn() {
 
             {/* Currently locked into this task */}
             {focusedTask && (
+                <div>
                 <LockedInTask
                 focusedTask={focusedTask}
                 startedFocusedTask={startedFocusedTask}
@@ -46,6 +47,8 @@ export default function LockIn() {
                 handlePauseTask={handlePauseTask}
                 handleCompleteTask={handleCompleteTask}
                 />
+                <Stopwatch taskId={focusedTask.task_id} startedFocusedTask={startedFocusedTask}/>
+                </div>
             )}
         </div>
     )
