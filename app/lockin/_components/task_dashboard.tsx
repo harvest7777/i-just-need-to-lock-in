@@ -6,7 +6,7 @@ import LockedInTask from "./locked_in_task";
 import NewTaskForm from "./new_task_form";
 import NewCompletedTaskForm from "./new_completed_task_form";
 import Stopwatch from "./stopwatch";
-  
+import TimeGraph from "./time_graph"; 
 export default function LockIn() {
     const { 
         dailyTasks, 
@@ -36,7 +36,7 @@ export default function LockIn() {
                     <Stopwatch taskId={focusedTask.task_id} startedFocusedTask={startedFocusedTask}/>
                     </div>
                 ): (
-                    <h1>Lock into a task by clicking "focus"</h1>
+                    <h1 className="text-center">Lock into a task by clicking "focus"</h1>
                 )}
             </div>
 
@@ -46,6 +46,7 @@ export default function LockIn() {
                 <div className="p-2 bg-pink-50 flex flex-col items-center w-1/3">
                     <NewCompletedTaskForm addCompletedTask={addCompletedTask}/>
                     <CompletedTasks dailyTasks={dailyTasks}/> 
+                    <TimeGraph dailyTasks={dailyTasks}/>
                 </div>
                 {/* Incomplete tasks container */}
                 <div className="p-2 bg-pink-50 flex flex-col items-center w-1/3">

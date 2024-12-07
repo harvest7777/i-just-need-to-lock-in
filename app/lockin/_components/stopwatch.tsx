@@ -9,6 +9,7 @@ interface StopWatchProps {
 }
 
 const StopwatchComponent: React.FC<StopWatchProps> = ({ taskId, startedFocusedTask }) => {
+    // May or may not use in the future to start the timer at 0 vs time spent
     const [initialTime, setInitialTime] = useState(0); // Store initial time fetched from the API
     const [elapsedSeconds, setElapsedSeconds] = useState(0);
     // Use the useStopwatch hook
@@ -22,7 +23,9 @@ const StopwatchComponent: React.FC<StopWatchProps> = ({ taskId, startedFocusedTa
     useEffect(() => {
         // Fetch initial time when the component mounts
         getMostUpdatedSeconds(taskId);
-        if(startedFocusedTask) timer.start();
+        let curEpoch = Date.now();
+        curEpoch = curEpoch - (1000*initialTime);
+        if(startedFocusedTask) timer.start(curEpoch);
         else timer.stop();
     }, [startedFocusedTask]);
 

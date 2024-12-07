@@ -43,14 +43,12 @@ export const useTasks = () => {
     const handlePauseTask = async (taskId: number) => {
         await pauseTask(taskId);
         setStartedFocusedTask(false);
-        fetchTasks(); // Refresh task list after pausing
     };
 
     const handleCompleteTask = async (taskId: number) => {
         await completeTask(taskId);
         setFocusedTask(null);
         setStartedFocusedTask(false);
-        fetchTasks(); // Refresh task list after completing
     };
 
     const addNewTask = async (taskName: string) => {

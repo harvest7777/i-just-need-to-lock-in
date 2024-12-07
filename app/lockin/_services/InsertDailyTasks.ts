@@ -14,7 +14,6 @@ export const InsertDailyTask = async (taskName: string) => {
     })
 
     if(error) throw error;
-    console.log(data);
     return data;
 }
 export const InsertCompletedTask= async (taskName: string, taskSeconds: number) => {
@@ -32,6 +31,5 @@ export const InsertCompletedTask= async (taskName: string, taskSeconds: number) 
     })
 
     if(error) throw error;
-    console.log(data);
     return data;
 }

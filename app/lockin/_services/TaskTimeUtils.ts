@@ -29,7 +29,6 @@ export const pauseTask= async (taskId: number) => {
     // Allowed null values for unstarted tasks. Do not proceed if the task has not been started.
     if(curTask.last_start_time == null) return;
 
-    console.log(curTask);
     // Calculate the minute difference between now and the last start time
     const lastStartTimeString = curTask?.last_start_time;
     const nowUTC = new Date();
@@ -37,7 +36,6 @@ export const pauseTask= async (taskId: number) => {
 
     const additionalSeconds = Math.floor((nowUTC.getTime()-lastStartTimeUTC.getTime())/1000);
     const newSecondsSpent = additionalSeconds + curTask.seconds_spent;
-    console.log(newSecondsSpent);
 
     const {data: updatedTask, error: errorUpdate} = await supabase
     .from("tasks")
@@ -48,7 +46,18 @@ export const pauseTask= async (taskId: number) => {
     .eq("task_id", taskId)
     .select();
 
-    if(errorUpdate) throw errorUpdate;
+    if(errorUpdate) throw(errorUpdate);
+
+    const {error: errorSetInterval} = await supabase
+    .from("task_intervals")
+    .insert({
+        task_id: taskId,
+        start_time: curTask.last_start_time,
+        end_time: nowUTC
+    });
+
+    if(errorSetInterval) throw(errorSetInterval);
+
     return updatedTask;
 
 }
