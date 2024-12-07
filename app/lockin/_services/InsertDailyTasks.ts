@@ -14,7 +14,6 @@ export const InsertDailyTask = async (taskName: string) => {
     })
 
     if(error) throw error;
-    console.log(data);
     return data;
 }
 export const InsertCompletedTask= async (taskName: string, taskSeconds: number) => {
@@ -27,11 +26,10 @@ export const InsertCompletedTask= async (taskName: string, taskSeconds: number) 
     .insert({
         user_id: userId,
         name: taskName,        
-        secondsSpent: taskSeconds,
+        seconds_spent: taskSeconds,
         is_complete: true,
     })
 
     if(error) throw error;
-    console.log(data);
     return data;
 }
