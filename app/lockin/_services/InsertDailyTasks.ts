@@ -27,7 +27,7 @@ export const InsertCompletedTask= async (taskName: string, taskSeconds: number) 
     .insert({
         user_id: userId,
         name: taskName,        
-        secondsSpent: taskSeconds,
+        seconds_spent: taskSeconds,
         is_complete: true,
     })
 
