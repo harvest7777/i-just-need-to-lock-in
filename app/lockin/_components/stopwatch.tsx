@@ -2,36 +2,45 @@
 import React, { useState, useEffect } from "react";
 import { useTimer } from "react-use-precision-timer";
 import { getTaskSeconds } from "../_services/TaskTimeUtils";
-
+import { Task } from "../_services/TaskSchema";
 interface StopWatchProps {
     taskId: number;
+    focusedTask: Task | null;
     startedFocusedTask: boolean;
 }
 
-const StopwatchComponent: React.FC<StopWatchProps> = ({ taskId, startedFocusedTask }) => {
-    // May or may not use in the future to start the timer at 0 vs time spent
+const StopwatchComponent: React.FC<StopWatchProps> = ({ startedFocusedTask, focusedTask }) => {
     const [initialTime, setInitialTime] = useState(0); // Store initial time fetched from the API
     const [elapsedSeconds, setElapsedSeconds] = useState(0);
+
     // Use the useStopwatch hook
     const timer = useTimer({fireOnStart: false});
 
     const getMostUpdatedSeconds = async (taskId: number) => {
         const seconds = await getTaskSeconds(taskId);
         setInitialTime(seconds); // Set the initial time for the stopwatch
+        setElapsedSeconds(seconds);
     };
 
     useEffect(() => {
         // Fetch initial time when the component mounts
-        getMostUpdatedSeconds(taskId);
+        if(focusedTask!=null) getMostUpdatedSeconds(focusedTask.task_id);
+
         let curEpoch = Date.now();
         curEpoch = curEpoch - (1000*initialTime);
-        if(startedFocusedTask) timer.start(curEpoch);
-        else timer.stop();
-    }, [startedFocusedTask]);
+        if(startedFocusedTask) {
+            timer.start(curEpoch);
+        }
+        else {
+            timer.pause();
+        }
+
+    }, [focusedTask, startedFocusedTask]);
 
     useEffect(() => {
         // Create an interval to update the elapsed seconds
         const interval = setInterval(() => {
+            if(timer.isRunning())
             setElapsedSeconds(Math.floor(timer.getElapsedRunningTime() / 1000));
         }, 100); // Update every 100ms for smooth display
 

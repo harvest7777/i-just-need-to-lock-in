@@ -33,7 +33,7 @@ export default function LockIn() {
                     handlePauseTask={handlePauseTask}
                     handleCompleteTask={handleCompleteTask}
                     />
-                    <Stopwatch taskId={focusedTask.task_id} startedFocusedTask={startedFocusedTask}/>
+                    <Stopwatch taskId={focusedTask.task_id} startedFocusedTask={startedFocusedTask} focusedTask={focusedTask}/>
                     </div>
                 ): (
                     <h1 className="text-center">Lock into a task by clicking "focus"</h1>
@@ -43,18 +43,20 @@ export default function LockIn() {
             {/* All tasks container */}
             <div className="flex flex-row justify-center space-x-20">
                 {/* Completed tasks container */}
-                <div className="p-2 bg-pink-50 flex flex-col items-center w-1/3">
+                <div className="p-2 bg-pink-50 flex flex-col items-center w-2/5">
                     <NewCompletedTaskForm addCompletedTask={addCompletedTask}/>
                     <CompletedTasks dailyTasks={dailyTasks}/> 
                     <TimeGraph dailyTasks={dailyTasks}/>
                 </div>
                 {/* Incomplete tasks container */}
-                <div className="p-2 bg-pink-50 flex flex-col items-center w-1/3">
+                <div className="p-2 bg-pink-50 flex flex-col items-center w-2/5">
                     {/* Task add container */}
                     <NewTaskForm addNewTask={addNewTask}/>
                     <IncompleteTasks dailyTasks={dailyTasks} lockIntoTask={lockIntoTask}/>
                 </div>
+
             </div>
+
         </>
     )
 }

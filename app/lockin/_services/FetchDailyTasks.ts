@@ -66,7 +66,6 @@ export const getTodaysIntervals = async (userTimeZone: string) => {
         const startTimeMinutes = startTime.getHours()*60+startTime.getMinutes(); 
         const endTimeMinutes = endTime.getHours()*60+endTime.getMinutes(); 
 
-        console.log(task.task_id, startTimeMinutes,endTimeMinutes)
         for (let i = 0; i < 24; i++) {
             const intervalStart = i * 60;  // Start of interval in minutes (e.g., 0, 60, 120, ...)
             const intervalEnd = (i + 1) * 60; // End of interval in minutes (e.g., 60, 120, 180, ...)
@@ -82,6 +81,5 @@ export const getTodaysIntervals = async (userTimeZone: string) => {
         }
 
     }
-    console.log(intervals);
     return intervals; // You can return either minutes or hours depending on what you need
 }

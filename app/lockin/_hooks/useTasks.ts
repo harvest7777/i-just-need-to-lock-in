@@ -15,7 +15,6 @@ export const useTasks = () => {
         try {
             const tasks = await getTodaysTasks("America/Los_Angeles");
             setDailyTasks(tasks);
-            console.log(tasks);
         } catch (error) {
             console.error("Error fetching tasks", error);
         }
@@ -32,7 +31,6 @@ export const useTasks = () => {
             await handlePauseTask(focusedTask.task_id);
         }
         setFocusedTask(taskToFocus);
-        handleStartTask(taskToFocus.task_id);
     };
 
     const handleStartTask = async (taskId: number) => {

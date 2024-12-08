@@ -27,17 +27,18 @@ const TimeGraph: React.FC<TimeGraphProps> = ({dailyTasks}) => {
         return `${Math.min((minutes / 60) * 100, 100)}%`; // Bar height as a percentage of 60 minutes
       };
     return(
-        <div className="flex justify-center items-baseline w-full space-x-1 bg-blue-50">
+        <div className="flex justify-center w-full space-x-1 bg-slate-50 pt-10">
+        {/* Container for each bar */}
         {intervals.map((minutes, index) => (
-            <div key={index} className="w-[2%] flex flex-col mt-8 h-20">
-            <div
-                className="w-full rounded-t-md"
-                style={{
-                height: getBarHeight(minutes),
-                backgroundColor: 'rgba(75, 192, 192, 0.7)', // You can adjust the color here
-                }}
-            />
-            <div className="text-left text-gray-400">{index %6 == 0? index: "."}</div>
+            <div key={index} className="relative w-[4%] h-20">
+                <div
+                    className="absolute bottom-0 mb-5 w-full rounded-t-sm"
+                    style={{
+                    height: getBarHeight(minutes),
+                    backgroundColor: 'rgba(75, 92, 192, 0.7)', // You can adjust the color here
+                    }}
+                />
+                <p className="absolute bottom-0 text-sm text-purple-900">{index%2==0? index: ""}</p>
             </div>
         ))}
         </div>
