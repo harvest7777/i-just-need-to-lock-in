@@ -17,34 +17,30 @@ const LockedInTask: React.FC<LockedInTaskProps> = ({
   handleCompleteTask,
 }) => {
   return (
-    <div className="w-full bg-green-50">
-      <div className="w-full flex flex-row justify-center">
-        <h1 className="font-semibold text-center text-2xl bg-purple-200 whitespace-nowrap">{focusedTask?.name}</h1>
-      </div>
+    <div className="w-full flex justify-center space-x-5">
+      <h1 className="font-semibold text-center text-3xl">Locked into: {focusedTask?.name}</h1>
       {/* Button container */}
-      <div className="flex flex-col space-y-2">
         {!startedFocusedTask ? (
           <button
             onClick={() => handleStartTask(focusedTask.task_id)}
-            className="bg-green-500 text-white p-2 outline outline-green-900"
+            className="bg-emerald-400 text-white font-bold p-2 outline rounded-lg outline-green-900"
           >
             START
           </button>
         ) : (
           <button
             onClick={() => handlePauseTask(focusedTask.task_id)}
-            className="bg-yellow-500 outline outline-yellow-800 text-white p-2"
+            className="bg-yellow-400 outline rounded-lg font-bold outline-yellow-800 text-white p-2"
           >
             PAUSE
           </button>
         )}
         <button
           onClick={() => handleCompleteTask(focusedTask.task_id)}
-          className="bg-red-500 text-white p-2 outline outline-red-900"
+          className="bg-red-500 text-white font-bold rounded-lg p-2 outline outline-red-900"
         >
-          COMPLETE
+          FINISH
         </button>
-      </div>
     </div>
   );
 };

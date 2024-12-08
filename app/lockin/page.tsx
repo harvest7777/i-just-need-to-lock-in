@@ -1,6 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import LockIn from "./_components/task_dashboard";
+import Dashboard from "./_components/dashboard";
 export default async function LockInPage() {
   const supabase = await createClient();
 
@@ -13,8 +14,7 @@ export default async function LockInPage() {
   }
     return(
         <>
-            <h1>LOCK TF IN!!!</h1>
-            <LockIn/>
+          <Dashboard/>
         </>
     )
 }
