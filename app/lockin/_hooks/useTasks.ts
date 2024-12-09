@@ -24,9 +24,7 @@ export const useTasks = () => {
             const inProgressTask: Task | null = await getInProgressTaskId();
             if(inProgressTask)
             {
-                console.log("task in progress", inProgressTask);
                 setStartedFocusedTask(true);
-
                 setFocusedTask(inProgressTask);
             }
         } catch(error) {
@@ -71,6 +69,7 @@ export const useTasks = () => {
         await completeTask(taskId);
         setFocusedTask(null);
         setStartedFocusedTask(false);
+        fetchTasks();
     };
 
 

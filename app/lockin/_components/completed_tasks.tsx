@@ -7,17 +7,6 @@ interface CompletedTasksProps {
 }
 
 const CompletedTasks: React.FC<CompletedTasksProps> = ({ dailyTasks }) => {
-  const totalSeconds = dailyTasks
-    .reduce((sum, task) => sum + task.seconds_spent, 0) || 0;
-
-  const totalMinutes = Math.floor(totalSeconds / 60); // Total minutes
-  const hours = Math.floor(totalMinutes / 60); // Total hours
-  const minutes = totalMinutes % 60; // Remaining minutes
-
-  const timeDisplay =
-    hours > 0
-      ? `${hours} hr${hours > 1 ? "s" : ""}: ${minutes} min`
-      : `${minutes} min`;
 
   return (
     <div className="flex flex-col items-center w-full p-2">
@@ -30,8 +19,6 @@ const CompletedTasks: React.FC<CompletedTasksProps> = ({ dailyTasks }) => {
           </div>
         ) : null
       )}
-      <p className="mt-4 text-lg font-medium">Total: {timeDisplay}</p>
-      <p className="text-lg font-medium">Good job! ^.^</p>
     </div>
   );
 };

@@ -32,16 +32,16 @@ export default function Dashboard() {
             <div className="bg-slate-50 w-3/5 h-screen p-3 rounded-lg">
 
                 {/* Top half container */}
-                <div className="h-1/2">
+                <div className="mt-10">
                 {focusedTask? (
                     <>
-                        <div className="rounded-lg outline-double outline-8 outline-emerald-950 bg-neutral-100 p-5 m-2 mb-10">
+                        <LockedInTask focusedTask={focusedTask} handleCompleteTask={handleCompleteTask} startedFocusedTask={startedFocusedTask} handleStartTask={handleStartTask} handlePauseTask={handlePauseTask}/>
+                        <div className="mt-4 rounded-lg outline-double outline-8 outline-emerald-950 bg-neutral-100 p-5 m-2 mb-10">
                         <Stopwatch focusedTask={focusedTask} startedFocusedTask={startedFocusedTask} taskId={focusedTask.task_id}/>
                         </div>
-                        <LockedInTask focusedTask={focusedTask} handleCompleteTask={handleCompleteTask} startedFocusedTask={startedFocusedTask} handleStartTask={handleStartTask} handlePauseTask={handlePauseTask}/>
                     </>
                 ) : (
-                    <p>Not currently working on a task!</p>
+                    <p className="text-center text-3xl">Not currently locked in!</p>
                 )}
                 </div>
                 <TimeGraph dailyTasks={dailyTasks}/>

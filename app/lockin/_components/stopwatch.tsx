@@ -16,24 +16,24 @@ const StopwatchComponent: React.FC<StopWatchProps> = ({ startedFocusedTask, focu
 
     // Fetch initial time for the task from the API
     const getMostUpdatedSeconds = async (taskId: number) => {
-        const seconds = await getTaskSeconds(taskId);
+        const seconds = await getTaskSeconds(taskId) + await getSecondsSinceLastStart(taskId);
         setInitialTime(seconds); // Set the initial time for the stopwatch
         setElapsedSeconds(seconds); // Keep track of elapsed time
     };
 
-    useEffect(() => {
-        if (focusedTask != null) {
-            getMostUpdatedSeconds(focusedTask.task_id);
-        }
-    }, [focusedTask]); // Re-fetch initial time when focusedTask changes
+    useEffect(()=>{
+        // Update times when starting a new task
+        if(focusedTask!=null) getMostUpdatedSeconds(focusedTask.task_id)
+    },[focusedTask])
 
     useEffect(() => {
         // If there's a focused task and it's started, initialize or continue the timer
         if (focusedTask && startedFocusedTask) {
-            const curEpoch = Date.now() - initialTime * 1000;
-            timer.start(curEpoch); // Start timer with the current epoch time minus the initial time
+            getMostUpdatedSeconds(focusedTask.task_id);
+            const curEpoch = Date.now() - elapsedSeconds * 1000;
+            timer.start(curEpoch); // Start timer with the current epoch time minus the elapsed time
         } else {
-            // Pause the timer if the task isn't started
+            // Pause if not started
             timer.pause();
         }
 
@@ -48,6 +48,8 @@ const StopwatchComponent: React.FC<StopWatchProps> = ({ startedFocusedTask, focu
         const interval = setInterval(() => {
             if (timer.isRunning()) {
                 setElapsedSeconds(Math.floor(timer.getElapsedRunningTime() / 1000));
+            }
+            else {
             }
         }, 100);
 

@@ -88,6 +88,7 @@ export const getTaskSeconds = async(taskId: number) => {
     .single();
 
     if(error) throw error;
+    console.log("spent", data.seconds_spent)
     return data.seconds_spent;
 }
 
@@ -113,13 +114,13 @@ export const getSecondsSinceLastStart = async (taskId: number) => {
 
     if (error) throw error;
 
-    // Get the last start time from the database
-    const lastStartTime = new Date(data.last_start_time);  // Assuming last_start_time is in UTC
+    // If task isn't started yet, 0 sec have passed basically
+    if(data.last_start_time==null) return 0;
 
-    // Get the current time in UTC
+    // Convert to Date objects and find diff
+    const lastStartTime = new Date(data.last_start_time);  // Assuming last_start_time is in UTC
     const currentTime = new Date();
 
-    // Calculate the difference in seconds
     const timeDifferenceInSeconds = Math.floor((currentTime.getTime() - lastStartTime.getTime()) / 1000);
 
     return timeDifferenceInSeconds;
