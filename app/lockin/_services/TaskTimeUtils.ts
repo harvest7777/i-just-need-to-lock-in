@@ -1,6 +1,6 @@
 "use client";
 import { createClient } from "@/utils/supabase/client";
-
+import { Task } from "./TaskSchema";
 export const startTask = async (taskId: number) => {
     // Updates the unique task and returns it
     const supabase = await createClient();
@@ -90,3 +90,37 @@ export const getTaskSeconds = async(taskId: number) => {
     if(error) throw error;
     return data.seconds_spent;
 }
+
+export const getInProgressTaskId = async(): Promise<Task|null> => {
+    // Find a task, if any, that is in progress and return its id. If no task in progress, return null
+    const supabase = await createClient();
+    const {data, error} = await supabase
+    .from("tasks")
+    .select("*")
+    .not("last_start_time", "is", null);
+    if(error) throw(error);
+
+    if(data) return data[0] as Task;
+    return null;
+}
+export const getSecondsSinceLastStart = async (taskId: number) => {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+        .from("tasks")
+        .select("last_start_time")
+        .eq("task_id", taskId)
+        .single();
+
+    if (error) throw error;
+
+    // Get the last start time from the database
+    const lastStartTime = new Date(data.last_start_time);  // Assuming last_start_time is in UTC
+
+    // Get the current time in UTC
+    const currentTime = new Date();
+
+    // Calculate the difference in seconds
+    const timeDifferenceInSeconds = Math.floor((currentTime.getTime() - lastStartTime.getTime()) / 1000);
+
+    return timeDifferenceInSeconds;
+};

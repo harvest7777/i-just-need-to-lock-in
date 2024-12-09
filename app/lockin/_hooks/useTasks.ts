@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { Task } from "../_services/TaskSchema";
 import { getTodaysTasks } from "../_services/FetchDailyTasks";
-import { pauseTask, startTask, completeTask } from "../_services/TaskTimeUtils";
+import { pauseTask, startTask, completeTask, getInProgressTaskId } from "../_services/TaskTimeUtils";
 import { InsertDailyTask, InsertCompletedTask } from "../_services/InsertDailyTasks";
 
 export const useTasks = () => {
@@ -19,17 +19,39 @@ export const useTasks = () => {
             console.error("Error fetching tasks", error);
         }
     };
+    const fetchInProgressTask = async () => {
+        try {
+            const inProgressTask: Task | null = await getInProgressTaskId();
+            if(inProgressTask)
+            {
+                console.log("task in progress", inProgressTask);
+                setStartedFocusedTask(true);
+
+                setFocusedTask(inProgressTask);
+            }
+        } catch(error) {
+            console.log("Error fetching in progress task", error);
+        }
+    }
 
     useEffect(() => {
-        fetchTasks();
     }, [startedFocusedTask, focusedTask]);
 
+    useEffect(()=>{
+        fetchTasks();
+        fetchInProgressTask();
+    }, [])
+
     const lockIntoTask = async (taskToFocus: Task) => {
-        // If a task is already focused, pause it first
+        // If you're trying to focus the same task, do nothing
+        if(taskToFocus.task_id==focusedTask?.task_id) return;
+
+        // If a task is already focused, pause it first before starting next task
         if(focusedTask!=null)
         {
             await handlePauseTask(focusedTask.task_id);
         }
+
         setFocusedTask(taskToFocus);
     };
 
@@ -41,13 +63,16 @@ export const useTasks = () => {
     const handlePauseTask = async (taskId: number) => {
         await pauseTask(taskId);
         setStartedFocusedTask(false);
+        fetchTasks(); 
     };
+
 
     const handleCompleteTask = async (taskId: number) => {
         await completeTask(taskId);
         setFocusedTask(null);
         setStartedFocusedTask(false);
     };
+
 
     const addNewTask = async (taskName: string) => {
         await InsertDailyTask(taskName);
