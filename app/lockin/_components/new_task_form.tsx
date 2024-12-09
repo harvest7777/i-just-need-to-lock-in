@@ -17,20 +17,20 @@ const NewTaskForm: React.FC<NewTaskFormProps> = ({addNewTask}) => {
     };
 
     return(
-        <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-row space-x-2">
+        <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-row p-2">
             {/* Task input field container */}
-            <div className="w-full flex flex-row space-x-2">
-                <div className="flex flex-col w-3/4">
+            <div className="w-full">
+                <div className="flex space-x-2">
                     <input
                     id="taskName"
                     type="text"
-                    placeholder="add a task"
-                    {...register("taskName", { required: "Task name is required" })}  // Register input field with validation
-                    className="outline outline-black p-2"
+                    placeholder="daily leetcode"
+                    {...register("taskName", { required: "Need name!" })}  // Register input field with validation
+                    className="pl-2 w-5/6 rounded-lg bg-neutral-200"
                     />
-                    {errors.taskName && <p className="text-red-500">{errors.taskName.message}</p>}
+                    <button type="submit" className="bg-blue-400 rounded-lg w-1/6 text-white">+</button>
                 </div>
-               <button type="submit" className="bg-blue-500 h-10 w-1/4 text-white p-2 outline outline-black">Add</button>
+                {errors.taskName && <p className="text-red-500">{errors.taskName.message}</p>}
             </div>
         </form>
     )

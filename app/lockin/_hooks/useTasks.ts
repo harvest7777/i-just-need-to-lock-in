@@ -22,7 +22,7 @@ export const useTasks = () => {
 
     useEffect(() => {
         fetchTasks();
-    }, [startedFocusedTask]);
+    }, [startedFocusedTask, focusedTask]);
 
     const lockIntoTask = async (taskToFocus: Task) => {
         // If a task is already focused, pause it first

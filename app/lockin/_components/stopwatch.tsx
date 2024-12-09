@@ -59,8 +59,8 @@ const StopwatchComponent: React.FC<StopWatchProps> = ({ startedFocusedTask, focu
     };
 
     return (
-        <div className="flex flex-col items-center bg-red-100">
-            <h1 className="text-3xl font-bold w-min bg-orange-50">
+        <div className="flex flex-col items-center">
+            <h1 className="text-7xl font-bold w-min">
                 {formatTime(elapsedSeconds)} {/* Display the formatted time */}
             </h1>
         </div>
