@@ -4,10 +4,8 @@ import CompletedTasks from "./completed_tasks";
 import IncompleteTasks from "./incomplete_tasks";
 import LockedInTask from "./locked_in_task";
 import NewTaskForm from "./new_task_form";
-import NewCompletedTaskForm from "./new_completed_task_form";
 import Stopwatch from "./stopwatch";
 import TimeGraph from "./time_graph"; 
-import { rootTaskDispose } from "next/dist/build/swc/generated-native";
 export default function Dashboard() {
     const { 
         dailyTasks, 
