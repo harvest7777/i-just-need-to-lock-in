@@ -30,7 +30,7 @@ const TimeGraph: React.FC<TimeGraphProps> = ({dailyTasks}) => {
     const totalSeconds = dailyTasks
         .reduce((sum, task) => sum + task.seconds_spent, 0) || 0;
 
-    const totalMinutes = Math.floor(totalSeconds / 60); // Total minutes
+    const totalMinutes = Math.round(totalSeconds / 60); // Total minutes
     const hours = Math.floor(totalMinutes / 60); // Total hours
     const minutes = totalMinutes % 60; // Remaining minutes
 
