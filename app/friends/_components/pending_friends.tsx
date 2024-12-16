@@ -2,6 +2,7 @@
 import { useAcceptedFriends } from "../_hooks/useAcceptedFriends";
 import { usePendingFriends } from "../_hooks/usePendingFriends"
 import { AcceptFriend } from "../_services/AddFriend";
+import { DeleteFriend } from "../_services/TerminateFriend";
 export default function PendingFriends() {
     const {pendingFriends, setPendingFriends} = usePendingFriends();
     const {acceptedFriends, setAcceptedFriends} = useAcceptedFriends();
@@ -15,6 +16,12 @@ export default function PendingFriends() {
             setPendingFriends((prev)=> prev.filter(friend=>friend.user_id!==friendUUID))
         }
     }
+
+    const handleDelete = async (friendUUID: string) => {
+        await DeleteFriend(friendUUID);
+        setAcceptedFriends((prev)=>prev.filter(friend=>friend.user_id!=friendUUID));
+        setPendingFriends((prev)=>prev.filter(friend=>friend.user_id!=friendUUID));
+    }
     return(
         <>
         <h1>pending friend requests</h1>
@@ -24,6 +31,7 @@ export default function PendingFriends() {
             <div className="flex" key={friend.user_id}>
                 <p>{friend.name}</p>
                 <button onClick={async () => handleAccept(friend.user_id)}>ACCEPT</button>
+                <button onClick={async () => handleDelete(friend.user_id)}>DECLINE</button>
             </div>
         )))}
 
@@ -32,6 +40,7 @@ export default function PendingFriends() {
         ) : (acceptedFriends.map((friend)=> (
             <div key={friend.user_id}>
                 <p>{friend.name}</p>
+                <button onClick={async()=>handleDelete(friend.user_id)}>remove</button>
             </div>
         )))}
         </>
