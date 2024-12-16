@@ -20,20 +20,22 @@ export const usePendingFriends= () => {
         setPendingFriends(friends);
     }
 
-    // To subscribe to db
+    // To subscribe to db, listen for new frq
     const subscribeFriendsTable = async () => {
 
-        const supabase = await createClient();
+        const supabase = createClient();
         const user = supabase.auth.getUser();
         const userId =(await user).data.user?.id;
 
-        supabase
+        const channel = supabase
         .channel('friends')
         .on("postgres_changes", { event: 'INSERT', schema: 'public', table: 'friends', filter: `recipient=eq.${userId}` }, handlePayload)
-        .subscribe()
+        .subscribe();
+
+        return channel;
    }
 
-    // For realtime response
+    // Update pending friends with new payload
     const handlePayload = async(payload: {new: PayloadNewResponse}) => {
         // Friends schema doesn't include name, so we gotta fetch it
         const friendName = await getNameFromUUID(payload.new.initiator);
@@ -51,10 +53,23 @@ export const usePendingFriends= () => {
 
     useEffect(()=>{
         // Wanna always update the list of pending friends
-        subscribeFriendsTable();
-        getAndSetPendingFriends();
+        let channel: any;
+
+        const initialize = async () => {
+            channel = await subscribeFriendsTable();
+            getAndSetPendingFriends();
+        }
+
+        initialize();
+
+        return () => {
+            if(channel) {
+                const supabase = createClient();
+                supabase.removeChannel(channel);
+            }
+        }
             
     },[]) ;
 
-    return {pendingFriends};
+    return {pendingFriends, setPendingFriends};
 }
