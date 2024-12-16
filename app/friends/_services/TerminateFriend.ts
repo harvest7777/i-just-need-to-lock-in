@@ -5,7 +5,6 @@ export const DeleteFriend = async(friendUUID: string) => {
     .from("friends")
     .delete()
     .or(`recipient.eq.${friendUUID},initiator.eq.${friendUUID}`)
-    .eq("is_accepted", true)
     .select();
     
     if(error) throw error;
