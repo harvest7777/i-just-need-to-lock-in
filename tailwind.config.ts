@@ -1,5 +1,4 @@
 import type { Config } from "tailwindcss";
-
 const config = {
   darkMode: ["class"],
   content: [
@@ -18,6 +17,12 @@ const config = {
       },
     },
     extend: {
+      fontFamily: {
+        page: ['DM Sans', 'sans-serif'], // For body text
+        sans: ['Arial', 'Helvetica', 'sans-serif'], // A more typical sans-serif font
+        serif: ['"Times New Roman"', 'serif'], // Serif font for titles or formal text
+        mono: ['"Courier New"', 'monospace'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

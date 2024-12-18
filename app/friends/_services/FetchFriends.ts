@@ -58,6 +58,7 @@ export const FetchAcceptedFriends = async () => {
     .or(`recipient.eq.${userId},initiator.eq.${userId}`);
 
     if(error) throw error;
+    if(data.length===0) return [];
 
     const friends: Friend[] = (data.map((row) => {
       // You're creating a new friend. You do not want to create one of yourself
@@ -65,7 +66,7 @@ export const FetchAcceptedFriends = async () => {
       {
         return {
           user_id: row.recipient,
-          name: row.recipient_proifle.name,
+          name: row.recipient_profile.name,
           is_accepted: true,
           created: row.created_at
         }

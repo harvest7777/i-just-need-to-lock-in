@@ -4,7 +4,7 @@ import { Task } from "../_services/TaskSchema";
 interface LockedInTaskProps {
   focusedTask: Task;
   startedFocusedTask: boolean;
-  handleStartTask: (taskId: number) => void;
+  handleStartTask: (task: Task) => void;
   handlePauseTask: (taskId: number) => void;
   handleCompleteTask: (taskId: number) => void;
 }
@@ -17,12 +17,12 @@ const LockedInTask: React.FC<LockedInTaskProps> = ({
   handleCompleteTask,
 }) => {
   return (
-    <div className="w-full flex justify-center space-x-5">
-      <h1 className="font-semibold text-center text-3xl">Locked into: {focusedTask?.name}</h1>
+    <div className="w-full flex md:flex-row flex-col justify-center align-middle items-center space-y-2 space-x-5">
+      <h1 className="font-semibold text-center text-2xl">{focusedTask?.name}</h1>
       {/* Button container */}
         {!startedFocusedTask ? (
           <button
-            onClick={() => handleStartTask(focusedTask.task_id)}
+            onClick={() => handleStartTask(focusedTask)}
             className="bg-emerald-400 text-white font-bold p-2 outline rounded-lg outline-green-900"
           >
             START
