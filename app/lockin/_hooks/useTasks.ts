@@ -53,8 +53,8 @@ export const useTasks = () => {
         setFocusedTask(taskToFocus);
     };
 
-    const handleStartTask = async (taskId: number) => {
-        await startTask(taskId);
+    const handleStartTask = async (task: Task) => {
+        await startTask(task);
         setStartedFocusedTask(true);
     };
 

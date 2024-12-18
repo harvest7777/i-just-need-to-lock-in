@@ -17,10 +17,10 @@ const NewTaskForm: React.FC<NewTaskFormProps> = ({addNewTask}) => {
     };
 
     return(
-        <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-row p-2">
+        <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-row p-2 pt-0">
             {/* Task input field container */}
             <div className="w-full">
-                <div className="flex space-x-2">
+                <div className="flex space-x-1">
                     <input
                     id="taskName"
                     type="text"

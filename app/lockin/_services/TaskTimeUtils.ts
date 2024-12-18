@@ -1,11 +1,13 @@
 "use client";
 import { createClient } from "@/utils/supabase/client";
 import { Task } from "./TaskSchema";
-export const startTask = async (taskId: number) => {
+export const startTask = async (task: Task) => {
     // Updates the unique task and returns it
-    const supabase = await createClient();
-    const nowUTC = new Date().toISOString();
+    const taskId = task.task_id;
+    const supabase = createClient();
 
+    // Handling in DB
+    const nowUTC = new Date().toISOString();
     const {data, error} = await supabase
     .from("tasks")
     .update({ last_start_time: nowUTC })
@@ -13,11 +15,23 @@ export const startTask = async (taskId: number) => {
     .select();
 
     if(error) throw(error);
+    
+    // Handling realtime update
+    const userId = (await supabase.auth.getUser()).data.user?.id;
+    const channel = supabase.channel(`status_${userId}`);
+    channel.send({
+        type: "broadcast",
+        event: "status_update",
+        payload: {
+            task: data[0],
+        }
+    });
+
     return data;
 }
 export const pauseTask= async (taskId: number) => {
     // Pauses the unique task by updating its seconds and setting last start to null and returns it
-    const supabase = await createClient();
+    const supabase = createClient();
 
     const {data: curTask, error: errorFetch} = await supabase
     .from("tasks")
@@ -37,6 +51,7 @@ export const pauseTask= async (taskId: number) => {
     const additionalSeconds = Math.floor((nowUTC.getTime()-lastStartTimeUTC.getTime())/1000);
     const newSecondsSpent = additionalSeconds + curTask.seconds_spent;
 
+    // Update task time
     const {data: updatedTask, error: errorUpdate} = await supabase
     .from("tasks")
     .update({ 
@@ -47,7 +62,18 @@ export const pauseTask= async (taskId: number) => {
     .select();
 
     if(errorUpdate) throw(errorUpdate);
+    // Send updated task to friends
+    const userId = (await supabase.auth.getUser()).data.user?.id;
+    const channel = supabase.channel(`status_${userId}`);
+    channel.send({
+        type: "broadcast",
+        event: "status_update",
+        payload: {
+            task: updatedTask,
+        }
+    });
 
+    // Add new working interval
     const {error: errorSetInterval} = await supabase
     .from("task_intervals")
     .insert({
