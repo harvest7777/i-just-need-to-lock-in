@@ -32,9 +32,6 @@ export const useTasks = () => {
         }
     }
 
-    useEffect(() => {
-    }, [startedFocusedTask, focusedTask]);
-
     useEffect(()=>{
         fetchTasks();
         fetchInProgressTask();
@@ -43,13 +40,11 @@ export const useTasks = () => {
     const lockIntoTask = async (taskToFocus: Task) => {
         // If you're trying to focus the same task, do nothing
         if(taskToFocus.task_id==focusedTask?.task_id) return;
-
         // If a task is already focused, pause it first before starting next task
         if(focusedTask!=null)
         {
             await handlePauseTask(focusedTask);
         }
-
         setFocusedTask(taskToFocus);
     };
 
@@ -64,7 +59,6 @@ export const useTasks = () => {
         fetchTasks(); 
     };
 
-
     const handleCompleteTask = async (task: Task) => {
         await completeTask(task);
         setFocusedTask(null);
@@ -78,11 +72,6 @@ export const useTasks = () => {
         setDailyTasks((prev)=>[...prev,newTask]);
     };
 
-    const addCompletedTask = async (taskName: string, secondsSpent: number) => {
-        await InsertCompletedTask(taskName, secondsSpent);
-        fetchTasks(); // Refresh task list after adding completed task
-    };
-
     return {
         dailyTasks,
         focusedTask,
@@ -92,6 +81,5 @@ export const useTasks = () => {
         handlePauseTask,
         handleCompleteTask,
         addNewTask,
-        addCompletedTask,
     };
 };
