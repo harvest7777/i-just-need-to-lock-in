@@ -18,7 +18,7 @@ export default function Dashboard() {
         handlePauseTask, 
         handleCompleteTask, 
         addNewTask, 
-        addCompletedTask } = useTasks();
+        } = useTasks();
     
     return(
         // Wrapper to hold all components horizontally
