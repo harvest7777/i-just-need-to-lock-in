@@ -22,34 +22,37 @@ export default function Dashboard() {
     
     return(
         // Wrapper to hold all components horizontally
-        <div className="flex flex-row w-full h-max p-3 bg-neutral-300 space-x-3">
-            {/* Left 1/6 of the page */}
-            <div className="bg-neutral-50 w-1/5 h-screen rounded-lg">
-                <IncompleteTasks dailyTasks={dailyTasks} lockIntoTask={lockIntoTask}/>
-                <NewTaskForm addNewTask={addNewTask}/>
-                <CompletedTasks dailyTasks={dailyTasks}/>
+        <div className="flex flex-row w-full h-max space-x-3">
+            {/* Left 1/5 of the page */}
+            <div className="flex flex-col lg:w-1/5 w-2/5 space-y-3">
+                <div className="bg-appFg rounded-2xl">
+                    <IncompleteTasks dailyTasks={dailyTasks} lockIntoTask={lockIntoTask}/>
+                    <NewTaskForm addNewTask={addNewTask}/>
+                </div>
+                <div className="bg-appFg rounded-2xl">
+                    <CompletedTasks dailyTasks={dailyTasks}/>
+                </div>
+                <div className="bg-appFg rounded-2xl">
+                    <FriendsList/>
+                </div>
             </div>
-            {/* Middle 4/6 of the page */}
-            <div className="bg-neutral-50 w-3/5 h-screen p-3 rounded-lg">
+            {/* Middle 4/5 of the page */}
+            <div className="lg:w-4/5 w-3/5 flex lg:flex-row flex-col bg-appFg rounded-2xl justify-center items-center p-3 h-fit">
 
                 {/* Top half container */}
-                <div className="mt-10">
                 {focusedTask? (
                     <>
-                        <LockedInTask focusedTask={focusedTask} handleCompleteTask={handleCompleteTask} startedFocusedTask={startedFocusedTask} handleStartTask={handleStartTask} handlePauseTask={handlePauseTask}/>
-                        <div className="mt-4 rounded-lg outline-double outline-8 outline-emerald-950 bg-neutral-100 p-5 m-2 mb-10">
+                        <div className="lg:w-2/5 w-full space-y-2 p-5 mt-5 rounded-2xl h-min">
                         <Stopwatch focusedTask={focusedTask} startedFocusedTask={startedFocusedTask} taskId={focusedTask.task_id}/>
+                        <LockedInTask focusedTask={focusedTask} handleCompleteTask={handleCompleteTask} startedFocusedTask={startedFocusedTask} handleStartTask={handleStartTask} handlePauseTask={handlePauseTask}/>
                         </div>
                     </>
                 ) : (
-                    <p className="text-center text-3xl">Not currently locked in!</p>
+                    <p className="text-center text-3xl w-2/5 mt-20">Not currently locked in!</p>
                 )}
+                <div className="lg:w-3/5 w-full">
+                    <TimeGraph dailyTasks={dailyTasks}/>
                 </div>
-                <TimeGraph dailyTasks={dailyTasks}/>
-            </div>
-            {/* Right 1/6 of the page */}
-            <div className="bg-neutral-50 w-1/5 h-screen rounded-lg">
-                <FriendsList/>
             </div>
         </div>
     )

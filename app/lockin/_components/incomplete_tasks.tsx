@@ -1,8 +1,7 @@
 // CompletedTasks.tsx
 import React from "react";
 import { Task } from "../_services/TaskSchema";
-import NewTaskForm from "./new_task_form";
-
+import { CiLock } from "react-icons/ci";
 interface IncompleteTasksProps {
   dailyTasks: Task[];
   lockIntoTask: (task: Task) => void;
@@ -11,13 +10,13 @@ interface IncompleteTasksProps {
 const IncompleteTasks : React.FC<IncompleteTasksProps> = ({ dailyTasks, lockIntoTask }) => {
   return (
     <div className="flex flex-col items-center w-full p-2">
-        <h1 className="text-center text-2xl italic">In progress</h1>
+            <h1 className="font-bold text-xl pl-2 w-full">In progress</h1>
             {dailyTasks?.map((task) => 
             // Task container
             !task.is_complete && (
-            <div className="my-1 flex space-x-1 w-full" key={task.task_id}>
-                <p className="w-5/6 bg-neutral-200 rounded-lg pl-3">{task.name}</p> 
-                <button className="w-1/6 bg-neutral-500 rounded-lg" onClick={() => lockIntoTask(task)}>🔒</button>
+            <div className="my-1 flex space-x-1 w-full rounded-xl" key={task.task_id}>
+                <CiLock className="text-2xl w-1/6 btn-hover hover:text-green-600" onClick={()=>lockIntoTask(task)}/>
+                <p className="w-5/6 rounded-lg">{task.name}</p> 
             </div>                   
             )
             )}
