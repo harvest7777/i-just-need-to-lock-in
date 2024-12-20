@@ -8,8 +8,8 @@ interface LockedInTaskProps {
   focusedTask: Task;
   startedFocusedTask: boolean;
   handleStartTask: (task: Task) => void;
-  handlePauseTask: (taskId: number) => void;
-  handleCompleteTask: (taskId: number) => void;
+  handlePauseTask: (task: Task) => void;
+  handleCompleteTask: (task: Task) => void;
 }
 
 const LockedInTask: React.FC<LockedInTaskProps> = ({
@@ -26,9 +26,9 @@ const LockedInTask: React.FC<LockedInTaskProps> = ({
         {!startedFocusedTask ? (
           <CiPlay1 className="text-4xl btn-hover" onClick={()=>handleStartTask(focusedTask)}/>
         ) : (
-          <CiPause1 className="text-4xl btn-hover" onClick={()=>handlePauseTask(focusedTask.task_id)}/>
+          <CiPause1 className="text-4xl btn-hover" onClick={()=>handlePauseTask(focusedTask)}/>
         )}
-        <IoCheckmarkOutline className="text-4xl btn-hover" onClick={()=>handleCompleteTask(focusedTask.task_id)}/>
+        <IoCheckmarkOutline className="text-4xl btn-hover" onClick={()=>handleCompleteTask(focusedTask)}/>
     </div>
   );
 };
