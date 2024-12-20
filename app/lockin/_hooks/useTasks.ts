@@ -47,7 +47,7 @@ export const useTasks = () => {
         // If a task is already focused, pause it first before starting next task
         if(focusedTask!=null)
         {
-            await handlePauseTask(focusedTask.task_id);
+            await handlePauseTask(focusedTask);
         }
 
         setFocusedTask(taskToFocus);
@@ -58,15 +58,15 @@ export const useTasks = () => {
         setStartedFocusedTask(true);
     };
 
-    const handlePauseTask = async (taskId: number) => {
-        await pauseTask(taskId);
+    const handlePauseTask = async (task: Task) => {
+        await pauseTask(task);
         setStartedFocusedTask(false);
         fetchTasks(); 
     };
 
 
-    const handleCompleteTask = async (taskId: number) => {
-        await completeTask(taskId);
+    const handleCompleteTask = async (task: Task) => {
+        await completeTask(task);
         setFocusedTask(null);
         setStartedFocusedTask(false);
         fetchTasks();

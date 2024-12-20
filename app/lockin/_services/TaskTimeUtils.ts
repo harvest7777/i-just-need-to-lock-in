@@ -29,10 +29,11 @@ export const startTask = async (task: Task) => {
 
     return data;
 }
-export const pauseTask= async (taskId: number) => {
+export const pauseTask= async (task: Task) => {
     // Pauses the unique task by updating its seconds and setting last start to null and returns it
     const supabase = createClient();
 
+    const taskId = task.task_id;
     const {data: curTask, error: errorFetch} = await supabase
     .from("tasks")
     .select("last_start_time, seconds_spent")
@@ -87,13 +88,14 @@ export const pauseTask= async (taskId: number) => {
     return updatedTask;
 
 }
-export const completeTask= async (taskId: number) => {
+export const completeTask= async (task: Task) => {
     // Updates the unique task and returns it
-    const supabase = await createClient();
+    const supabase = createClient();
 
     // We do not want the task to forever count last start time because it's finished
-    await pauseTask(taskId);
-
+    await pauseTask(task);
+    const taskId = task.task_id;
+    
     const {data, error} = await supabase
     .from("tasks")
     .update({ is_complete: true })
