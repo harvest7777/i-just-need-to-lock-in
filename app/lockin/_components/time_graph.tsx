@@ -36,27 +36,26 @@ const TimeGraph: React.FC<TimeGraphProps> = ({dailyTasks}) => {
 
     const timeDisplay =
         hours > 0
-        ? `${hours} hr${hours > 1 ? "s" : ""}: ${minutes} min`
+        ? `${hours} hr${hours > 1 ? "s" : ""} ${minutes} min`
         : `${minutes} min`;
 
     return(
-        <div className="p-2">
-        <p className="mt-4 text-lg font-medium">Total: {timeDisplay}</p>
-        <p className="text-lg font-medium">Good job! ^.^</p>
-       <div className="flex justify-center w-full space-x-1 bg-neutral-100 pt-10 p-2 rounded-lg outline-black outline ">
-        {/* Container for each bar */}
-        {intervals.map((minutes, index) => (
-            <div key={index} className="relative w-[4%] h-20">
-                <div
-                    className="absolute bottom-0 mb-5 w-full rounded-t-sm bg-emerald-400"
-                    style={{
-                    height: getBarHeight(minutes),
-                    }}
-                />
-                <p className="absolute bottom-0 text-sm text-neutral-400">{index%2==0? index: "."}</p>
+        <div className="p-5 bg-appSecondary rounded-2xl">
+        <p className="text-2xl font-extrabold text-emerald-950">Total: {timeDisplay}</p>
+        <div className="flex justify-center w-full space-x-1 pt-16 p-2 rounded-lg ">
+            {/* Container for each bar */}
+            {intervals.map((minutes, index) => (
+                <div key={index} className="relative w-[4%] h-20">
+                    <div
+                        className="absolute bottom-0 mb-5 w-full rounded-t-md bg-emerald-600"
+                        style={{
+                        height: getBarHeight(minutes),
+                        }}
+                    />
+                    <p className="absolute bottom-0 text-sm text-neutral-500">{index%2==0? index: "."}</p>
+                </div>
+            ))}
             </div>
-        ))}
-        </div>
         </div>
     )
 }
