@@ -74,8 +74,8 @@ export const useTasks = () => {
 
 
     const addNewTask = async (taskName: string) => {
-        await InsertDailyTask(taskName);
-        fetchTasks(); // Refresh task list after adding new task
+        const newTask = await InsertDailyTask(taskName);
+        setDailyTasks((prev)=>[...prev,newTask]);
     };
 
     const addCompletedTask = async (taskName: string, secondsSpent: number) => {

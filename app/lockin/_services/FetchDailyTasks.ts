@@ -2,6 +2,7 @@
 import { createClient } from "@/utils/supabase/client";
 
 export const getTodaysTasks = async (userTimeZone: string) => {
+    console.log("getTodaysTasks() has been called")
     // Get the current date in the user's time zone
     const now = new Date().toLocaleString("en-US", { timeZone: userTimeZone });
     const today = new Date(now);
