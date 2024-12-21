@@ -18,6 +18,7 @@ export default function Dashboard() {
         handlePauseTask, 
         handleCompleteTask, 
         addNewTask, 
+        taskIntervals
         } = useTasks();
     
     return(
@@ -51,7 +52,7 @@ export default function Dashboard() {
                     <p className="text-center text-3xl w-2/5 mt-20">Not currently locked in!</p>
                 )}
                 <div className="lg:w-3/5 w-full">
-                    <TimeGraph dailyTasks={dailyTasks}/>
+                    <TimeGraph dailyTasks={dailyTasks} taskIntervals={taskIntervals}/>
                 </div>
             </div>
         </div>
