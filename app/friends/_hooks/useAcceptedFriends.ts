@@ -37,7 +37,6 @@ export const useAcceptedFriends = () => {
     },[acceptedFriends])
 
     useEffect(()=>{
-        console.log(friendActivity);
     },[friendActivity])
 
     return {acceptedFriends, setAcceptedFriends, friendActivity};
