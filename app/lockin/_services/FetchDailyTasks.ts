@@ -1,8 +1,8 @@
 "use client";
 import { createClient } from "@/utils/supabase/client";
-
+import { TaskInterval } from "./TaskInterval";
+import { Task } from "./TaskSchema";
 export const getTodaysTasks = async (userTimeZone: string) => {
-    console.log("getTodaysTasks() has been called")
     // Get the current date in the user's time zone
     const now = new Date().toLocaleString("en-US", { timeZone: userTimeZone });
     const today = new Date(now);
@@ -28,10 +28,10 @@ export const getTodaysTasks = async (userTimeZone: string) => {
     if(error) {
         throw error;
     }
-    return data;
+    return data as Task[];
 }
 
-export const getTodaysIntervals = async (userTimeZone: string) => {
+export const getTaskIntervals = async(userTimeZone: string) => {
     // Get the current date in the user's time zone
     const now = new Date().toLocaleString("en-US", { timeZone: userTimeZone });
     const today = new Date(now);
@@ -56,9 +56,10 @@ export const getTodaysIntervals = async (userTimeZone: string) => {
 
     if (error) throw error;
 
-    // Initialize the 24 intervals array (1 for each hour of the day)
+    return data as TaskInterval[];
+}
+export const calculateHourlyIntervals = (data: TaskInterval[]) => {
     const intervals = Array(24).fill(0);
-
 
     for(const task of data) {
         const startTime = new Date(task.start_time);
@@ -82,5 +83,5 @@ export const getTodaysIntervals = async (userTimeZone: string) => {
         }
 
     }
-    return intervals; // You can return either minutes or hours depending on what you need
+    return intervals; 
 }

@@ -27,9 +27,9 @@ export const startTask = async (task: Task) => {
         }
     });
 
-    return data;
+    return data[0] as Task;
 }
-export const pauseTask= async (task: Task) => {
+export const pauseTask= async (task: Task): Promise<Task>  => {
     // Pauses the unique task by updating its seconds and setting last start to null and returns it
     const supabase = createClient();
 
@@ -41,8 +41,9 @@ export const pauseTask= async (task: Task) => {
     .single();
 
     if(errorFetch) throw(errorFetch);
+
     // Allowed null values for unstarted tasks. Do not proceed if the task has not been started.
-    if(curTask.last_start_time == null) return;
+    if(curTask.last_start_time == null) return curTask as Task;
 
     // Calculate the minute difference between now and the last start time
     const lastStartTimeString = curTask?.last_start_time;
@@ -85,7 +86,7 @@ export const pauseTask= async (task: Task) => {
 
     if(errorSetInterval) throw(errorSetInterval);
 
-    return updatedTask;
+    return updatedTask[0] as Task;
 
 }
 export const completeTask= async (task: Task) => {
@@ -102,13 +103,12 @@ export const completeTask= async (task: Task) => {
     .eq("task_id", taskId)
     .select();
     
-    console.log(data);
     if(error) throw(error);
-    return data;
+    return data[0] as Task;
 }
 
 export const getTaskSeconds = async(taskId: number) => {
-    const supabase = await createClient();
+    const supabase = createClient();
     const{data, error} = await supabase
     .from("tasks")
     .select("seconds_spent")
@@ -116,13 +116,12 @@ export const getTaskSeconds = async(taskId: number) => {
     .single();
 
     if(error) throw error;
-    console.log("spent", data.seconds_spent)
     return data.seconds_spent;
 }
 
 export const getInProgressTaskId = async(): Promise<Task|null> => {
     // Find a task, if any, that is in progress and return its id. If no task in progress, return null
-    const supabase = await createClient();
+    const supabase = createClient();
     const {data, error} = await supabase
     .from("tasks")
     .select("*")
@@ -133,7 +132,7 @@ export const getInProgressTaskId = async(): Promise<Task|null> => {
     return null;
 }
 export const getSecondsSinceLastStart = async (taskId: number) => {
-    const supabase = await createClient();
+    const supabase = createClient();
     const { data, error } = await supabase
         .from("tasks")
         .select("last_start_time")
