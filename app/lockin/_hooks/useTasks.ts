@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Task } from "../_services/TaskSchema";
 import { getTaskIntervals, getTodaysTasks } from "../_services/FetchDailyTasks";
 import { pauseTask, startTask, completeTask, getInProgressTaskId } from "../_services/TaskTimeUtils";
-import { InsertDailyTask, InsertCompletedTask } from "../_services/InsertDailyTasks";
+import { InsertDailyTask } from "../_services/InsertDailyTasks";
 import { TaskInterval } from "../_services/TaskInterval";
 
 export const useTasks = () => {
@@ -75,10 +75,11 @@ export const useTasks = () => {
 
     const handleStartTask = async (task: Task) => {
         const startedTask = await startTask(task);
-        console.log("started",startedTask);
+        // We must update the daily task with our new task data
         setDailyTasks((prev) => prev.map((task)=> (
             task.task_id===startedTask.task_id? startedTask: task
         )))
+        // We must update the focused task with the new task data
         setFocusedTask(startedTask);
         setStartedFocusedTask(true);
     };
@@ -96,7 +97,6 @@ export const useTasks = () => {
         setFocusedTask(null);
         setStartedFocusedTask(false);
     };
-
 
     const addNewTask = async (taskName: string) => {
         const newTask = await InsertDailyTask(taskName);

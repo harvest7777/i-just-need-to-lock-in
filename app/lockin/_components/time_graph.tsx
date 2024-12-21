@@ -15,15 +15,14 @@ const TimeGraph: React.FC<TimeGraphProps> = ({dailyTasks, taskIntervals}) => {
     const [hourIntervals, setHourIntervals] = useState<number[]>(Array(24).fill(0));
     const [timeDisplay, setTimeDisplay] = useState<string>("00:00:00");
 
+    // When the task intervals get updated, we must recalculate the hours and re render the graph
     useEffect(()=>{
-        console.log("Graph received update. Rerendering graph!");
         setHourIntervals(calculateHourlyIntervals(taskIntervals));
     },[taskIntervals])
 
     // When daily tasks update, the total time updates too
     useEffect(()=>{
         setTimeDisplay(getTimeDisplay(dailyTasks));
-        console.log(dailyTasks);
     },[dailyTasks])
 
     const getBarHeight = (minutes: number) => {
