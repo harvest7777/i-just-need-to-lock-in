@@ -57,7 +57,6 @@ export const useTasks = () => {
 
         // The task intervals need to be updated if a last start time exists
         let startTime: string = "";
-        console.log("last start",task.last_start_time);
         if(task.last_start_time) startTime=task.last_start_time;
         
         let endTime: string = new Date().toISOString().replace("Z","+00:00");
@@ -67,13 +66,14 @@ export const useTasks = () => {
             start_time: startTime,
             end_time: endTime
         }
-        console.log("new interval from client side:",newInterval)
         // Client side state updates
         setTaskIntervals((prev)=>[...prev, newInterval]);
 
     };
 
     const handleStartTask = async (task: Task) => {
+        // This comes first to update immediately on ui
+        setStartedFocusedTask(true);
         const startedTask = await startTask(task);
         // We must update the daily task with our new task data
         setDailyTasks((prev) => prev.map((task)=> (
@@ -81,21 +81,22 @@ export const useTasks = () => {
         )))
         // We must update the focused task with the new task data
         setFocusedTask(startedTask);
-        setStartedFocusedTask(true);
     };
 
     const handlePauseTask = async (task: Task) => {
+        // Immediately update on ui
+        setStartedFocusedTask(false);
         const updatedTask: Task = await pauseTask(task);
         updateTaskAndStates(task, updatedTask);
         setFocusedTask(updatedTask);
-        setStartedFocusedTask(false);
     };
 
     const handleCompleteTask = async (task: Task) => {
+        // Immediately update on ui
+        setStartedFocusedTask(false);
         const completedTask = await completeTask(task);
         updateTaskAndStates(task, completedTask);
         setFocusedTask(null);
-        setStartedFocusedTask(false);
     };
 
     const addNewTask = async (taskName: string) => {
