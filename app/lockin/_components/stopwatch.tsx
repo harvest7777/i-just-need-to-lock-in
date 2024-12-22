@@ -23,33 +23,31 @@ const StopwatchComponent: React.FC<StopWatchProps> = ({ startedFocusedTask, focu
 
     useEffect(()=>{
         // Update times when starting a new task
-        if(focusedTask!=null) getMostUpdatedSeconds(focusedTask.task_id)
+        if(focusedTask!=null) getMostUpdatedSeconds(focusedTask.task_id);
     },[focusedTask])
 
     useEffect(() => {
         // If there's a focused task and it's started, initialize or continue the timer
-        if (focusedTask && startedFocusedTask) {
+        if (startedFocusedTask && focusedTask) {
             getMostUpdatedSeconds(focusedTask.task_id);
+            console.log("started timer");
             const curEpoch = Date.now() - elapsedSeconds * 1000;
             timer.start(curEpoch); // Start timer with the current epoch time minus the elapsed time
         } else {
             // Pause if not started
+            console.log("Pausing timer");
             timer.pause();
         }
 
         // Cleanup on component unmount or when focused task changes
-        return () => {
-            timer.pause();
-        };
-    }, [focusedTask, startedFocusedTask, initialTime, timer]); // Ensure effect runs when task changes or timer state updates
+        // I REMOVED FOCUSED TASK FROM HERE
+    }, [startedFocusedTask, initialTime, timer]); // Ensure effect runs when task changes or timer state updates
 
     useEffect(() => {
         // Interval to update the elapsed seconds every 100ms for smooth display
         const interval = setInterval(() => {
             if (timer.isRunning()) {
                 setElapsedSeconds(Math.floor(timer.getElapsedRunningTime() / 1000));
-            }
-            else {
             }
         }, 100);
 
@@ -62,7 +60,10 @@ const StopwatchComponent: React.FC<StopWatchProps> = ({ startedFocusedTask, focu
         const hours = Math.floor(time / 3600); // Extract hours
         const minutes = Math.floor((time % 3600) / 60); // Extract minutes
         const seconds = time % 60; // Remaining seconds
-        return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+        let formattedString = "";
+        if(hours>0) formattedString += String(hours).padStart(2,"0");
+        formattedString += String(minutes).padStart(2,"0") + ":" + String(seconds).padStart(2,"0");
+        return formattedString;
     };
 
     return (
