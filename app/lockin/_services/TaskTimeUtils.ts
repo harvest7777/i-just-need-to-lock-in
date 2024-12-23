@@ -111,12 +111,20 @@ export const getTaskSeconds = async(taskId: number) => {
     const supabase = createClient();
     const{data, error} = await supabase
     .from("tasks")
-    .select("seconds_spent")
+    .select("seconds_spent, last_start_time")
     .eq("task_id", taskId)
     .single();
 
     if(error) throw error;
-    return data.seconds_spent;
+
+    let lastStartTime = new Date();
+    const currentTime = new Date();
+
+    if(data.last_start_time != null) lastStartTime = new Date(data.last_start_time);  // Assuming last_start_time is in UTC
+    const timeDifferenceInSeconds = Math.floor((currentTime.getTime() - lastStartTime.getTime()) / 1000);
+
+    const totalSecondsSpent = timeDifferenceInSeconds + data.seconds_spent;
+    return totalSecondsSpent;
 }
 
 export const getInProgressTaskId = async(): Promise<Task|null> => {
