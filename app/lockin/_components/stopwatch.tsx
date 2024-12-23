@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useTimer } from "react-use-precision-timer";
-import { getTaskSeconds, getSecondsSinceLastStart } from "../_services/TaskTimeUtils";
+import { getTaskSeconds} from "../_services/TaskTimeUtils";
 import { Task } from "../_services/TaskSchema";
-import { NodejsRequestData } from "next/dist/server/web/types";
 
 interface StopWatchProps {
     taskId: number;
@@ -14,55 +12,57 @@ const StopwatchComponent: React.FC<StopWatchProps> = ({ startedFocusedTask, focu
     const [startTime, setStartTime] = useState<number|null>(null);
     const [now, setNow] = useState<number|null>(null);
     const intervalRef = useRef<NodeJS.Timeout|null>(null);
+    const initialSecondsRef = useRef<number>(0);
 
     const handleUpdate = async () => {
-      let initialSeconds= 0;
-      if(focusedTask)
-      {
-        initialSeconds= await getTaskSeconds(focusedTask?.task_id) + await getSecondsSinceLastStart(focusedTask?.task_id);
-        console.log("inital sec",initialSeconds)
-      }
-      setStartTime(Date.now()-initialSeconds*1000);
-      setNow(Date.now());
-
+        // If there is a focused task, get its initial seconds
+        if(focusedTask) {
+            initialSecondsRef.current= await getTaskSeconds(focusedTask?.task_id);
+            // Setting start time and now time will cause secondsSpent to update, causing re render
+            setStartTime(Date.now()-initialSecondsRef.current*1000);
+            setNow(Date.now());
+        }
     }
 
-    async function handleStart() {
-      // Start counting.
-      clearInterval(intervalRef.current!);
-      intervalRef.current = setInterval(() => {
-        // Update the current time every 10ms.
-        setNow(Date.now());
-      }, 1000);
+    const handleStart = async () => {
+        // Continuously set a new time which will cuase secondsPassed to update  
+        clearInterval(intervalRef.current!);
+        intervalRef.current = setInterval(() => {
+            // Update the current time every 10ms.
+            if(startedFocusedTask) {
+                setNow(Date.now());
+            }
+        }, 500);
     }
-    function handleStop() {
+
+    const handleStop = () => {
         clearInterval(intervalRef.current!);
     } 
 
-    let secondsPassed = 0;
+    let secondsPassed = -1;
     if (startTime != null && now != null) {
       secondsPassed = Math.floor((now - startTime) / 1000);
     }
 
-    useEffect(()=>{handleUpdate()},[focusedTask])
     useEffect(()=>{
+        handleUpdate();
         if(startedFocusedTask===true)
         {
-            console.log("started task!")
-            handleUpdate();
             handleStart();
         }
         else {
-            console.log("STOPING")
             handleStop();
         }
-        return () => clearInterval(intervalRef.current!)
-    },[startedFocusedTask])
+        return () => {
+            handleStop();
+        }
+    },[focusedTask])
 
     const formatTime = (time: number) => {
-        const hours = Math.floor(time / 3600); // Extract hours
-        const minutes = Math.floor((time % 3600) / 60); // Extract minutes
-        const seconds = time % 60; // Remaining seconds
+        if(time===-1) return "Loading...";
+        const hours = Math.floor(time / 3600);
+        const minutes = Math.floor((time % 3600) / 60); 
+        const seconds = time % 60;
         let formattedString = "";
         if(hours>0) formattedString += String(hours).padStart(2,"0") + ":";
         formattedString += String(minutes).padStart(2,"0") + ":" + String(seconds).padStart(2,"0");
