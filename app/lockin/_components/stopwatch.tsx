@@ -61,7 +61,7 @@ const StopwatchComponent: React.FC<StopWatchProps> = ({ startedFocusedTask, focu
         const minutes = Math.floor((time % 3600) / 60); // Extract minutes
         const seconds = time % 60; // Remaining seconds
         let formattedString = "";
-        if(hours>0) formattedString += String(hours).padStart(2,"0");
+        if(hours>0) formattedString += String(hours).padStart(2,"0") + ":";
         formattedString += String(minutes).padStart(2,"0") + ":" + String(seconds).padStart(2,"0");
         return formattedString;
     };
