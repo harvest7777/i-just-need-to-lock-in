@@ -5,6 +5,7 @@ import { getTaskIntervals, getTodaysTasks } from "../_services/FetchDailyTasks";
 import { pauseTask, startTask, completeTask, getInProgressTaskId } from "../_services/TaskTimeUtils";
 import { InsertDailyTask } from "../_services/InsertDailyTasks";
 import { TaskInterval } from "../_services/TaskInterval";
+import { RenameTask } from "../_services/UpdateDailyTasks";
 
 export const useTasks = () => {
     const [dailyTasks, setDailyTasks] = useState<Task[]>([]);
@@ -78,7 +79,7 @@ export const useTasks = () => {
         // We must update the daily task with our new task data
         setDailyTasks((prev) => prev.map((task)=> (
             task.task_id===startedTask.task_id? startedTask: task
-        )))
+        )));
         // We must update the focused task with the new task data
         setFocusedTask(startedTask);
     };
@@ -104,6 +105,14 @@ export const useTasks = () => {
         setDailyTasks((prev)=>[...prev,newTask]);
     };
 
+    const renameTask = async(task: Task, newName: string) => {
+        const renamedTask = await RenameTask(task, newName);
+        setDailyTasks((prev) => prev.map((task)=> (
+            task.task_id===renamedTask.task_id? renamedTask: task
+        )));
+        if(focusedTask?.task_id===renamedTask.task_id) focusedTask.name=renamedTask.name;
+
+    }
     return {
         dailyTasks,
         focusedTask,
@@ -113,6 +122,7 @@ export const useTasks = () => {
         handlePauseTask,
         handleCompleteTask,
         addNewTask,
-        taskIntervals
+        taskIntervals,
+        renameTask
     };
 };

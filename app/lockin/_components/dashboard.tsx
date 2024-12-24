@@ -18,7 +18,8 @@ export default function Dashboard() {
         handlePauseTask, 
         handleCompleteTask, 
         addNewTask, 
-        taskIntervals
+        taskIntervals,
+        renameTask
         } = useTasks();
     
     return(
@@ -27,7 +28,7 @@ export default function Dashboard() {
             {/* Left 1/5 of the page */}
             <div className="flex flex-col lg:w-1/5 w-2/5 space-y-3">
                 <div className="bg-appFg rounded-2xl">
-                    <IncompleteTasks dailyTasks={dailyTasks} lockIntoTask={lockIntoTask}/>
+                    <IncompleteTasks dailyTasks={dailyTasks} lockIntoTask={lockIntoTask} renameTask={renameTask}/>
                     <NewTaskForm addNewTask={addNewTask}/>
                 </div>
                 <div className="bg-appFg rounded-2xl">
