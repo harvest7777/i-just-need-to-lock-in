@@ -18,10 +18,12 @@ export const getTodaysTasks = async (userTimeZone: string) => {
     const startOfDayUTC = startOfDayLocal.toISOString();
     const endOfDayUTC = endOfDayLocal.toISOString();
 
-    const supabase = await createClient();
+    const supabase = createClient();
+    const userId = (await supabase.auth.getUser()).data.user?.id;
     const {data, error} = await supabase
     .from("tasks")
     .select("*")
+    .eq("user_id", userId)
     .gte("created_at", startOfDayUTC)
     .lte("created_at", endOfDayUTC);
 
@@ -47,12 +49,18 @@ export const getTaskIntervals = async(userTimeZone: string) => {
     const startOfDayUTC = startOfDayLocal.toISOString();
     const endOfDayUTC = endOfDayLocal.toISOString();
 
-    const supabase = await createClient();
+    const supabase = createClient();
+    const userId = (await supabase.auth.getUser()).data.user?.id;
+
     const { data, error } = await supabase
-        .from("task_intervals")
-        .select("*")
-        .gte("start_time", startOfDayUTC)
-        .lte("end_time", endOfDayUTC);
+    .from("task_intervals")
+    .select(`
+        *,
+        tasks (user_id)
+    `)
+    .eq("tasks.user_id", userId)
+    .gte("start_time", startOfDayUTC)
+    .lte("end_time", endOfDayUTC);
 
     if (error) throw error;
 
