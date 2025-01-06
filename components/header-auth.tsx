@@ -20,9 +20,18 @@ export default async function AuthButton() {
         <h1 className="text-4xl font-extrabold text-emerald-800">lockin</h1>
       </div>
       <div className="flex space-x-12 text-3xl">
-        <MdOutlineAutoGraph className="btn-hover"/>
-        <LiaUserFriendsSolid className="btn-hover" onClick={goToFriendsAction}/>
-        <PiSignOut className="btn-hover" onClick={signOutAction}/>
+        <div className="relative group">
+          <p className="absolute bottom-full left-1/2 transform -translate-x-1/2 p-1 pb-0 text-sm bg-appBg hidden group-hover:block text-nowrap">stats (coming soon)</p>
+          <MdOutlineAutoGraph className="btn-hover "/>
+        </div>
+        <div className="relative group">
+          <p className="text-nowrap absolute bottom-full left-1/2 transform -translate-x-1/2 p-1 pb-0 text-sm bg-appBg hidden group-hover:block">friends</p>
+          <LiaUserFriendsSolid className="btn-hover" onClick={goToFriendsAction}/>
+        </div>
+        <div className="relative group">
+          <p className="absolute bottom-full left-1/2 transform -translate-x-1/2 p-1 pb-0 text-sm bg-appBg hidden group-hover:block text-nowrap">sign out</p>
+          <PiSignOut className="btn-hover" onClick={signOutAction}/>
+        </div>
       </div>
     </div>
   ) : (
