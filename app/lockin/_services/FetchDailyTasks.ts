@@ -56,14 +56,13 @@ export const getTaskIntervals = async(userTimeZone: string) => {
     .from("task_intervals")
     .select(`
         *,
-        tasks (user_id)
+        tasks !inner(user_id)
     `)
     .eq("tasks.user_id", userId)
     .gte("start_time", startOfDayUTC)
     .lte("end_time", endOfDayUTC);
 
     if (error) throw error;
-
     return data as TaskInterval[];
 }
 export const calculateHourlyIntervals = (data: TaskInterval[]) => {
