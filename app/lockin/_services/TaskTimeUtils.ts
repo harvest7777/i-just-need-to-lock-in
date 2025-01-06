@@ -130,9 +130,11 @@ export const getTaskSeconds = async(taskId: number) => {
 export const getInProgressTaskId = async(): Promise<Task|null> => {
     // Find a task, if any, that is in progress and return its id. If no task in progress, return null
     const supabase = createClient();
+    const userId = (await supabase.auth.getUser()).data.user?.id;
     const {data, error} = await supabase
     .from("tasks")
     .select("*")
+    .eq("user_id",userId)
     .not("last_start_time", "is", null);
     if(error) throw(error);
 
@@ -160,3 +162,21 @@ export const getSecondsSinceLastStart = async (taskId: number) => {
 
     return timeDifferenceInSeconds;
 };
+
+export const getDayStartEnd = (userTimeZone: string) => {
+    const now = new Date().toLocaleString("en-US", { timeZone: userTimeZone });
+    const today = new Date(now);
+
+    // Define the start and end of the day in the user's time zone
+    const startOfDayLocal = new Date(today);
+    startOfDayLocal.setHours(0, 0, 0, 0); // 00:00 local time
+
+    const endOfDayLocal = new Date(today);
+    endOfDayLocal.setHours(23, 59, 59, 999); // 23:59 local time
+
+    // Convert the start and end of the day to UTC to use in Supabase
+    const startOfDayUTC = startOfDayLocal.toISOString();
+    const endOfDayUTC = endOfDayLocal.toISOString();
+    return {startOfDayUTC, endOfDayUTC};
+
+}

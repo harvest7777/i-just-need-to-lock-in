@@ -138,3 +138,7 @@ export const signOutAction = async () => {
 export const goToHomeAction = async () => {
   return redirect("/lockin");
 }
+
+export const goToFriendsAction = async () => {
+  return redirect("/friends");
+}

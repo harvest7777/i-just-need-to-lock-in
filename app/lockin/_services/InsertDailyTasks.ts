@@ -3,7 +3,7 @@ import { createClient } from "@/utils/supabase/client";
 import { Task } from "./TaskSchema";
 export const InsertDailyTask = async (taskName: string) => {
     // Create a new task in the DB and return it
-    const supabase = await createClient();
+    const supabase = createClient();
     const user = supabase.auth.getUser();
     const userId = (await user).data.user?.id;
 

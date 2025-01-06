@@ -1,4 +1,4 @@
-import { goToHomeAction, signOutAction } from "@/app/actions";
+import { goToFriendsAction, goToHomeAction, signOutAction } from "@/app/actions";
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { createClient } from "@/utils/supabase/server";
@@ -21,7 +21,7 @@ export default async function AuthButton() {
       </div>
       <div className="flex space-x-12 text-3xl">
         <MdOutlineAutoGraph className="btn-hover"/>
-        <LiaUserFriendsSolid className="btn-hover"/>
+        <LiaUserFriendsSolid className="btn-hover" onClick={goToFriendsAction}/>
         <PiSignOut className="btn-hover" onClick={signOutAction}/>
       </div>
     </div>

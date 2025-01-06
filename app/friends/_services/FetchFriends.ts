@@ -1,6 +1,9 @@
 "use client";
 import { Friend } from "./FriendSchema";
 import { createClient } from "@/utils/supabase/client"
+import { getDayStartEnd } from "@/app/lockin/_services/TaskTimeUtils";
+import { Task } from "@/app/lockin/_services/TaskSchema";
+import { TaskInterval } from "@/app/lockin/_services/TaskInterval";
 export const getNameFromUUID = async(uuid: string): Promise<string> => {
     const supabase = createClient();
     const{data, error} = await supabase
@@ -82,4 +85,63 @@ export const FetchAcceptedFriends = async () => {
       }
     }))
     return friends;
+}
+
+export const FetchSentFriends = async () => {
+  const supabase = createClient();
+  const user = supabase.auth.getUser();
+  const userId = (await user).data.user?.id;
+  const{data, error} = await supabase
+  .from("friends") 
+  .select("*")
+  .eq("initiator", userId)
+  .eq("is_accepted", false)
+
+  if(error) throw(error);
+  if(data.length==0) return [];
+
+  const friends: Friend[] = await Promise.all(
+      data.map(async (row) => {
+        const name = await getNameFromUUID(row.initiator); // Fetch name asynchronously
+        return {
+          user_id: row.initiator,
+          name,
+          is_accepted: false,
+          created: row.created_at, // Ensure this matches your schema
+        };
+      })
+    );
+  return friends;
+}
+
+export const FetchFriendDailyTasks = async(friend: Friend, userTimeZone: string): Promise<Task[]> => {
+  const supabase = createClient();
+  const{startOfDayUTC, endOfDayUTC} = getDayStartEnd(userTimeZone);
+  console.log(friend.name);
+  const {data, error} = await supabase
+  .from("tasks")
+  .select("*")
+  .eq("user_id", friend.user_id)
+  .gte("created_at", startOfDayUTC)
+  .lte("created_at", endOfDayUTC);
+  if(error) throw error;
+  return data as Task[];
+}
+export const getFriendTaskIntervals = async(friend: Friend, userTimeZone: string): Promise<TaskInterval[]> => {
+    const supabase = createClient();
+    const {startOfDayUTC, endOfDayUTC} = getDayStartEnd(userTimeZone);
+    console.log("Friend id", friend.user_id);
+    const { data, error } = await supabase
+    .from("task_intervals")
+    .select(`
+      *,
+      tasks!inner (user_id)
+    `)
+    .eq("tasks.user_id", friend.user_id)
+    .gte("start_time", startOfDayUTC)
+    .lte("end_time", endOfDayUTC);
+
+    if (error) throw error;
+
+    return data as TaskInterval[];
 }
