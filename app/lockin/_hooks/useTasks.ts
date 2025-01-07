@@ -6,6 +6,7 @@ import { pauseTask, startTask, completeTask, getInProgressTaskId } from "../_ser
 import { InsertDailyTask } from "../_services/InsertDailyTasks";
 import { TaskInterval } from "../_services/TaskInterval";
 import { RenameTask } from "../_services/UpdateDailyTasks";
+import { deleteTask } from "../_services/UpdateDailyTasks";
 
 export const useTasks = () => {
     const [dailyTasks, setDailyTasks] = useState<Task[]>([]);
@@ -85,6 +86,9 @@ export const useTasks = () => {
     };
 
     const handlePauseTask = async (task: Task) => {
+        // If you are pausing a task that's not focused, do nothing
+        if(task.task_id!=focusedTask?.task_id) return;
+
         // Immediately update on ui
         setStartedFocusedTask(false);
         const updatedTask: Task = await pauseTask(task);
@@ -112,7 +116,18 @@ export const useTasks = () => {
         )));
         if(focusedTask?.task_id===renamedTask.task_id) focusedTask.name=renamedTask.name;
 
-    }
+    };
+
+    const handleDeleteTask = async(task: Task) => {
+        if(focusedTask?.task_id==task.task_id) {
+            await handlePauseTask(task);
+            setFocusedTask(null);
+            setStartedFocusedTask(false);
+        }
+        const deletedTask = await deleteTask(task);
+        setDailyTasks((prev)=> prev.filter((t) => t.task_id!=deletedTask.task_id));
+        setTaskIntervals((prev)=>prev.filter((t)=> t.task_id!=deletedTask.task_id));
+    };
     return {
         dailyTasks,
         focusedTask,
@@ -123,6 +138,7 @@ export const useTasks = () => {
         handleCompleteTask,
         addNewTask,
         taskIntervals,
-        renameTask
+        renameTask,
+        handleDeleteTask
     };
 };

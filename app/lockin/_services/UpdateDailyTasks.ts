@@ -12,3 +12,14 @@ export const RenameTask = async (task: Task, newName: string) => {
     if(error) throw(error);
     return data[0] as Task;
 }
+
+export const deleteTask = async(task: Task) => {
+    const supabase = createClient();
+    const{data,error} = await supabase
+    .from("tasks")
+    .delete()
+    .eq("task_id",task.task_id)
+    .select("*");
+    if(error) throw error;
+    return data[0] as Task;
+}
