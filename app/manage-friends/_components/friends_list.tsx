@@ -1,4 +1,5 @@
-import { useAcceptedFriends } from "../_hooks/useAcceptedFriends";
+"use client";
+import { useAcceptedFriends } from "../../friends/_hooks/useAcceptedFriends";
 export default function FriendsList() {
     const {acceptedFriends, friendActivity} = useAcceptedFriends();
     return(
@@ -12,7 +13,7 @@ export default function FriendsList() {
                     </div>
                 ))
             ):(
-                <p className="mt-10 italic">Add friends by clicking the +</p>
+                <p className="italic"></p>
             )}
         </div>
     )
