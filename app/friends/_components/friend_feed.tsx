@@ -30,7 +30,7 @@ export default function FriendFeed() {
     return(
         <div className="w-3/5">
         {friendData.map((data)=> (
-            <div key={data.friend.user_id} className="p-2 bg-appFg rounded-2xl">
+            <div key={data.friend.user_id} className="p-2 bg-appFg rounded-2xl mt-10">
                 <p className="text-2xl ml-5 mb-1">{data.friend.name}</p>
                 <TimeGraph dailyTasks={data.friendTasks} taskIntervals={data.intervals}/>
             </div>

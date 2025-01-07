@@ -1,8 +1,8 @@
 "use client";
-import { useAcceptedFriends } from "../_hooks/useAcceptedFriends";
-import { usePendingFriends } from "../_hooks/usePendingFriends"
-import { AcceptFriend } from "../_services/AddFriend";
-import { DeleteFriend } from "../_services/TerminateFriend";
+import { useAcceptedFriends } from "../../friends/_hooks/useAcceptedFriends";
+import { usePendingFriends } from "../../friends/_hooks/usePendingFriends"
+import { AcceptFriend } from "../../friends/_services/AddFriend";
+import { DeleteFriend } from "../../friends/_services/TerminateFriend";
 export default function PendingFriends() {
     const {pendingFriends, setPendingFriends} = usePendingFriends();
     const {acceptedFriends, setAcceptedFriends} = useAcceptedFriends();
