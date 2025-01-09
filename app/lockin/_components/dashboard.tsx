@@ -45,9 +45,10 @@ export default function Dashboard() {
                 {/* Top half container */}
                 {focusedTask? (
                     <>
-                        <div className="lg:w-2/5 w-full space-y-2 p-5 mt-5 rounded-2xl h-min">
-                        <Stopwatch focusedTask={focusedTask} startedFocusedTask={startedFocusedTask} taskId={focusedTask.task_id}/>
+                        <div className="lg:w-2/5 w-full space-y-2 p-5 rounded-2xl h-min">
+                        <p className="text-center italic">Currently locked into...</p>
                         <LockedInTask focusedTask={focusedTask} handleCompleteTask={handleCompleteTask} startedFocusedTask={startedFocusedTask} handleStartTask={handleStartTask} handlePauseTask={handlePauseTask}/>
+                        <Stopwatch focusedTask={focusedTask} startedFocusedTask={startedFocusedTask} taskId={focusedTask.task_id}/>
                         </div>
                     </>
                 ) : (
