@@ -20,21 +20,6 @@ export const usePendingFriends= () => {
         setPendingFriends(friends);
     }
 
-    // To subscribe to db, listen for new frq
-    const subscribeFriendsTable = async () => {
-
-        const supabase = createClient();
-        const user = supabase.auth.getUser();
-        const userId =(await user).data.user?.id;
-
-        const channel = supabase
-        .channel('friends')
-        .on("postgres_changes", { event: 'INSERT', schema: 'public', table: 'friends', filter: `recipient=eq.${userId}` }, handlePayload)
-        .subscribe();
-
-        return channel;
-   }
-
     // Update pending friends with new payload
     const handlePayload = async(payload: {new: PayloadNewResponse}) => {
         // Friends schema doesn't include name, so we gotta fetch it
@@ -50,6 +35,21 @@ export const usePendingFriends= () => {
 
         setPendingFriends((prev)=>[...prev, newFriend]);
     }
+
+    // Subscribe to the database and listen for any new friend requests where the user is the recipient 
+    const subscribeFriendsTable = async () => {
+
+        const supabase = createClient();
+        const user = supabase.auth.getUser();
+        const userId =(await user).data.user?.id;
+
+        const channel = supabase
+        .channel('friends')
+        .on("postgres_changes", { event: 'INSERT', schema: 'public', table: 'friends', filter: `recipient=eq.${userId}` }, handlePayload)
+        .subscribe();
+
+        return channel;
+   }
 
     useEffect(()=>{
         // Wanna always update the list of pending friends
