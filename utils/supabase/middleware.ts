@@ -43,7 +43,7 @@ export const updateSession = async (request: NextRequest) => {
 
     // protected routes
     if (protectedRoutes.some((route) => request.nextUrl.pathname.startsWith(route)) && user.error) {
-      return NextResponse.redirect(new URL("/sign-in", request.url));
+      return NextResponse.redirect(new URL("/", request.url));
     }
 
     // only unauthenticated users should be able to view these routes

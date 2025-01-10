@@ -35,7 +35,7 @@ export default async function AuthButton() {
       </div>
     </div>
   ) : (
-    <div className="flex gap-2">
+    <div className="p-2 rounded-2xl h-10 w-full flex items-center gap-4 justify-between">
       <Button asChild size="sm" variant={"outline"}>
         <Link href="/sign-in">Sign in</Link>
       </Button>
