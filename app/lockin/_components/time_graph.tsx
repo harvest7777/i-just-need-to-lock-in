@@ -59,8 +59,11 @@ const TimeGraph: React.FC<TimeGraphProps> = ({dailyTasks, taskIntervals}) => {
         <div className="p-5 bg-appSecondary rounded-2xl">
         <p className="text-2xl font-extrabold text-emerald-950">Total: {timeDisplay}</p>
 
-        <div className="mt-5 rounded-lg">
-            <div className="h-0 relative border-t border-dashed border-black top-0"></div>
+        <div className="mt-10 rounded-lg">
+            <p className="relative left-0 text-xs text-neutral-500 bottom-1">60m</p>
+            <p className="relative text-xs text-neutral-500 top-9">30m</p>
+            <div className="h-0 relative border-t border-dashed border-neutral-500 bottom-5 w-full"></div>
+            <div className="h-0 relative border-t border-dashed border-neutral-500 top-9 w-full"></div>
 
             {/* Container for each bar */}
             <div className="flex justify-center w-full space-x-1">
@@ -72,10 +75,11 @@ const TimeGraph: React.FC<TimeGraphProps> = ({dailyTasks, taskIntervals}) => {
                         height: getBarHeight(minutes),
                         }}
                     />
-                    <p className="absolute bottom-0 text-xs text-neutral-500 text-nowrap">{index%3==0 && militaryTimeToString[index]}</p>
+                    <p className="absolute bottom-0 text-xs text-neutral-500 text-nowrap">{index%4==0 && militaryTimeToString[index]}</p>
                 </div>
             ))}
             </div>
+            <div className="h-0 relative border-t border-dashed border-neutral-500 bottom-5 w-full"></div>
         </div>
         </div>
     )

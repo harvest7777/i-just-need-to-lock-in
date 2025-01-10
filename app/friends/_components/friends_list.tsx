@@ -1,6 +1,6 @@
 "use client";
 import { goToManageFriendsAction } from "@/app/actions";
-import { useAcceptedFriends } from "../../friends/_hooks/useAcceptedFriends";
+import { useAcceptedFriends } from "../_hooks/useAcceptedFriends";
 import { MdOutlineManageAccounts } from "react-icons/md";
 export default function FriendsList() {
     const {acceptedFriends, friendActivity} = useAcceptedFriends();

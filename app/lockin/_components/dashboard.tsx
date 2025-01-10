@@ -6,7 +6,7 @@ import LockedInTask from "./locked_in_task";
 import NewTaskForm from "./new_task_form";
 import Stopwatch from "./stopwatch";
 import TimeGraph from "./time_graph"; 
-import FriendsList from "@/app/manage-friends/_components/friends_list";
+import FriendsList from "@/app/friends/_components/friends_list";
 
 export default function Dashboard() {
     const { 

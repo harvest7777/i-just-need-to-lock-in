@@ -50,7 +50,7 @@ const IncompleteTasks: React.FC<IncompleteTasksProps> = ({
                 type="text"
                 placeholder={task.name}
                 {...register("newTaskName")}
-                className="w-full rounded-lg bg-appBg"
+                className="w-full rounded-lg bg-appBg pl-2"
               />
             </form>
           ) : (
