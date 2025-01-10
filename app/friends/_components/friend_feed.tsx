@@ -28,9 +28,9 @@ export default function FriendFeed() {
         console.log(friendData);
     },[friendData])
     return(
-        <div className="w-3/5">
+        <div className="w-full flex flex-col items-center">
         {friendData.map((data)=> (
-            <div key={data.friend.user_id} className="p-2 bg-appFg rounded-2xl mt-10">
+            <div key={data.friend.user_id} className="p-2 bg-appFg rounded-2xl mt-10 w-3/5">
                 <p className="text-2xl ml-5 mb-1">{data.friend.name}</p>
                 <TimeGraph dailyTasks={data.friendTasks} taskIntervals={data.intervals}/>
             </div>

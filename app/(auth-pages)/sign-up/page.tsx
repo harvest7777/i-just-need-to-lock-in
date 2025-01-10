@@ -18,8 +18,8 @@ export default async function Signup(props: {
   }
 
   return (
-    <div className="w-2/5">
-      <form className="flex flex-col w-full mx-auto bg-appFg p-5 rounded-2xl">
+    <div className="w-full mt-20 flex justify-center items-center">
+      <form className="flex flex-col mx-auto bg-appFg p-5 rounded-2xl w-2/5">
         <h1 className="text-2xl font-medium">Sign up</h1>
         <p className="text-sm text text-foreground">
           Already have an account?{" "}
@@ -40,7 +40,7 @@ export default async function Signup(props: {
             minLength={6}
             required
           />
-          <SubmitButton formAction={signUpAction} pendingText="Signing up...">
+          <SubmitButton className="bg-emerald-600 rounded-lg text-appFg" formAction={signUpAction} pendingText="Signing up...">
             Sign up
           </SubmitButton>
           <FormMessage message={searchParams} />

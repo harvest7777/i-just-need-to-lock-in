@@ -39,7 +39,7 @@ const IncompleteTasks: React.FC<IncompleteTasksProps> = ({
 
   return (
     <div className="flex flex-col items-center w-full p-2">
-      <h1 className="font-bold text-xl pl-2 w-full">In progress</h1>
+      <h1 className="font-bold text-xl pl-2 w-full">To do</h1>
       {dailyTasks?.map( (task) => !task.is_complete && (
         <div className="my-1 flex space-x-1 w-full rounded-xl" key={task.task_id}>
           <CiLock className="text-2xl w-1/5 btn-hover hover:text-green-600" onClick={() => lockIntoTask(task)}/>
