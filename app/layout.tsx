@@ -20,11 +20,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={GeistSans.className} suppressHydrationWarning>
       <body className="bg-appBg text-foreground p-5 rounded-lg">
-          <main className="min-h-screen flex flex-col items-center space-y-3">
-              <HeaderAuth />
-              {children}
-        </main>
-
+            <HeaderAuth />
+            {children}
       </body>
     </html>
   );

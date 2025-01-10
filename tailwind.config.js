@@ -9,7 +9,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        title:['Varela Round']
+        title:['Varela Round'],
+        header:['Fugaz One']
       },
       colors: {
         appBg: '#D7DDE1',
