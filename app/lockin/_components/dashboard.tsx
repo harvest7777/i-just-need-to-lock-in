@@ -6,7 +6,7 @@ import LockedInTask from "./locked_in_task";
 import NewTaskForm from "./new_task_form";
 import Stopwatch from "./stopwatch";
 import TimeGraph from "./time_graph"; 
-import FriendsList from "@/app/manage-friends/_components/friends_list";
+import FriendsList from "@/app/friends/_components/friends_list";
 
 export default function Dashboard() {
     const { 
@@ -45,9 +45,10 @@ export default function Dashboard() {
                 {/* Top half container */}
                 {focusedTask? (
                     <>
-                        <div className="lg:w-2/5 w-full space-y-2 p-5 mt-5 rounded-2xl h-min">
-                        <Stopwatch focusedTask={focusedTask} startedFocusedTask={startedFocusedTask} taskId={focusedTask.task_id}/>
+                        <div className="lg:w-2/5 w-full space-y-2 p-5 rounded-2xl h-min">
+                        <p className="text-center italic">Currently locked into...</p>
                         <LockedInTask focusedTask={focusedTask} handleCompleteTask={handleCompleteTask} startedFocusedTask={startedFocusedTask} handleStartTask={handleStartTask} handlePauseTask={handlePauseTask}/>
+                        <Stopwatch focusedTask={focusedTask} startedFocusedTask={startedFocusedTask} taskId={focusedTask.task_id}/>
                         </div>
                     </>
                 ) : (

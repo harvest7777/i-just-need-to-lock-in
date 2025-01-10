@@ -142,3 +142,7 @@ export const goToHomeAction = async () => {
 export const goToFriendsAction = async () => {
   return redirect("/friends");
 }
+
+export const goToManageFriendsAction = async () => {
+  return redirect("/manage-friends");
+}

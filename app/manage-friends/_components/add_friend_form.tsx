@@ -2,7 +2,7 @@
 import { AddFriend } from "../../friends/_services/AddFriend";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { FiPlus } from "react-icons/fi";
+
 interface FormData {
     friendUUID: string;
 }

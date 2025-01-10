@@ -1,10 +1,15 @@
 "use client";
-import { useAcceptedFriends } from "../../friends/_hooks/useAcceptedFriends";
+import { goToManageFriendsAction } from "@/app/actions";
+import { useAcceptedFriends } from "../_hooks/useAcceptedFriends";
+import { MdOutlineManageAccounts } from "react-icons/md";
 export default function FriendsList() {
     const {acceptedFriends, friendActivity} = useAcceptedFriends();
     return(
         <div className="w-full p-2 flex flex-col items-center">
-            <h1 className="font-bold text-xl pl-2 w-full">Friends</h1>
+            <div className="flex justify-between items-center w-full">
+            <h1 className="font-bold text-xl pl-2">Friends</h1>
+            <MdOutlineManageAccounts onClick={()=>goToManageFriendsAction()} className="text-2xl btn-hover hover:text-emerald-600"/>
+            </div>
             {acceptedFriends.length !== 0? (
                 acceptedFriends.map((friend) => (
                     <div className="pl-2 w-full rounded-md" key={friend.user_id}>
