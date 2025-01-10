@@ -134,15 +134,3 @@ export const signOutAction = async () => {
   await supabase.auth.signOut();
   return redirect("/sign-in");
 };
-
-export const goToHomeAction = async () => {
-  return redirect("/lockin");
-}
-
-export const goToFriendsAction = async () => {
-  return redirect("/friends");
-}
-
-export const goToManageFriendsAction = async () => {
-  return redirect("/manage-friends");
-}
