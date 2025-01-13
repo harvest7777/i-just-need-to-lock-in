@@ -25,7 +25,7 @@ export default function FriendsManager({acceptedFriends, setAcceptedFriends}: Fr
                     </div>
                 ))
             ): (
-                <p>No friends</p>
+                <p className="text-center">No friends</p>
             )}
         </div>
     )

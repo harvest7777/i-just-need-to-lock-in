@@ -30,11 +30,11 @@ export default function AddFriendForm() {
             <input
             id="friendUUID"
             type="text"
-            placeholder="friend id"
+            placeholder="friend UUID"
             {...register("friendUUID", { required: "Need a valid user id!" })}  // Register input field with validation
-            className="rounded-xl bg-appFg w-4/5 pl-2"
+            className="rounded-xl bg-appFg w-4/5 pl-2 focus:outline-none"
             />
-            <button type="submit" className="w-1/5 flex items-center align-middle justify-center btn-hover bg-appFg rounded-xl" >Add</button>
+            <button type="submit" className="w-1/5 text-center bg-emerald-600 p-1 btn-hover text-appFg rounded-xl h-8" >Add</button>
             </div>
             {errors.friendUUID && <p className="pl-2 text-red-500">{errors.friendUUID.message}</p>}
         </form>

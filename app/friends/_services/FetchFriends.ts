@@ -4,6 +4,7 @@ import { createClient } from "@/utils/supabase/client"
 import { getDayStartEnd } from "@/app/lockin/_services/TaskTimeUtils";
 import { Task } from "@/app/lockin/_services/TaskSchema";
 import { TaskInterval } from "@/app/lockin/_services/TaskInterval";
+import { Profile } from "@/app/manage-friends/_services/profile_schema";
 export const getNameFromUUID = async(uuid: string): Promise<string> => {
     const supabase = createClient();
     const{data, error} = await supabase
@@ -160,4 +161,14 @@ export const getFriendActivity = async(friends: Friend[]): Promise<Map<string, T
     if(data && data.length >0)map.set(friend.user_id,data[0]);
   }));
   return map;
+}
+
+export const getFriendsByUsername = async(name: string): Promise<Profile[]> => {
+  const supabase = createClient();
+  const {data, error} = await supabase
+  .from("profiles")
+  .select("*")
+  .ilike("name", `%${name}%`)
+  if(error) throw error;
+  return data as Profile[]; 
 }
