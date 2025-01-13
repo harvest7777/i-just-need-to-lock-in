@@ -1,6 +1,6 @@
 import { createClient } from "@/utils/supabase/client";
-
-export const AddFriend = async(friendUUID: string) => {
+import { Friend } from "./FriendSchema";
+export const AddFriend = async(friendUUID: string): Promise<Friend|null> => {
     // This will insert a row where you are the initiator, friendUUID is the recipient
     const supabase = createClient();
     const user = supabase.auth.getUser();
@@ -11,15 +11,36 @@ export const AddFriend = async(friendUUID: string) => {
     .from("friends")
     .select("*")
     .or(`and(initiator.eq.${userId},recipient.eq.${friendUUID}),and(initiator.eq.${friendUUID},recipient.eq.${userId})`);
+    if(data?.length !== 0) return null;
 
-    if(data?.length==0) {
-        await supabase
-        .from("friends")
-        .insert({
-            initiator: userId,
-            recipient: friendUUID
-        })
+    const{data: newFriend } = await supabase
+    .from("friends")
+    .insert({
+        initiator: userId,
+        recipient: friendUUID
+    })
+    .select(`
+        created_at,
+        recipient,
+        profiles!recipient(name)
+      `);
+    interface Profile {
+        name: string;
     }
+    interface dataReturned {
+        recipient: string;
+        created_at: string;
+        profiles: Profile;
+    }
+    if(newFriend == null) return null;
+    const fetchedData: dataReturned = newFriend[0] as unknown as dataReturned;
+    const sentFriend: Friend = {
+        user_id: fetchedData.recipient,
+        name: fetchedData.profiles.name,
+        is_accepted: false,
+        created: fetchedData.created_at
+    }
+    return sentFriend;
     
 }
 

@@ -7,7 +7,7 @@ import { MdOutlineAutoGraph } from "react-icons/md";
 import Link from "next/link";
 export default async function AuthButton() {
   const supabase = await createClient();
-
+  
   const {
     data: { user },
   } = await supabase.auth.getUser();
