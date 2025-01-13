@@ -1,4 +1,3 @@
-"use client";
 import { createClient } from "@/utils/supabase/client";
 
 export const AddFriend = async(friendUUID: string) => {
@@ -7,13 +6,21 @@ export const AddFriend = async(friendUUID: string) => {
     const user = supabase.auth.getUser();
     const userId = (await user).data.user?.id;
 
-    const {error} = await supabase
+    // check if a relationship exists already
+    const {data} = await supabase
     .from("friends")
-    .insert({
-        initiator: userId,
-        recipient: friendUUID
-    })
-    if(error) throw error;
+    .select("*")
+    .or(`and(initiator.eq.${userId},recipient.eq.${friendUUID}),and(initiator.eq.${friendUUID},recipient.eq.${userId})`);
+
+    if(data?.length==0) {
+        await supabase
+        .from("friends")
+        .insert({
+            initiator: userId,
+            recipient: friendUUID
+        })
+    }
+    
 }
 
 export const AcceptFriend = async (friendUUID: string) => {
