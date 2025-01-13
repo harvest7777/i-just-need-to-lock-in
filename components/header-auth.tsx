@@ -4,6 +4,7 @@ import { LiaUserFriendsSolid } from "react-icons/lia";
 import { PiSignOut } from "react-icons/pi";
 import { FaLeaf } from "react-icons/fa";
 import { MdOutlineAutoGraph } from "react-icons/md";
+import { LuSettings } from "react-icons/lu";
 import Link from "next/link";
 export default async function AuthButton() {
   const supabase = await createClient();
@@ -26,6 +27,10 @@ export default async function AuthButton() {
         <Link href="/friends" className="relative group">
           <p className="text-nowrap absolute bottom-full left-1/2 transform -translate-x-1/2 p-1 pb-0 text-sm bg-appBg hidden group-hover:block">friends</p>
           <LiaUserFriendsSolid className="btn-hover" />
+        </Link>
+        <Link href="/profile" className="relative group">
+          <p className="absolute bottom-full left-1/2 transform -translate-x-1/2 p-1 pb-0 text-sm bg-appBg hidden group-hover:block text-nowrap">settings</p>
+          <LuSettings className="btn-hover "/>
         </Link>
         <div className="relative group">
           <p className="absolute bottom-full left-1/2 transform -translate-x-1/2 p-1 pb-0 text-sm bg-appBg hidden group-hover:block text-nowrap">sign out</p>
