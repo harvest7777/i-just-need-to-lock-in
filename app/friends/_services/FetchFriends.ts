@@ -92,26 +92,37 @@ export const FetchSentFriends = async () => {
   const supabase = createClient();
   const user = supabase.auth.getUser();
   const userId = (await user).data.user?.id;
-  const{data, error} = await supabase
-  .from("friends") 
-  .select("*")
+
+  const { data, error } = await supabase
+  .from("friends")
+  .select(`
+    recipient,
+    created_at,
+    profiles!friends_recipient_fkey(name)
+  `)
   .eq("initiator", userId)
-  .eq("is_accepted", false)
+  .eq("is_accepted", false);
 
+  interface Profile {
+    name: string;
+  }
+  interface dataReturned {
+    recipient: string;
+    created_at: string;
+    profiles: Profile;
+  }
   if(error) throw(error);
-  if(data.length==0) return [];
 
-  const friends: Friend[] = await Promise.all(
-      data.map(async (row) => {
-        const name = await getNameFromUUID(row.initiator); // Fetch name asynchronously
-        return {
-          user_id: row.initiator,
-          name,
-          is_accepted: false,
-          created: row.created_at, // Ensure this matches your schema
-        };
-      })
-    );
+  const fetched: dataReturned[] = data as unknown as dataReturned[];
+  const friends: Friend[]= fetched.map((fetch) => {
+    return {
+      user_id: fetch.recipient,
+      name: fetch.profiles.name,
+      created: fetch.created_at,
+      is_accepted: false
+
+    }
+  })
   return friends;
 }
 
