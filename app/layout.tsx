@@ -8,7 +8,7 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "LOCK TF IN",
+  title: "LOCK IN",
   description: "DO NOT SCROLL REELS",
 };
 
