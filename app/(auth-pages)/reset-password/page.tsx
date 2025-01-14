@@ -9,7 +9,9 @@ export default async function ResetPassword(props: {
 }) {
   const searchParams = await props.searchParams;
   return (
-    <form className="flex flex-col w-full max-w-md p-4 gap-2 [&>input]:mb-4">
+
+    <div className="w-full mt-20 flex justify-center items-center">
+    <form className="flex flex-col w-full max-w-md p-4 gap-2 [&>input]:mb-4 bg-appFg rounded-xl">
       <h1 className="text-2xl font-medium">Reset password</h1>
       <p className="text-sm text-foreground/60">
         Please enter your new password below.
@@ -28,10 +30,13 @@ export default async function ResetPassword(props: {
         placeholder="Confirm password"
         required
       />
-      <SubmitButton formAction={resetPasswordAction}>
+      <div className=" flex justify-center rounded-xl btn-hover bg-emerald-600">
+      <SubmitButton formAction={resetPasswordAction} className="text-appFg">
         Reset password
       </SubmitButton>
+      </div>
       <FormMessage message={searchParams} />
     </form>
+    </div>
   );
 }

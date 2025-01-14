@@ -29,12 +29,18 @@ export default function FriendFeed() {
     },[friendData])
     return(
         <div className="w-full flex flex-col items-center">
+        {friendData.length > 0? (
+        <>
         {friendData.map((data)=> (
-            <div key={data.friend.user_id} className="p-2 bg-appFg rounded-2xl mt-10 w-3/5">
+            <div key={data.friend.user_id} className="p-2 bg-appFg rounded-2xl mt-10 md:w-3/5 w-full">
                 <p className="text-2xl ml-5 mb-1">{data.friend.name}</p>
                 <TimeGraph dailyTasks={data.friendTasks} taskIntervals={data.intervals}/>
             </div>
         ))}
+        </>
+        ): (
+        <p className="pt-20">No friends to display :(</p>
+        )}
         </div>
     )
 }
