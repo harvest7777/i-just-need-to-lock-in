@@ -12,10 +12,10 @@ export default async function Index() {
           {/* header */}
           <div className="flex flex-col items-center lg:w-1/2 w-full">
             <h1 className="font-header text-7xl lg:text-8xl">LOCK IN!!!</h1>
-            <h2 className="italic">track productivity and stay motivated... with friends!</h2>
+            <h2 className="italic text-xl text-center">track productivity and stay motivated... with friends!</h2>
 
             {/* button container */}
-            <div className="flex space-x-10 mt-5">
+            <div className="flex flex-col mt-3">
               <Link href="sign-up" className="w-32 text-center bg-emerald-600 text-appFg rounded-md font-header p-2 btn-hover">I'M READY TO LOCK IN</Link>
             </div>
           </div>
