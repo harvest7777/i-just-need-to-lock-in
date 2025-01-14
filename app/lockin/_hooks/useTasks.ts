@@ -4,7 +4,7 @@ import { Task } from "../_services/TaskSchema";
 import { getTaskIntervals, getTodaysTasks } from "../_services/FetchDailyTasks";
 import { pauseTask, startTask, completeTask, getInProgressTaskId } from "../_services/TaskTimeUtils";
 import { insertDailyTask } from "../_services/InsertDailyTasks";
-import { TaskInterval } from "../_services/TaskInterval";
+import { TaskInterval } from "../_services/TaskIntervalSchema";
 import { renameTask } from "../_services/UpdateDailyTasks";
 import { deleteTask } from "../_services/UpdateDailyTasks";
 
