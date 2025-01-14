@@ -8,10 +8,10 @@ import { LuSettings } from "react-icons/lu";
 import Link from "next/link";
 export default async function AuthButton() {
   const supabase = await createClient();
-  
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
   return user && (
     // Nav container
     <div className="p-2 rounded-2xl h-10 w-full flex items-center gap-4 justify-between mb-3">
