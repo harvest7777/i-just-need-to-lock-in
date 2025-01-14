@@ -29,7 +29,7 @@ export default function AuthButton() {
     <div className="p-2 rounded-2xl h-10 w-full flex items-center gap-4 justify-between mb-3">
       <Link href="/lockin" className="flex space-x-6 btn-hover" >
         <FaLeaf className="text-emerald-600 h-full text-4xl"/>
-        <h1 className="text-4xl font-extrabold text-emerald-800">lock in, {username}</h1>
+        <h1 className="sm:text-4xl text-2xl font-extrabold text-emerald-800">lock in, {username}</h1>
       </Link>
       <div className="md:flex hidden space-x-12 text-3xl">
         <div className="relative group">

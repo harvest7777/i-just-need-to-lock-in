@@ -14,11 +14,8 @@ export default function ManageFriendsPage() {
     const [window, setWindow] = useState<string>("all")
     return (
         <div className="w-full flex flex-col items-center">
-        <div className="flex flex-col items-center">
-            <p className="text-2xl">Locking in is better with friends. Lets add some!</p>
-        </div>
 
-        <div className="flex justify-between space-x-2 md:w-2/5 w-3/5 my-4">
+        <div className="flex justify-between space-x-2 md:w-2/5 w-full my-4 mt-10">
             <p onClick={()=>setWindow("all")} className={`p-2 w-1/3 text-center bg-appFg rounded-xl btn-hover ${window==="all" && "font-bold"}`}>All</p>
             <div className="relative w-1/3 btn-hover" >
                 {pendingFriends.length > 0 && <div className="absolute top-[-5px] right-[-5px] z-40 w-3 h-3 bg-red-600 rounded-full "/>}
@@ -26,7 +23,7 @@ export default function ManageFriendsPage() {
             </div>
             <p onClick={()=>setWindow("add")} className={`p-2 w-1/3 text-center bg-appFg rounded-xl btn-hover ${window==="add" && "font-bold"}`}>Add</p>
         </div>
-        <div className="md:w-2/5 w-3/5">
+        <div className="md:w-2/5 w-full">
             {window==="all"&& <div className="bg-appFg rounded-2xl p-2">
                 <FriendsManager acceptedFriends={acceptedFriends} setAcceptedFriends={setAcceptedFriends}/>
             </div>}
