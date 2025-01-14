@@ -20,6 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={GeistSans.className} suppressHydrationWarning>
       <body className="bg-appBg text-foreground p-5 rounded-lg">
+        {/* switch to serverside? */}
             <HeaderAuth />
             {children}
       </body>
