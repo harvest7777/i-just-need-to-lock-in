@@ -13,7 +13,7 @@ export default function Dropdown() {
             <Link href="/friends" className="btn-hover">
               <p>friends</p>
             </Link>
-            <Link href="/settings" className="btn-hover">
+            <Link href="/profile" className="btn-hover">
               <p>settings</p>
             </Link>
             <div onClick={signOutAction} className="btn-hover">
