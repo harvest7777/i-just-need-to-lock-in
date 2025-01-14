@@ -3,9 +3,9 @@ import { useState, useEffect } from "react";
 import { Task } from "../_services/TaskSchema";
 import { getTaskIntervals, getTodaysTasks } from "../_services/FetchDailyTasks";
 import { pauseTask, startTask, completeTask, getInProgressTaskId } from "../_services/TaskTimeUtils";
-import { InsertDailyTask } from "../_services/InsertDailyTasks";
+import { insertDailyTask } from "../_services/InsertDailyTasks";
 import { TaskInterval } from "../_services/TaskInterval";
-import { RenameTask } from "../_services/UpdateDailyTasks";
+import { renameTask } from "../_services/UpdateDailyTasks";
 import { deleteTask } from "../_services/UpdateDailyTasks";
 
 export const useTasks = () => {
@@ -91,6 +91,7 @@ export const useTasks = () => {
 
         // Immediately update on ui
         setStartedFocusedTask(false);
+        // Pause the task and update it on the UI with the new total seconds spent
         const updatedTask: Task = await pauseTask(task);
         updateTaskAndStates(task, updatedTask);
         setFocusedTask(updatedTask);
@@ -105,12 +106,13 @@ export const useTasks = () => {
     };
 
     const addNewTask = async (taskName: string) => {
-        const newTask = await InsertDailyTask(taskName);
+        const newTask = await insertDailyTask(taskName);
         setDailyTasks((prev)=>[...prev,newTask]);
     };
 
-    const renameTask = async(task: Task, newName: string) => {
-        const renamedTask = await RenameTask(task, newName);
+    const handleRenameTask = async(task: Task, newName: string) => {
+        // Rename task in DB and immediately update on client side
+        const renamedTask = await renameTask(task, newName);
         setDailyTasks((prev) => prev.map((task)=> (
             task.task_id===renamedTask.task_id? renamedTask: task
         )));
@@ -119,11 +121,13 @@ export const useTasks = () => {
     };
 
     const handleDeleteTask = async(task: Task) => {
+        // If trying to delete focused task, pause and reset states
         if(focusedTask?.task_id==task.task_id) {
             await handlePauseTask(task);
             setFocusedTask(null);
             setStartedFocusedTask(false);
         }
+        // Delete the task from db and immediately update on client side
         const deletedTask = await deleteTask(task);
         setDailyTasks((prev)=> prev.filter((t) => t.task_id!=deletedTask.task_id));
         setTaskIntervals((prev)=>prev.filter((t)=> t.task_id!=deletedTask.task_id));
@@ -138,7 +142,7 @@ export const useTasks = () => {
         handleCompleteTask,
         addNewTask,
         taskIntervals,
-        renameTask,
+        handleRenameTask,
         handleDeleteTask
     };
 };
