@@ -6,7 +6,7 @@ import { signOutAction } from "@/app/actions";
 export default function Dropdown() {
     const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
     return (
-      <div className="md:hidden inline-block relative">
+      <div className="md:hidden inline-block relative z-40">
           <GiHamburgerMenu onClick={()=>setDropdownOpen(!dropdownOpen)} className="btn-hover text-3xl"/>
           {dropdownOpen && 
           <div className="z-30 absolute top-10 left-[-35px] w-20 bg-appBg p-2 rounded-xl">
