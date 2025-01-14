@@ -9,7 +9,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 interface IncompleteTasksProps {
   dailyTasks: Task[];
   lockIntoTask: (task: Task) => void;
-  renameTask: (task: Task, taskName: string) => void;
+  handleRenameTask: (task: Task, taskName: string) => void;
   handleDeleteTask:(task:Task) => void;
 }
 
@@ -20,7 +20,7 @@ interface FormData {
 const IncompleteTasks: React.FC<IncompleteTasksProps> = ({
   dailyTasks,
   lockIntoTask,
-  renameTask,
+  handleRenameTask,
   handleDeleteTask
 }) => {
   const [editingTaskId, setEditingTaskId] = useState<number | null>(null);
@@ -32,7 +32,7 @@ const IncompleteTasks: React.FC<IncompleteTasksProps> = ({
       setEditingTaskId(null);
       return;
     }
-    renameTask(task, data.newTaskName);
+    handleRenameTask(task, data.newTaskName);
     setEditingTaskId(null);
     reset();
   };
