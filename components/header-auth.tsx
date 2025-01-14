@@ -1,35 +1,23 @@
-"use client";
 import { signOutAction } from "@/app/actions";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@/utils/supabase/server";
 import { LiaUserFriendsSolid } from "react-icons/lia";
 import { PiSignOut } from "react-icons/pi";
 import { FaLeaf } from "react-icons/fa";
 import { MdOutlineAutoGraph } from "react-icons/md";
 import { LuSettings } from "react-icons/lu";
-import { GiHamburgerMenu } from "react-icons/gi";
+import Dropdown from "./ui/dropdown";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { getNameFromUUID } from "@/app/friends/_services/FetchFriends";
-export default function AuthButton() {
-  const supabase = createClient();
-  const [username, setUsername] = useState<string>("");
-  const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
-  const initialize = async () => {
-    const userId = (await supabase.auth.getUser()).data.user?.id;
-    if(userId) {
-      const name = await getNameFromUUID(userId);
-      setUsername(name);
-    }
-  }
-  useEffect(()=>{
-    initialize();
-  },[])
-  return username && (
+export default async function AuthButton() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  return user&& (
     // Nav container
     <div className="p-2 rounded-2xl h-10 w-full flex items-center gap-4 justify-between mb-3">
       <Link href="/lockin" className="flex space-x-6 btn-hover" >
         <FaLeaf className="text-emerald-600 h-full text-4xl"/>
-        <h1 className="sm:text-4xl text-2xl font-extrabold text-emerald-800">lock in, {username}</h1>
+        <h1 className="sm:text-4xl text-2xl font-extrabold text-emerald-800">lock in</h1>
       </Link>
       <div className="md:flex hidden space-x-12 text-3xl">
         <div className="relative group">
@@ -49,21 +37,7 @@ export default function AuthButton() {
           <PiSignOut className="btn-hover tetx-3xl" onClick={signOutAction}/>
         </div>
       </div>
-      <div className="md:hidden inline-block relative">
-          <GiHamburgerMenu onClick={()=>setDropdownOpen(!dropdownOpen)} className="btn-hover text-3xl"/>
-          {dropdownOpen && 
-          <div className="z-30 absolute top-10 left-[-35px] w-20 bg-appBg p-2 rounded-xl">
-            <Link href="/friends" className="btn-hover">
-              <p>friends</p>
-            </Link>
-            <Link href="/settings" className="btn-hover">
-              <p>settings</p>
-            </Link>
-            <div onClick={signOutAction} className="btn-hover">
-              <p>sign out</p>
-            </div>
-          </div>} 
-      </div>
+      <Dropdown/>
     </div>
   );
 }
