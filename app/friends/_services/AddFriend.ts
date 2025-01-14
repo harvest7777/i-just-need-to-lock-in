@@ -1,8 +1,7 @@
-import { createClient } from "@/utils/supabase/client";
+import { supabase } from "@/utils/supabase/supabase";
 import { Friend } from "./FriendSchema";
 export const AddFriend = async(friendUUID: string): Promise<Friend|null> => {
     // This will insert a row where you are the initiator, friendUUID is the recipient
-    const supabase = createClient();
     const user = supabase.auth.getUser();
     const userId = (await user).data.user?.id;
 
@@ -45,7 +44,6 @@ export const AddFriend = async(friendUUID: string): Promise<Friend|null> => {
 }
 
 export const AcceptFriend = async (friendUUID: string) => {
-    const supabase = createClient();
     
     const{error} = await supabase
     .from("friends")

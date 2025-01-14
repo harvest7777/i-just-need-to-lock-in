@@ -1,15 +1,15 @@
 "use client";
 
-import { createClient } from "@/utils/supabase/client";
+import { supabase } from "@/utils/supabase/supabase";
 import { useState, useEffect } from "react";
 import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
 import { IoCheckmarkOutline } from "react-icons/io5";
+import Link from "next/link";
 import { useForm } from "react-hook-form";
 interface FormData {
     newName: string;
 }
 export default function ManageProfile () {
-    const supabase = createClient();
     const [userData, setUserData] = useState({
         username:"silly goose",
         email:"sillygoose@gmail.com"
@@ -83,7 +83,7 @@ export default function ManageProfile () {
             </div>
             <div className="flex">
                 <p className="w-1/3">password</p>
-                <p className="w-2/3 bg-appBg rounded-xl pl-2">********</p>
+                <Link href="/reset-password"  className="w-2/3 bg-emerald-600 text-appFg rounded-xl text-center btn-hover">Reset password</Link>
             </div>
         </div>
     )

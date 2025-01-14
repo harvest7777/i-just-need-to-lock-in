@@ -1,6 +1,6 @@
 "use client";
-import { createClient } from "@/utils/supabase/client";
-import { TaskInterval } from "./TaskInterval";
+import { supabase } from "@/utils/supabase/supabase";
+import { TaskInterval } from "./TaskIntervalSchema";
 import { Task } from "./TaskSchema";
 export const getTodaysTasks = async (userTimeZone: string) => {
     // Get the current date in the user's time zone
@@ -18,7 +18,6 @@ export const getTodaysTasks = async (userTimeZone: string) => {
     const startOfDayUTC = startOfDayLocal.toISOString();
     const endOfDayUTC = endOfDayLocal.toISOString();
 
-    const supabase = createClient();
     const userId = (await supabase.auth.getUser()).data.user?.id;
     const {data, error} = await supabase
     .from("tasks")
@@ -49,7 +48,6 @@ export const getTaskIntervals = async(userTimeZone: string) => {
     const startOfDayUTC = startOfDayLocal.toISOString();
     const endOfDayUTC = endOfDayLocal.toISOString();
 
-    const supabase = createClient();
     const userId = (await supabase.auth.getUser()).data.user?.id;
 
     const { data, error } = await supabase

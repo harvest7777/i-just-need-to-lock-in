@@ -2,7 +2,7 @@
 import { Task } from "../_services/TaskSchema";
 import { useState, useEffect } from "react";
 import { calculateHourlyIntervals } from "../_services/FetchDailyTasks";
-import { TaskInterval } from "../_services/TaskInterval";
+import { TaskInterval } from "../_services/TaskIntervalSchema";
 import { getTimeDisplay } from "../_services/TimeDisplay";
 interface TimeGraphProps {
     dailyTasks: Task[];

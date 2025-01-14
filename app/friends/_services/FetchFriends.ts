@@ -1,12 +1,10 @@
-"use client";
+import { supabase } from "@/utils/supabase/supabase";
 import { Friend } from "./FriendSchema";
-import { createClient } from "@/utils/supabase/client"
 import { getDayStartEnd } from "@/app/lockin/_services/TaskTimeUtils";
 import { Task } from "@/app/lockin/_services/TaskSchema";
-import { TaskInterval } from "@/app/lockin/_services/TaskInterval";
+import { TaskInterval } from "@/app/lockin/_services/TaskIntervalSchema";
 import { Profile } from "@/app/manage-friends/_services/profile_schema";
 export const getNameFromUUID = async(uuid: string): Promise<string> => {
-    const supabase = createClient();
     const{data, error} = await supabase
     .from("profiles")
     .select("name")
@@ -17,7 +15,6 @@ export const getNameFromUUID = async(uuid: string): Promise<string> => {
 }
 
 export const FetchPendingFriends = async() => {
-    const supabase = createClient();
     const user = await supabase.auth.getUser();
     const userId = user.data.user?.id;
     //TO DO FIX THIS SHIT SO IT JST JOINS TABLE INSTEAD OF MAKING EDXTRA API CALLS
@@ -47,7 +44,6 @@ export const FetchPendingFriends = async() => {
 }
 
 export const FetchAcceptedFriends = async () => {
-    const supabase = createClient();
     const user = supabase.auth.getUser();
     const userId = (await user).data.user?.id;
 
@@ -89,7 +85,6 @@ export const FetchAcceptedFriends = async () => {
 }
 
 export const FetchSentFriends = async () => {
-  const supabase = createClient();
   const user = supabase.auth.getUser();
   const userId = (await user).data.user?.id;
 
@@ -127,7 +122,6 @@ export const FetchSentFriends = async () => {
 }
 
 export const FetchFriendDailyTasks = async(friend: Friend, userTimeZone: string): Promise<Task[]> => {
-  const supabase = createClient();
   const{startOfDayUTC, endOfDayUTC} = getDayStartEnd(userTimeZone);
   console.log(friend.name);
   const {data, error} = await supabase
@@ -140,7 +134,6 @@ export const FetchFriendDailyTasks = async(friend: Friend, userTimeZone: string)
   return data as Task[];
 }
 export const getFriendTaskIntervals = async(friend: Friend, userTimeZone: string): Promise<TaskInterval[]> => {
-    const supabase = createClient();
     const {startOfDayUTC, endOfDayUTC} = getDayStartEnd(userTimeZone);
     console.log("Friend id", friend.user_id);
     const { data, error } = await supabase
@@ -160,7 +153,6 @@ export const getFriendTaskIntervals = async(friend: Friend, userTimeZone: string
 
 export const getFriendActivity = async(friends: Friend[]): Promise<Map<string, Task>> => { 
   let map = new Map();
-  const supabase = createClient();
   await Promise.all( friends.map(async (friend) => {
     const {data,error} = await supabase
     .from("tasks")
@@ -175,7 +167,6 @@ export const getFriendActivity = async(friends: Friend[]): Promise<Map<string, T
 }
 
 export const getFriendsByUsername = async(name: string): Promise<Profile[]> => {
-  const supabase = createClient();
   const {data, error} = await supabase
   .from("profiles")
   .select("*")

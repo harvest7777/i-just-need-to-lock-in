@@ -1,10 +1,9 @@
 "use client";
-import { createClient } from "@/utils/supabase/client";
+import { supabase } from "@/utils/supabase/supabase";
 import { Task } from "./TaskSchema";
 export const startTask = async (task: Task) => {
     // Updates the unique task and returns it
     const taskId = task.task_id;
-    const supabase = createClient();
 
     // Handling in DB
     const nowUTC = new Date().toISOString();
@@ -31,7 +30,6 @@ export const startTask = async (task: Task) => {
 }
 export const pauseTask= async (task: Task): Promise<Task>  => {
     // Pauses the unique task by updating its seconds and setting last start to null and returns it
-    const supabase = createClient();
 
     const taskId = task.task_id;
     const {data: curTask, error: errorFetch} = await supabase
@@ -113,7 +111,6 @@ export const pauseTask= async (task: Task): Promise<Task>  => {
 }
 export const completeTask= async (task: Task) => {
     // Updates the unique task and returns it
-    const supabase = createClient();
 
     // We do not want the task to forever count last start time because it's finished
     await pauseTask(task);
@@ -130,7 +127,6 @@ export const completeTask= async (task: Task) => {
 }
 
 export const getTaskSeconds = async(taskId: number) => {
-    const supabase = createClient();
     const{data, error} = await supabase
     .from("tasks")
     .select("seconds_spent, last_start_time")
@@ -151,7 +147,6 @@ export const getTaskSeconds = async(taskId: number) => {
 
 export const getInProgressTaskId = async(): Promise<Task|null> => {
     // Find a task, if any, that is in progress and return its id. If no task in progress, return null
-    const supabase = createClient();
     const userId = (await supabase.auth.getUser()).data.user?.id;
     const {data, error} = await supabase
     .from("tasks")
@@ -164,7 +159,6 @@ export const getInProgressTaskId = async(): Promise<Task|null> => {
     return null;
 }
 export const getSecondsSinceLastStart = async (taskId: number) => {
-    const supabase = createClient();
     const { data, error } = await supabase
         .from("tasks")
         .select("last_start_time")
