@@ -57,7 +57,7 @@ const TimeGraph: React.FC<TimeGraphProps> = ({dailyTasks, taskIntervals}) => {
 
     return(
         <div className="p-5 bg-appSecondary rounded-2xl">
-        <p className="text-2xl font-extrabold text-emerald-950">Total: {timeDisplay}</p>
+        <p className="text-2xl font-extrabold text-emerald-950">Completed Sessions: {timeDisplay}</p>
 
         <div className="mt-10 rounded-lg">
             <p className="relative left-0 text-xs text-neutral-500 bottom-1">60m</p>

@@ -76,6 +76,28 @@ export const pauseTask= async (task: Task): Promise<Task>  => {
     });
 
     // Add new working interval
+    let newDay;
+    if(lastStartTimeUTC.getDay() != nowUTC.getDay()) {
+        newDay = new Date(lastStartTimeUTC);
+        newDay.setHours(23, 59, 59, 999);
+        const { error: errorFirstInterval } = await supabase
+        .from("task_intervals")
+        .insert({
+          task_id: taskId,
+          start_time: curTask.last_start_time,
+          end_time: newDay,
+        });
+        if(errorFirstInterval) throw(errorFirstInterval);
+        const { error: errorSecondInterval } = await supabase
+        .from("task_intervals")
+        .insert({
+          task_id: taskId,
+          start_time: newDay,
+          end_time: nowUTC,
+        });
+        if(errorSecondInterval) throw(errorSecondInterval);
+    }
+    else {
     const {error: errorSetInterval} = await supabase
     .from("task_intervals")
     .insert({
@@ -85,7 +107,7 @@ export const pauseTask= async (task: Task): Promise<Task>  => {
     });
 
     if(errorSetInterval) throw(errorSetInterval);
-
+    }
     return updatedTask[0] as Task;
 
 }
