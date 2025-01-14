@@ -19,7 +19,7 @@ export default function Dashboard() {
         handleCompleteTask, 
         addNewTask, 
         taskIntervals,
-        renameTask,
+        handleRenameTask,
         handleDeleteTask
         } = useTasks();
     
@@ -30,7 +30,7 @@ export default function Dashboard() {
             {/* Left 1/5 of the page */}
             <div className="flex flex-col lg:w-1/5 w-2/5 space-y-3">
                 <div className="bg-appFg rounded-2xl">
-                    <IncompleteTasks dailyTasks={dailyTasks} lockIntoTask={lockIntoTask} renameTask={renameTask} handleDeleteTask={handleDeleteTask}/>
+                    <IncompleteTasks dailyTasks={dailyTasks} lockIntoTask={lockIntoTask} handleRenameTask={handleRenameTask} handleDeleteTask={handleDeleteTask}/>
                     <NewTaskForm addNewTask={addNewTask}/>
                 </div>
                 <div className="bg-appFg rounded-2xl">
@@ -81,7 +81,7 @@ export default function Dashboard() {
             </div>
             <div className="flex flex-col w-full space-y-3">
                 <div className="bg-appFg rounded-2xl">
-                    <IncompleteTasks dailyTasks={dailyTasks} lockIntoTask={lockIntoTask} renameTask={renameTask} handleDeleteTask={handleDeleteTask}/>
+                    <IncompleteTasks dailyTasks={dailyTasks} lockIntoTask={lockIntoTask} handleRenameTask={handleRenameTask} handleDeleteTask={handleDeleteTask}/>
                     <NewTaskForm addNewTask={addNewTask}/>
                 </div>
                 <div className="bg-appFg rounded-2xl">
