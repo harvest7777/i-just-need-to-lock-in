@@ -59,7 +59,7 @@ export const pauseTask= async (task: Task): Promise<Task>  => {
         last_start_time: null,
     })
     .eq("task_id", taskId)
-    .select();
+    .select("*");
 
     if(errorUpdate) throw(errorUpdate);
     // Send updated task to friends
@@ -69,7 +69,7 @@ export const pauseTask= async (task: Task): Promise<Task>  => {
         type: "broadcast",
         event: "status_update",
         payload: {
-            task: updatedTask,
+            task: updatedTask[0],
         }
     });
 

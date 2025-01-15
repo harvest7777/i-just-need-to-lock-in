@@ -4,6 +4,8 @@ import { MdOutlineManageAccounts } from "react-icons/md";
 import Link from "next/link";
 export default function FriendsList() {
     const {acceptedFriends, friendActivity} = useAcceptedFriends();
+    console.log("re rendered", { acceptedFriends, friendActivity });
+
     return(
         <div className="w-full p-2 flex flex-col items-center">
             <div className="flex justify-between items-center w-full">
@@ -22,6 +24,6 @@ export default function FriendsList() {
             ):(
                 <p className="italic"></p>
             )}
-        </div>
+            </div>
     )
 }
