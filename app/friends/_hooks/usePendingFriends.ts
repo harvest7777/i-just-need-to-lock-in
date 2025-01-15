@@ -2,8 +2,7 @@
 import { useState, useEffect } from "react"
 import { FetchPendingFriends, getNameFromUUID } from "../_services/FetchFriends";
 import { Friend } from "../_services/FriendSchema";
-import { createClient } from "@/utils/supabase/client";
-
+import { supabase } from "@/utils/supabase/supabase";
 interface PayloadNewResponse {
     created_at: string;
     id: number;
@@ -39,7 +38,6 @@ export const usePendingFriends= () => {
     // Subscribe to the database and listen for any new friend requests where the user is the recipient 
     const subscribeFriendsTable = async () => {
 
-        const supabase = createClient();
         const user = supabase.auth.getUser();
         const userId =(await user).data.user?.id;
 
@@ -64,7 +62,6 @@ export const usePendingFriends= () => {
 
         return () => {
             if(channel) {
-                const supabase = createClient();
                 supabase.removeChannel(channel);
             }
         }

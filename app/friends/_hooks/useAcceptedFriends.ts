@@ -3,10 +3,9 @@
 import { useState, useEffect } from "react";
 import { Friend } from "../_services/FriendSchema";
 import { FetchAcceptedFriends, getFriendActivity } from "../_services/FetchFriends";
-import { createClient } from "@/utils/supabase/client";
+import { supabase } from "@/utils/supabase/supabase";
 import { Task } from "@/app/lockin/_services/TaskSchema";
 export const useAcceptedFriends = () => {
-    const supabase = createClient();
     const [acceptedFriends, setAcceptedFriends] = useState<Friend[]>([]);
     const [friendActivity, setFriendActivity] = useState<Map<string, Task>>(new Map());
 
