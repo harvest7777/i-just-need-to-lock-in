@@ -24,6 +24,9 @@ export const useAcceptedFriends = () => {
     useEffect(()=>{
         getAndSetAcceptedFriends();
     },[])
+    useEffect(()=>{
+        console.log("Friend activity:", friendActivity)
+    },[friendActivity])
 
     useEffect(()=>{
         // Subscribe to all your friend's channel when you fetch acceptedFriends
@@ -31,8 +34,16 @@ export const useAcceptedFriends = () => {
             const channel = supabase.channel(`status_${friend.user_id}`);
             channel.on("broadcast", {event:"status_update"}, (message) => {
                 // When friend's work status changes, update their activity
+                
                 const {task} = message.payload;
-                setFriendActivity((map)=> new Map(map.set(friend.user_id, task)));
+                const newTask = task as Task;
+                
+                setFriendActivity((prev)=> {
+                    const updatedMap = new Map(prev);
+                    updatedMap.set(friend.user_id,newTask);
+                    return updatedMap;
+                });
+                
             }).subscribe();
             return channel;
         })
