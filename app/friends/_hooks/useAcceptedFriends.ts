@@ -4,29 +4,20 @@ import { useState, useEffect } from "react";
 import { Friend } from "../_services/FriendSchema";
 import { FetchAcceptedFriends, getFriendActivity } from "../_services/FetchFriends";
 import { supabase } from "@/utils/supabase/supabase";
-import { Task } from "@/app/lockin/_services/TaskSchema";
 export const useAcceptedFriends = () => {
     const [acceptedFriends, setAcceptedFriends] = useState<Friend[]>([]);
     const [friendActivity, setFriendActivity] = useState<Map<string, Task>>(new Map());
 
-    // Fetch current friend activity and sets state
-    const syncFriendActivity = async (friends: Friend[]) => {
-        const map: Map<string, Task> = await getFriendActivity(friends);
-        setFriendActivity(map);
-    }
     
     const getAndSetAcceptedFriends = async() => {
         const friends = await FetchAcceptedFriends();
-        await syncFriendActivity(friends);
+        const map: Map<string, Task> = await getFriendActivity(friends);
         setAcceptedFriends(friends);
+        setFriendActivity(map);
     }
-
     useEffect(()=>{
         getAndSetAcceptedFriends();
     },[])
-    useEffect(()=>{
-        console.log("Friend activity:", friendActivity)
-    },[friendActivity])
 
     useEffect(()=>{
         // Subscribe to all your friend's channel when you fetch acceptedFriends

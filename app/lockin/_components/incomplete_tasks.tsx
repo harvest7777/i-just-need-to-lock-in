@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Task } from "../_services/TaskSchema";
 import { CiLock } from "react-icons/ci";
 import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
 import { IoCheckmarkOutline } from "react-icons/io5";
@@ -57,7 +56,7 @@ const IncompleteTasks: React.FC<IncompleteTasksProps> = ({
             <p className="w-4/6 rounded-lg">{task.name}</p>
           )}
           {editingTaskId !== task.task_id ? (
-            <div className="flex w-1/4 space-x-2">
+            <div className="flex w-2/5 space-x-2">
               <RiDeleteBin6Line 
               className="text-2xl w-1/2 btn-hover text-appBg hover:text-red-600"
               onClick={()=>handleDeleteTask(task)}

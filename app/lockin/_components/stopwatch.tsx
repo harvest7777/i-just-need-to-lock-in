@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import { getTaskSeconds} from "../_services/TaskTimeUtils";
-import { Task } from "../_services/TaskSchema";
 
 interface StopWatchProps {
     taskId: number;

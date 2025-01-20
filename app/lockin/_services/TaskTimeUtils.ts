@@ -1,6 +1,5 @@
 "use client";
 import { supabase } from "@/utils/supabase/supabase";
-import { Task } from "./TaskSchema";
 export const startTask = async (task: Task) => {
     // Updates the unique task and returns it
     const taskId = task.task_id;
@@ -69,7 +68,7 @@ export const pauseTask= async (task: Task): Promise<Task>  => {
         type: "broadcast",
         event: "status_update",
         payload: {
-            task: updatedTask[0],
+            task: updatedTask[0] as Task,
         }
     });
 
@@ -81,17 +80,17 @@ export const pauseTask= async (task: Task): Promise<Task>  => {
         const { error: errorFirstInterval } = await supabase
         .from("task_intervals")
         .insert({
-          task_id: taskId,
+          end_time: newDay.toISOString(),
           start_time: curTask.last_start_time,
-          end_time: newDay,
+          task_id: taskId,
         });
         if(errorFirstInterval) throw(errorFirstInterval);
         const { error: errorSecondInterval } = await supabase
         .from("task_intervals")
         .insert({
+          end_time: nowUTC.toISOString(),
+          start_time: newDay.toISOString(),
           task_id: taskId,
-          start_time: newDay,
-          end_time: nowUTC,
         });
         if(errorSecondInterval) throw(errorSecondInterval);
     }
@@ -101,7 +100,7 @@ export const pauseTask= async (task: Task): Promise<Task>  => {
     .insert({
         task_id: taskId,
         start_time: curTask.last_start_time,
-        end_time: nowUTC
+        end_time: nowUTC.toISOString()
     });
 
     if(errorSetInterval) throw(errorSetInterval);
@@ -148,6 +147,11 @@ export const getTaskSeconds = async(taskId: number) => {
 export const getInProgressTaskId = async(): Promise<Task|null> => {
     // Find a task, if any, that is in progress and return its id. If no task in progress, return null
     const userId = (await supabase.auth.getUser()).data.user?.id;
+    if(userId==null) {
+        console.log("getInProgressTaskId - Error getting user ID!");
+        return null;
+    }
+
     const {data, error} = await supabase
     .from("tasks")
     .select("*")

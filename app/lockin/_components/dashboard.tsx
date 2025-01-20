@@ -24,49 +24,12 @@ export default function Dashboard() {
         } = useTasks();
     
     return(
-        // Wrapper to hold all components horizontally
-        <>
-        <div className="hidden md:flex flex-row w-full h-max space-x-3">
-            {/* Left 1/5 of the page */}
-            <div className="flex flex-col lg:w-1/5 w-2/5 space-y-3">
-                <div className="bg-appFg rounded-2xl">
-                    <IncompleteTasks dailyTasks={dailyTasks} lockIntoTask={lockIntoTask} handleRenameTask={handleRenameTask} handleDeleteTask={handleDeleteTask}/>
-                    <NewTaskForm addNewTask={addNewTask}/>
-                </div>
-                <div className="bg-appFg rounded-2xl">
-                    <CompletedTasks dailyTasks={dailyTasks}/>
-                </div>
-                <div className="bg-appFg rounded-2xl">
-                    <FriendsList/>
-                </div>
-            </div>
-            {/* Middle 4/5 of the page */}
-            <div className="lg:w-4/5 w-3/5 flex lg:flex-row flex-col bg-appFg rounded-2xl justify-center items-center p-3 h-fit">
-
+        <div className="flex md:flex-row md:gap-x-5 flex-col space-y-3">
+            <div className="w-full flex md:w-4/5 md:flex-row md:order-last order-first flex-col bg-appFg rounded-2xl justify-center items-center p-3 h-fit my-3">
                 {/* Top half container */}
                 {focusedTask? (
                     <>
-                        <div className="lg:w-2/5 w-full space-y-2 p-5 rounded-2xl h-min">
-                        <p className="text-center italic">Currently locked into...</p>
-                        <LockedInTask focusedTask={focusedTask} handleCompleteTask={handleCompleteTask} startedFocusedTask={startedFocusedTask} handleStartTask={handleStartTask} handlePauseTask={handlePauseTask}/>
-                        <Stopwatch focusedTask={focusedTask} startedFocusedTask={startedFocusedTask} taskId={focusedTask.task_id}/>
-                        </div>
-                    </>
-                ) : (
-                    <p className="text-center text-3xl w-2/5">Not currently locked in!</p>
-                )}
-                <div className="lg:w-3/5 w-full">
-                    <TimeGraph dailyTasks={dailyTasks} taskIntervals={taskIntervals}/>
-                </div>
-            </div>
-        </div>
-
-        <div className="md:hidden flex flex-col space-y-3">
-            <div className="w-full flex lg:flex-row flex-col bg-appFg rounded-2xl justify-center items-center p-3 h-fit">
-                {/* Top half container */}
-                {focusedTask? (
-                    <>
-                        <div className="lg:w-2/5 w-full space-y-2 p-5 rounded-2xl h-min">
+                        <div className="md:w-2/5 w-full space-y-2 p-5 rounded-2xl h-min">
                         <p className="text-center italic">Currently locked into...</p>
                         <LockedInTask focusedTask={focusedTask} handleCompleteTask={handleCompleteTask} startedFocusedTask={startedFocusedTask} handleStartTask={handleStartTask} handlePauseTask={handlePauseTask}/>
                         <Stopwatch focusedTask={focusedTask} startedFocusedTask={startedFocusedTask} taskId={focusedTask.task_id}/>
@@ -75,11 +38,11 @@ export default function Dashboard() {
                 ) : (
                     <p className="text-center lg:text-3xl text-xl lg:w-2/5 w-full mb-2">Not currently locked in!</p>
                 )}
-                <div className="lg:w-3/5 w-full">
+                <div className="md:w-3/5 w-full">
                     <TimeGraph dailyTasks={dailyTasks} taskIntervals={taskIntervals}/>
                 </div>
             </div>
-            <div className="flex flex-col w-full space-y-3">
+            <div className="flex flex-col md:w-1/5 md:order-2 order-last w-full space-y-3">
                 <div className="bg-appFg rounded-2xl">
                     <IncompleteTasks dailyTasks={dailyTasks} lockIntoTask={lockIntoTask} handleRenameTask={handleRenameTask} handleDeleteTask={handleDeleteTask}/>
                     <NewTaskForm addNewTask={addNewTask}/>
@@ -93,6 +56,5 @@ export default function Dashboard() {
             </div>
 
         </div>
-        </>
     )
 }

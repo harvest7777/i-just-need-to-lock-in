@@ -1,7 +1,6 @@
 import { supabase } from "@/utils/supabase/supabase";
 import { Friend } from "./FriendSchema";
 import { getDayStartEnd } from "@/app/lockin/_services/TaskTimeUtils";
-import { Task } from "@/app/lockin/_services/TaskSchema";
 import { TaskInterval } from "@/app/lockin/_services/TaskIntervalSchema";
 import { Profile } from "@/app/manage-friends/_services/profile_schema";
 export const getNameFromUUID = async(uuid: string): Promise<string> => {
@@ -15,8 +14,10 @@ export const getNameFromUUID = async(uuid: string): Promise<string> => {
 }
 
 export const FetchPendingFriends = async() => {
-    const user = await supabase.auth.getUser();
-    const userId = user.data.user?.id;
+    const userId = (await supabase.auth.getUser()).data.user?.id;
+    if(userId==null) {
+      throw new Error("Error fetching user id");
+    }
     //TO DO FIX THIS SHIT SO IT JST JOINS TABLE INSTEAD OF MAKING EDXTRA API CALLS
     //want to fetch all columns where you aore the recipient and the request has not been accepted
     const{data, error} = await supabase
@@ -62,6 +63,7 @@ export const FetchAcceptedFriends = async () => {
 
     const friends: Friend[] = (data.map((row) => {
       // You're creating a new friend. You do not want to create one of yourself
+      if(row.recipient_profile == null || row.initiator_profile == null) throw new Error("Error fetching profiles");
       if(row.initiator==userId)
       {
         return {
@@ -85,9 +87,8 @@ export const FetchAcceptedFriends = async () => {
 }
 
 export const FetchSentFriends = async () => {
-  const user = supabase.auth.getUser();
-  const userId = (await user).data.user?.id;
-
+  const userId = (await supabase.auth.getUser()).data.user?.id;
+  if(userId==null) throw new Error("fetchSentFriends - Error fetching user id");
   const { data, error } = await supabase
   .from("friends")
   .select(`

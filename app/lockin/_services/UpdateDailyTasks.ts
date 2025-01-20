@@ -1,6 +1,5 @@
 "use client";
 import { createClient } from "@/utils/supabase/client";
-import { Task } from "./TaskSchema";
 export const renameTask = async (task: Task, newName: string) => {
     const supabase = createClient();
     const{data, error} = await supabase

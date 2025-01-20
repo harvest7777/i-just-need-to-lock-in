@@ -1,24 +1,17 @@
 "use client";
 import { supabase } from "@/utils/supabase/supabase";
+import { getDayStartEnd } from "./TaskTimeUtils";
 import { TaskInterval } from "./TaskIntervalSchema";
-import { Task } from "./TaskSchema";
-export const getTodaysTasks = async (userTimeZone: string) => {
-    // Get the current date in the user's time zone
-    const now = new Date().toLocaleString("en-US", { timeZone: userTimeZone });
-    const today = new Date(now);
 
-    // Define the start and end of the day in the user's time zone
-    const startOfDayLocal = new Date(today);
-    startOfDayLocal.setHours(0, 0, 0, 0); // 00:00 local time
-
-    const endOfDayLocal = new Date(today);
-    endOfDayLocal.setHours(23, 59, 59, 999); // 23:59 local time
-
-    // Convert the start and end of the day to UTC to use in Supabase
-    const startOfDayUTC = startOfDayLocal.toISOString();
-    const endOfDayUTC = endOfDayLocal.toISOString();
+export const getTodaysTasks = async (userTimeZone: string): Promise<Task[]> => {
+    const {startOfDayUTC, endOfDayUTC} = getDayStartEnd(userTimeZone);
 
     const userId = (await supabase.auth.getUser()).data.user?.id;
+    if(userId==null) {
+        console.log("getTodaysTasks() - Error fetching user ID");
+        throw new Error("Error getting user ID");
+    }
+
     const {data, error} = await supabase
     .from("tasks")
     .select("*")
@@ -27,28 +20,21 @@ export const getTodaysTasks = async (userTimeZone: string) => {
     .lte("created_at", endOfDayUTC);
 
     if(error) {
-        throw error;
+        console.log("getTodaysTasks() - Error fetching daily tasks");
+        throw (error);
     }
+    
     return data as Task[];
 }
 
-export const getTaskIntervals = async(userTimeZone: string) => {
-    // Get the current date in the user's time zone
-    const now = new Date().toLocaleString("en-US", { timeZone: userTimeZone });
-    const today = new Date(now);
-
-    // Define the start and end of the day in the user's time zone
-    const startOfDayLocal = new Date(today);
-    startOfDayLocal.setHours(0, 0, 0, 0); // 12:00 AM local time
-
-    const endOfDayLocal = new Date(today);
-    endOfDayLocal.setHours(23, 59, 59, 999); // 11:59 PM local time
-
-    // Convert the start and end of the day to UTC to use in Supabase
-    const startOfDayUTC = startOfDayLocal.toISOString();
-    const endOfDayUTC = endOfDayLocal.toISOString();
+export const getTaskIntervals = async(userTimeZone: string): Promise<TaskInterval[]> => {
+    const { startOfDayUTC, endOfDayUTC} = getDayStartEnd(userTimeZone);
 
     const userId = (await supabase.auth.getUser()).data.user?.id;
+    if(userId==null) {
+        console.log("getTaskIntervals() - Error fetching user ID");
+        throw new Error("Error getting user ID");
+    }
 
     const { data, error } = await supabase
     .from("task_intervals")
@@ -60,7 +46,10 @@ export const getTaskIntervals = async(userTimeZone: string) => {
     .gte("start_time", startOfDayUTC)
     .lte("end_time", endOfDayUTC);
 
-    if (error) throw error;
+    if (error) {
+        console.log("getTaskIntervals() - Error fetching intervals")
+        throw error;
+    }
     return data as TaskInterval[];
 }
 export const calculateHourlyIntervals = (data: TaskInterval[]) => {

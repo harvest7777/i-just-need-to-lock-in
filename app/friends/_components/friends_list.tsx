@@ -2,10 +2,10 @@
 import { useAcceptedFriends } from "../_hooks/useAcceptedFriends";
 import { MdOutlineManageAccounts } from "react-icons/md";
 import Link from "next/link";
-export default function FriendsList() {
+import React from "react";
+const FriendsList = React.memo(function FriendsList() {
     const {acceptedFriends, friendActivity} = useAcceptedFriends();
-    console.log("re rendered", { acceptedFriends, friendActivity });
-
+    console.log("friend re render")
     return(
         <div className="w-full p-2 flex flex-col items-center">
             <div className="flex justify-between items-center w-full">
@@ -26,4 +26,5 @@ export default function FriendsList() {
             )}
             </div>
     )
-}
+})
+export default FriendsList
