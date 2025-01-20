@@ -1,6 +1,5 @@
 // CompletedTasks.tsx
 import React from "react";
-import { Task } from "../_services/TaskSchema";
 
 interface CompletedTasksProps {
   dailyTasks: Task[];

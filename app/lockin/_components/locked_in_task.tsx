@@ -1,5 +1,4 @@
 import React from "react";
-import { Task } from "../_services/TaskSchema";
 import { CiPause1 } from "react-icons/ci";
 import { CiPlay1 } from "react-icons/ci";
 import { IoCheckmarkOutline } from "react-icons/io5";

@@ -1,5 +1,4 @@
 "use client";
-import { Task } from "../_services/TaskSchema";
 import { useState, useEffect } from "react";
 import { calculateHourlyIntervals } from "../_services/FetchDailyTasks";
 import { TaskInterval } from "../_services/TaskIntervalSchema";

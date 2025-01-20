@@ -1,10 +1,12 @@
 "use client";
 import { supabase } from "@/utils/supabase/supabase";
-import { Task } from "./TaskSchema";
-export const insertDailyTask = async (taskName: string) => {
+export const insertDailyTask = async (taskName: string): Promise<Task> => {
     // Create a new task in the DB and return it
-    const user = supabase.auth.getUser();
-    const userId = (await user).data.user?.id;
+    const userId = (await supabase.auth.getUser()).data.user?.id;
+    if(userId==null) {
+        console.log("insertDailyTask - Error fetching user ID");
+        throw new Error("Couldn't get userId");
+    }
 
     const{data, error} = await supabase
     .from("tasks")
@@ -18,8 +20,11 @@ export const insertDailyTask = async (taskName: string) => {
     return data[0] as Task;
 }
 export const insertCompletedTask= async (taskName: string, taskSeconds: number) => {
-    const user = supabase.auth.getUser();
-    const userId = (await user).data.user?.id;
+    const userId = (await supabase.auth.getUser()).data.user?.id;
+    if(userId==null) {
+        console.log("insertCompletedTask - Error fetching user ID");
+        return;
+    }
 
     const{data, error} = await supabase
     .from("tasks")

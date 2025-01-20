@@ -1,4 +1,3 @@
-import { Task } from "./TaskSchema"
 export const getTimeDisplay = (data: Task[]) => {
     const totalSeconds = data 
         .reduce((sum, task) => sum + task.seconds_spent, 0) || 0;
