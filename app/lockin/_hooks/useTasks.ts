@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { getTaskIntervals, getTodaysTasks } from "../_services/FetchDailyTasks";
 import { pauseTask, startTask, completeTask, getInProgressTaskId } from "../_services/TaskTimeUtils";
 import { insertDailyTask } from "../_services/InsertDailyTasks";
-import { TaskInterval } from "../_services/TaskIntervalSchema";
 import { renameTask } from "../_services/UpdateDailyTasks";
 import { deleteTask } from "../_services/UpdateDailyTasks";
 
@@ -63,6 +62,7 @@ export const useTasks = () => {
         let endTime: string = new Date().toISOString().replace("Z","+00:00");
 
         const newInterval: TaskInterval = {
+            id: task.task_id,
             task_id: task.task_id,
             start_time: startTime,
             end_time: endTime

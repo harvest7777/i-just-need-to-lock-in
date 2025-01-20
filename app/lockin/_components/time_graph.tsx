@@ -1,14 +1,12 @@
 "use client";
 import { useState, useEffect } from "react";
 import { calculateHourlyIntervals } from "../_services/FetchDailyTasks";
-import { TaskInterval } from "../_services/TaskIntervalSchema";
-import { getTimeDisplay } from "../_services/TimeDisplay";
+import { getTimeDisplayFromIntervals } from "../_services/TimeDisplay";
 interface TimeGraphProps {
-    dailyTasks: Task[];
     taskIntervals: TaskInterval[];
 }
 
-const TimeGraph: React.FC<TimeGraphProps> = ({dailyTasks, taskIntervals}) => {
+const TimeGraph: React.FC<TimeGraphProps> = ({taskIntervals}) => {
     // This component houses the hourintervals for the graph display
     // This component houses the time display
     const [hourIntervals, setHourIntervals] = useState<number[]>(Array(24).fill(0));
@@ -43,12 +41,8 @@ const TimeGraph: React.FC<TimeGraphProps> = ({dailyTasks, taskIntervals}) => {
     // When the task intervals get updated, we must recalculate the hours and re render the graph
     useEffect(()=>{
         setHourIntervals(calculateHourlyIntervals(taskIntervals));
+        setTimeDisplay(getTimeDisplayFromIntervals(taskIntervals));
     },[taskIntervals])
-
-    // When daily tasks update, the total time updates too
-    useEffect(()=>{
-        setTimeDisplay(getTimeDisplay(dailyTasks));
-    },[dailyTasks])
 
     const getBarHeight = (minutes: number) => {
         return `${Math.min((minutes / 60) * 100, 100)}%`; // Bar height as a percentage of 60 minutes

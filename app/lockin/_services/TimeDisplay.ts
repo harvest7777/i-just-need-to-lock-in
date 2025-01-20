@@ -1,6 +1,12 @@
-export const getTimeDisplay = (data: Task[]) => {
-    const totalSeconds = data 
-        .reduce((sum, task) => sum + task.seconds_spent, 0) || 0;
+export const getTimeDisplayFromIntervals = (data: TaskInterval[]) => {
+    let totalSeconds=0;
+    data.forEach((interval) => {
+        const startLocal = new Date(interval.start_time);
+        const endLocal = new Date(interval.end_time);
+
+        const diffSeconds = Math.floor((endLocal.getTime() - startLocal.getTime())/1000);
+        totalSeconds+=diffSeconds;
+    })
 
     const totalMinutes = Math.round(totalSeconds / 60); // Total minutes
     const hours = Math.floor(totalMinutes / 60); // Total hours
