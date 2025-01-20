@@ -2,8 +2,8 @@ import { supabase } from "@/utils/supabase/supabase";
 import { Friend } from "./FriendSchema";
 export const AddFriend = async(friendUUID: string): Promise<Friend|null> => {
     // This will insert a row where you are the initiator, friendUUID is the recipient
-    const user = supabase.auth.getUser();
-    const userId = (await user).data.user?.id;
+    const userId = (await supabase.auth.getUser()).data.user?.id;
+    if(userId==null) throw new Error("Error getting user ID!");
 
     // check if a relationship exists already
     const {data} = await supabase

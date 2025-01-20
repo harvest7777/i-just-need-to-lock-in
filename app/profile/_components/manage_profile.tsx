@@ -19,6 +19,7 @@ export default function ManageProfile () {
 
     const initialize = async () => {
         const userId = (await supabase.auth.getUser()).data.user?.id;
+        if(userId==null) throw new Error("Error getting user ID!");
         const {data, error} = await supabase
         .from("profiles")
         .select("name")
@@ -36,6 +37,7 @@ export default function ManageProfile () {
             return;
         }
         const userId = (await supabase.auth.getUser()).data.user?.id;
+        if(userId==null) throw new Error("Error getting user ID!");
         await supabase
         .from("profiles")
         .update({"name": data.newName})
