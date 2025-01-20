@@ -1,7 +1,6 @@
 "use client";
 import { useAcceptedFriends } from "../_hooks/useAcceptedFriends";
 import { FetchFriendDailyTasks, getFriendTaskIntervals } from "../_services/FetchFriends"
-import { TaskInterval } from "@/app/lockin/_services/TaskIntervalSchema";
 import { useState, useEffect } from "react";
 import { Friend } from "../_services/FriendSchema";
 import TimeGraph from "@/app/lockin/_components/time_graph";
@@ -35,7 +34,7 @@ export default function FriendFeed() {
                 <p className="text-2xl ml-5">{data.friend.name}</p>
                 <p className="text-2xl italic mr-5">{friendActivity.get(data.friend.user_id)?.last_start_time? `🔒${friendActivity.get(data.friend.user_id)?.name}`: ("Not locked in")}</p>
                 </div>
-                <TimeGraph dailyTasks={data.friendTasks} taskIntervals={data.intervals}/>
+                <TimeGraph taskIntervals={data.intervals}/>
             </div>
         ))}
         </>

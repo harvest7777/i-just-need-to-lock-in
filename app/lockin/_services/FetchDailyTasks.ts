@@ -1,7 +1,6 @@
 "use client";
 import { supabase } from "@/utils/supabase/supabase";
 import { getDayStartEnd } from "./TaskTimeUtils";
-import { TaskInterval } from "./TaskIntervalSchema";
 
 export const getTodaysTasks = async (userTimeZone: string): Promise<Task[]> => {
     const {startOfDayUTC, endOfDayUTC} = getDayStartEnd(userTimeZone);
