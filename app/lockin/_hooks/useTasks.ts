@@ -56,11 +56,11 @@ export const useTasks = () => {
         )))
 
         // The task intervals need to be updated if a last start time exists
-        let startTime: string = "";
-        if(task.last_start_time) startTime=task.last_start_time;
+        let startTime = task.last_start_time;
         
         let endTime: string = new Date().toISOString().replace("Z","+00:00");
 
+        if(startTime==null) return;
         const newInterval: TaskInterval = {
             id: task.task_id,
             task_id: task.task_id,

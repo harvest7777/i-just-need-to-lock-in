@@ -1,4 +1,5 @@
 export const getTimeDisplayFromIntervals = (data: TaskInterval[]) => {
+    console.log(data)
     let totalSeconds=0;
     data.forEach((interval) => {
         const startLocal = new Date(interval.start_time);
