@@ -85,11 +85,14 @@ export const pauseTask= async (task: Task): Promise<Task>  => {
           task_id: taskId,
         });
         if(errorFirstInterval) throw(errorFirstInterval);
+
+        const startOfNextDay = new Date(newDay.getTime()+1);
+        
         const { error: errorSecondInterval } = await supabase
         .from("task_intervals")
         .insert({
           end_time: nowUTC.toISOString(),
-          start_time: newDay.toISOString(),
+          start_time: startOfNextDay.toISOString(), 
           task_id: taskId,
         });
         if(errorSecondInterval) throw(errorSecondInterval);
