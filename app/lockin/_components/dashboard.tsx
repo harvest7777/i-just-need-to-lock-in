@@ -7,6 +7,7 @@ import NewTaskForm from "./new_task_form";
 import Stopwatch from "./stopwatch";
 import TimeGraph from "./time_graph"; 
 import FriendsList from "@/app/friends/_components/friends_list";
+import Changelog from "./changelog";
 
 export default function Dashboard() {
     const { 
@@ -25,7 +26,8 @@ export default function Dashboard() {
     
     return(
         <div className="flex md:flex-row md:gap-x-5 flex-col space-y-3">
-            <div className="w-full flex md:w-4/5 md:flex-row md:order-last order-first flex-col bg-appFg rounded-2xl justify-center items-center p-3 h-fit my-3">
+            <div className="md:order-last order-first md:w-4/5 w-full flex flex-col">
+            <div className="w-full flex md:flex-row flex-col bg-appFg rounded-2xl justify-center items-center p-3 h-fit my-3">
                 {/* Top half container */}
                 {focusedTask? (
                     <>
@@ -41,6 +43,8 @@ export default function Dashboard() {
                 <div className="md:w-3/5 w-full">
                     <TimeGraph taskIntervals={taskIntervals}/>
                 </div>
+            </div>
+                <Changelog/>
             </div>
             <div className="flex flex-col md:w-1/5 md:order-2 order-last w-full space-y-3">
                 <div className="bg-appFg rounded-2xl">
