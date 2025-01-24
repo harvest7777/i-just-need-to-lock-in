@@ -2,8 +2,8 @@
 import { supabase } from "@/utils/supabase/supabase";
 import { getDayStartEnd } from "./TaskTimeUtils";
 
-export const getTodaysTasks = async (userTimeZone: string): Promise<Task[]> => {
-    const {startOfDayUTC, endOfDayUTC} = getDayStartEnd(userTimeZone);
+export const getTodaysTasks = async (): Promise<Task[]> => {
+    const {startOfDayUTC, endOfDayUTC} = getDayStartEnd();
 
     const userId = (await supabase.auth.getUser()).data.user?.id;
     if(userId==null) {
@@ -26,8 +26,8 @@ export const getTodaysTasks = async (userTimeZone: string): Promise<Task[]> => {
     return data as Task[];
 }
 
-export const getTaskIntervals = async(userTimeZone: string): Promise<TaskInterval[]> => {
-    const { startOfDayUTC, endOfDayUTC} = getDayStartEnd(userTimeZone);
+export const getTaskIntervals = async(): Promise<TaskInterval[]> => {
+    const { startOfDayUTC, endOfDayUTC} = getDayStartEnd();
 
     const userId = (await supabase.auth.getUser()).data.user?.id;
     if(userId==null) {

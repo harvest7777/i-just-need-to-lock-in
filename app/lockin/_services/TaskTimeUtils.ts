@@ -147,7 +147,7 @@ export const getTaskSeconds = async(taskId: number) => {
     return totalSecondsSpent;
 }
 
-export const getInProgressTaskId = async(): Promise<Task|null> => {
+export const getInProgressTask = async(): Promise<Task|null> => {
     // Find a task, if any, that is in progress and return its id. If no task in progress, return null
     const userId = (await supabase.auth.getUser()).data.user?.id;
     if(userId==null) {
@@ -186,8 +186,8 @@ export const getSecondsSinceLastStart = async (taskId: number) => {
     return timeDifferenceInSeconds;
 };
 
-export const getDayStartEnd = (userTimeZone: string) => {
-    const now = new Date().toLocaleString("en-US", { timeZone: userTimeZone });
+export const getDayStartEnd = () => {
+    const now = new Date();
     const today = new Date(now);
 
     // Define the start and end of the day in the user's time zone

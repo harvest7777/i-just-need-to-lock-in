@@ -1,5 +1,4 @@
 "use client";
-import { useTasks } from "../_hooks/useTasks";
 import CompletedTasks from "./completed_tasks";
 import IncompleteTasks from "./incomplete_tasks";
 import LockedInTask from "./locked_in_task";
@@ -8,22 +7,14 @@ import Stopwatch from "./stopwatch";
 import TimeGraph from "./time_graph"; 
 import FriendsList from "@/app/friends/_components/friends_list";
 import Changelog from "./changelog";
+import { useGetTasks } from "../_hooks/useGetTasks";
+import { useLockIntoTask } from "../_hooks/useLockIntoTask";
+import { useManageTasks } from "../_hooks/useManageTasks";
 
 export default function Dashboard() {
-    const { 
-        dailyTasks, 
-        focusedTask, 
-        startedFocusedTask, 
-        lockIntoTask, 
-        handleStartTask, 
-        handlePauseTask, 
-        handleCompleteTask, 
-        addNewTask, 
-        taskIntervals,
-        handleRenameTask,
-        handleDeleteTask
-        } = useTasks();
-    
+    const {dailyTasks, setDailyTasks, focusedTask, setFocusedTask, startedFocusedTask, setStartedFocusedTask, taskIntervals, setTaskIntervals} = useGetTasks();
+    const {lockIntoTask, handleStartTask, handlePauseTask, handleCompleteTask} = useLockIntoTask({focusedTask, setFocusedTask, setDailyTasks, setTaskIntervals, setStartedFocusedTask});
+    const {addNewTask, handleRenameTask, handleDeleteTask} = useManageTasks({focusedTask, setFocusedTask, setDailyTasks, setTaskIntervals, setStartedFocusedTask, handlePauseTask});
     return(
         <div className="flex md:flex-row md:gap-x-5 flex-col space-y-3">
             <div className="md:order-last order-first md:w-4/5 w-full flex flex-col">
@@ -34,7 +25,7 @@ export default function Dashboard() {
                         <div className="md:w-2/5 w-full space-y-2 p-5 rounded-2xl h-min">
                         <p className="text-center italic">Currently locked into...</p>
                         <LockedInTask focusedTask={focusedTask} handleCompleteTask={handleCompleteTask} startedFocusedTask={startedFocusedTask} handleStartTask={handleStartTask} handlePauseTask={handlePauseTask}/>
-                        <Stopwatch focusedTask={focusedTask} startedFocusedTask={startedFocusedTask} taskId={focusedTask.task_id}/>
+                        <Stopwatch focusedTask={focusedTask} startedFocusedTask={startedFocusedTask} />
                         </div>
                     </>
                 ) : (

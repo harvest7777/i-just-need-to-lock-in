@@ -41,6 +41,7 @@ export const useAcceptedFriends = () => {
         // Cleanup
         return() => {
             friendsSubscriptions.forEach((channel) => {
+                console.log("Unsubscribed from friends channel")
                 channel.unsubscribe();
             })
         }

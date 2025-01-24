@@ -3,14 +3,17 @@ import { useAcceptedFriends } from "../_hooks/useAcceptedFriends";
 import { MdOutlineManageAccounts } from "react-icons/md";
 import Link from "next/link";
 import React from "react";
+import { usePendingFriends } from "../_hooks/usePendingFriends";
 const FriendsList = React.memo(function FriendsList() {
     const {acceptedFriends, friendActivity} = useAcceptedFriends();
-    console.log("friend re render")
+    const {pendingFriends} = usePendingFriends();
     return(
         <div className="w-full p-2 flex flex-col items-center">
             <div className="flex justify-between items-center w-full">
             <h1 className="font-bold text-xl pl-2">Friends</h1>
-            <Link href="/manage-friends">
+            
+            <Link className="relative" href="/manage-friends">
+                {pendingFriends.length > 0 && <div className="absolute top-[-5px] right-[-5px] z-40 w-3 h-3 bg-red-600 rounded-full "/>}
                 <MdOutlineManageAccounts className="text-2xl btn-hover hover:text-emerald-600"/>
             </Link>
             </div>

@@ -11,8 +11,8 @@ export default function FriendFeed() {
 >([]);
     const initialize = async () => {
         const data = await Promise.all (acceptedFriends.map(async (friend)=> {
-            const friendTasks: Task[] = await FetchFriendDailyTasks(friend, "America/Los_Angeles");
-            const intervals: TaskInterval[] = await getFriendTaskIntervals(friend,"America/Los_Angeles");
+            const friendTasks: Task[] = await FetchFriendDailyTasks(friend);
+            const intervals: TaskInterval[] = await getFriendTaskIntervals(friend);
             return {friend, friendTasks, intervals};
         }))
         setFriendData(data);

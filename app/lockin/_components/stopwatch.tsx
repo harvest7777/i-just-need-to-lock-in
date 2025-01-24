@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { getTaskSeconds} from "../_services/TaskTimeUtils";
 
 interface StopWatchProps {
-    taskId: number;
     focusedTask: Task | null;
     startedFocusedTask: boolean;
 }
