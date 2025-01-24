@@ -55,7 +55,7 @@ const TimeGraph: React.FC<TimeGraphProps> = ({taskIntervals}) => {
         <div className="mt-10 rounded-lg">
             <p className="relative left-0 text-xs text-neutral-500 bottom-1">60m</p>
             <p className="relative text-xs text-neutral-500 top-9">30m</p>
-            <div className="h-0 relative border-t border-dashed border-neutral-500 bottom-5 w-full"></div>
+            <div className="h-0 relative border-t border-dashed border-neutral-500 bottom-[22px] w-full"></div>
             <div className="h-0 relative border-t border-dashed border-neutral-500 top-9 w-full"></div>
 
             {/* Container for each bar */}

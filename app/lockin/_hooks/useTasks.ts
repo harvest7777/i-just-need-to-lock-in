@@ -1,7 +1,7 @@
 // useTasks.ts
 import { useState, useEffect } from "react";
 import { getTaskIntervals, getTodaysTasks } from "../_services/FetchDailyTasks";
-import { pauseTask, startTask, completeTask, getInProgressTaskId } from "../_services/TaskTimeUtils";
+import { pauseTask, startTask, completeTask, getInProgressTask } from "../_services/TaskTimeUtils";
 import { insertDailyTask } from "../_services/InsertDailyTasks";
 import { renameTask } from "../_services/UpdateDailyTasks";
 import { deleteTask } from "../_services/UpdateDailyTasks";
@@ -15,12 +15,12 @@ export const useTasks = () => {
     // Fetch all tasks, in progress task, and all intervals from API
     const fetchTasks = async () => {
         try {
-            const fetchedTasks = await getTodaysTasks("America/Los_Angeles");
-            const fetchedTaskIntervals = await getTaskIntervals("America/Los_Angeles");
+            const fetchedTasks = await getTodaysTasks();
+            const fetchedTaskIntervals = await getTaskIntervals();
             setDailyTasks(fetchedTasks);
             setTaskIntervals(fetchedTaskIntervals);
 
-            const inProgressTask: Task | null = await getInProgressTaskId();
+            const inProgressTask: Task | null = await getInProgressTask();
             if(inProgressTask)
             {
                 setStartedFocusedTask(true);

@@ -15,15 +15,17 @@ export default function Changelog() {
         </div>
         <div className="mb-2">
             <p className="text-neutral-400 mb">- Currently fixing 12 am task rollover</p>
-            <p className="text-neutral-400">- Currently fixing friend activity not updating when the browser sleeps</p>
+            <p className="text-neutral-400">- Currently investigating if friend activity updates when browser sleeps</p>
 
         </div>
         <div>
-            <p className="text-neutral-400">1/22/2025 - Changelog page added</p>
+            <p className="text-neutral-400">1/23/2025 - Fixed timezone compatability</p>
+            <p className="text-neutral-400">1/23/2025 - Added friend notification to dashboard</p>
+            <p className="text-neutral-400">1/22/2025 - Added changelog page</p>
             <p className="text-neutral-400">1/20/2025 - Fixed null total time when completing a task</p>
             <p className="text-neutral-400">1/19/2025 - Fixed activity status not updating on desktop</p>
         </div>
-        <h1 className="text-neutral-400 mt-2">🤍 Your feedback is valuable. If you encounter any unlisted bugs or want a feature added please reach out to me on discord. @bagillionaire</h1>
+        <h1 className="text-neutral-400 mt-2">🤍 Your feedback is valuable. If you encounter any bugs or want a feature added please reach out to me on discord @bagillionaire.</h1>
        </div> 
         }
         </>

@@ -121,9 +121,8 @@ export const FetchSentFriends = async () => {
   return friends;
 }
 
-export const FetchFriendDailyTasks = async(friend: Friend, userTimeZone: string): Promise<Task[]> => {
-  const{startOfDayUTC, endOfDayUTC} = getDayStartEnd(userTimeZone);
-  console.log(friend.name);
+export const FetchFriendDailyTasks = async(friend: Friend): Promise<Task[]> => {
+  const{startOfDayUTC, endOfDayUTC} = getDayStartEnd();
   const {data, error} = await supabase
   .from("tasks")
   .select("*")
@@ -133,9 +132,8 @@ export const FetchFriendDailyTasks = async(friend: Friend, userTimeZone: string)
   if(error) throw error;
   return data as Task[];
 }
-export const getFriendTaskIntervals = async(friend: Friend, userTimeZone: string): Promise<TaskInterval[]> => {
-    const {startOfDayUTC, endOfDayUTC} = getDayStartEnd(userTimeZone);
-    console.log("Friend id", friend.user_id);
+export const getFriendTaskIntervals = async(friend: Friend): Promise<TaskInterval[]> => {
+    const {startOfDayUTC, endOfDayUTC} = getDayStartEnd();
     const { data, error } = await supabase
     .from("task_intervals")
     .select(`
