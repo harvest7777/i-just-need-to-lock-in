@@ -11,12 +11,16 @@ export const getTodaysTasks = async (): Promise<Task[]> => {
         throw new Error("Error getting user ID");
     }
 
+    // get tasks that were created today
+    // get tasks which were updated today
+    // get tasks which are currently in progress
     const {data, error} = await supabase
     .from("tasks")
     .select("*")
     .eq("user_id", userId)
-    .gte("created_at", startOfDayUTC)
-    .lte("created_at", endOfDayUTC);
+    .or(`and(updated_at.gte.${startOfDayUTC},updated_at.lte.${endOfDayUTC}),last_start_time.not.is.null,and(created_at.gte.${startOfDayUTC},created_at.lte.${endOfDayUTC})`);
+    
+    console.log(data);
 
     if(error) {
         console.log("getTodaysTasks() - Error fetching daily tasks");
