@@ -9,21 +9,39 @@ export const useGetTasks = () => {
     const [taskIntervals, setTaskIntervals] = useState<TaskInterval[]>([]);
     
     const fetchTasks = async () => {
-        try {
-            const fetchedTasks = await getTodaysTasks();
-            const fetchedTaskIntervals = await getTaskIntervals();
-            setDailyTasks(fetchedTasks);
-            setTaskIntervals(fetchedTaskIntervals);
+        const fetchedTasks = await getTodaysTasks();
+        const fetchedTaskIntervals = await getTaskIntervals();
+        setDailyTasks(fetchedTasks);
+        setTaskIntervals(fetchedTaskIntervals);
 
-            const inProgressTask: Task | null = await getInProgressTask();
-            if(inProgressTask)
-            {
-                setStartedFocusedTask(true);
-                setFocusedTask(inProgressTask);
-            }
-        } catch (error) {
-            console.error("Error fetching tasks", error);
+        // check if the user was working on a task
+        const inProgressTask: Task | null = await getInProgressTask();
+
+        // set state accordingly
+        if(inProgressTask)
+        {
+            setStartedFocusedTask(true);
+            setFocusedTask(inProgressTask);
         }
+
+        // interval to check if the clock reads 12 am
+        const interval = setInterval(() => {
+        const now = new Date();
+        const hours = now.getHours(); // Get the hour (0-23)
+        const minutes = now.getMinutes(); // Get the minutes (0-59)
+        
+        // if 12 am (next day), reset the states of everything unless the user was
+        // working on something
+        if (hours === 0 && minutes === 0) {
+            console.log('HAI HAI HAI');
+            if(inProgressTask) setDailyTasks([inProgressTask]);
+            else setDailyTasks([]);
+            setTaskIntervals([]);
+
+            clearInterval(interval);
+        }
+        }, 1000); // Check every second
+
     };
 
     // Initialize all states

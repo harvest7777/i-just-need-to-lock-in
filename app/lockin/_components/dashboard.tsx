@@ -29,7 +29,7 @@ export default function Dashboard() {
                         </div>
                     </>
                 ) : (
-                    <p className="text-center lg:text-3xl text-xl lg:w-2/5 w-full mb-2">Not currently locked in!</p>
+                    <p className="text-center lg:text-3xl text-xl md:w-2/5 w-full mb-2">Not currently locked in!</p>
                 )}
                 <div className="md:w-3/5 w-full">
                     <TimeGraph taskIntervals={taskIntervals}/>

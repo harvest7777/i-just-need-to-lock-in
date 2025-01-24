@@ -8,7 +8,6 @@ export const useSentFriends = () => {
     const getSentFriends = async () => {
         const fetchedSentFriends = await FetchSentFriends();
         setSentFriends(fetchedSentFriends);
-        console.log(fetchedSentFriends);
     }
     useEffect(()=>{
         getSentFriends();

@@ -184,7 +184,7 @@ export const getSecondsSinceLastStart = async (taskId: number) => {
     const timeDifferenceInSeconds = Math.floor((currentTime.getTime() - lastStartTime.getTime()) / 1000);
 
     return timeDifferenceInSeconds;
-};
+}
 
 export const getDayStartEnd = () => {
     const now = new Date();

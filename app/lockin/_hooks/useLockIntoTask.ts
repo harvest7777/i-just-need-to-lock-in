@@ -29,20 +29,39 @@ export const useLockIntoTask = ({focusedTask, setFocusedTask, setDailyTasks, set
             task.task_id===updatedTask.task_id? updatedTask: task
         )))
 
-        // The task intervals need to be updated if a last start time exists
+        // The task intervals need to be updated if the task was in progress
         let startTime = task.last_start_time;
-        
-        let endTime: string = new Date().toISOString().replace("Z","+00:00");
+        let endTime = new Date();
 
+        // the task was not in progress
         if(startTime==null) return;
-        const newInterval: TaskInterval = {
+
+
+        const nowUTC = new Date();
+        const lastStartTimeUTC = new Date(startTime);
+
+        let newInterval: TaskInterval;
+        
+        // if task carried on to a new day
+        if(lastStartTimeUTC.getDay() != nowUTC.getDay()) {
+        const newDay = new Date();
+        newDay.setHours(0, 0, 0, 0);
+        newInterval = {
+                id: task.task_id,
+                task_id: task.task_id,
+                start_time: newDay.toISOString(),
+                end_time: endTime.toISOString()
+            }
+        } else {
+        newInterval = {
             id: task.task_id,
             task_id: task.task_id,
             start_time: startTime,
-            end_time: endTime
+            end_time: endTime.toISOString()
+            }
         }
         // Client side state updates
-        setTaskIntervals((prev)=>[...prev, newInterval]);
+        if(newInterval) setTaskIntervals((prev)=>[...prev, newInterval]);
     }
 
     const handleStartTask = async (task: Task) => {

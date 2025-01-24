@@ -10,7 +10,7 @@ const TimeGraph: React.FC<TimeGraphProps> = ({taskIntervals}) => {
     // This component houses the hourintervals for the graph display
     // This component houses the time display
     const [hourIntervals, setHourIntervals] = useState<number[]>(Array(24).fill(0));
-    const [timeDisplay, setTimeDisplay] = useState<string>("00:00:00");
+    const [timeDisplay, setTimeDisplay] = useState<string>("0 min");
     const militaryTimeToString: { [key: number]: string } = {
         0: "12 AM",
         1: "1 AM",
