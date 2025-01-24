@@ -14,9 +14,8 @@ export default function Changelog() {
         <IoCloseOutline className="text-3xl text-red-800 btn-hover md:w-min w-1/12" onClick={()=>setVisible(false)}/>
         </div>
         <div className="mb-2">
-            <p className="text-neutral-400 mb">- Currently fixing 12 am task rollover</p>
-            <p className="text-neutral-400">- Currently investigating if friend activity updates when browser sleeps</p>
-
+            <span className="text-red-800">Public Testing - </span>
+            <span className="text-neutral-400">12 am rollover fix in development (please report any bugs!)</span>
         </div>
         <div>
             <p className="text-neutral-400">1/23/2025 - Fixed timezone compatability</p>
