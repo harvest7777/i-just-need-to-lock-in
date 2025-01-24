@@ -20,8 +20,6 @@ export const getTodaysTasks = async (): Promise<Task[]> => {
     .eq("user_id", userId)
     .or(`and(updated_at.gte.${startOfDayUTC},updated_at.lte.${endOfDayUTC}),last_start_time.not.is.null,and(created_at.gte.${startOfDayUTC},created_at.lte.${endOfDayUTC})`);
     
-    console.log(data);
-
     if(error) {
         console.log("getTodaysTasks() - Error fetching daily tasks");
         throw (error);

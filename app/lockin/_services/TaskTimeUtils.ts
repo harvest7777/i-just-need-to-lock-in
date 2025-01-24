@@ -42,7 +42,7 @@ export const pauseTask= async (task: Task): Promise<Task>  => {
     // Allowed null values for unstarted tasks. Do not proceed if the task has not been started.
     if(curTask.last_start_time == null) return curTask as Task;
 
-    // Calculate the minute difference between now and the last start time
+    // Calculate the second difference between now and the last start time
     const lastStartTimeString = curTask?.last_start_time;
     const nowUTC = new Date();
     const lastStartTimeUTC = new Date(lastStartTimeString);
@@ -61,16 +61,10 @@ export const pauseTask= async (task: Task): Promise<Task>  => {
     .select("*");
 
     if(errorUpdate) throw(errorUpdate);
+    
     // Send updated task to friends
-    const userId = (await supabase.auth.getUser()).data.user?.id;
-    const channel = supabase.channel(`status_${userId}`);
-    channel.send({
-        type: "broadcast",
-        event: "status_update",
-        payload: {
-            task: updatedTask[0] as Task,
-        }
-    });
+    const newTaskStatus: Task = updatedTask[0];
+    await broadcastUpdatedTask(newTaskStatus);
 
     // Add new working interval
     let newDay;
@@ -109,7 +103,6 @@ export const pauseTask= async (task: Task): Promise<Task>  => {
     if(errorSetInterval) throw(errorSetInterval);
     }
     return updatedTask[0] as Task;
-
 }
 export const completeTask= async (task: Task) => {
     // Updates the unique task and returns it
@@ -201,5 +194,19 @@ export const getDayStartEnd = () => {
     const startOfDayUTC = startOfDayLocal.toISOString();
     const endOfDayUTC = endOfDayLocal.toISOString();
     return {startOfDayUTC, endOfDayUTC};
+
+}
+
+export const broadcastUpdatedTask = async(updatedTask: Task) => {
+    const userId = (await supabase.auth.getUser()).data.user?.id;
+
+    const channel = supabase.channel(`status_${userId}`);
+    channel.send({
+        type: "broadcast",
+        event: "status_update",
+        payload: {
+            task: updatedTask,
+        }
+    });
 
 }
