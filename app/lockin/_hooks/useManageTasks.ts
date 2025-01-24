@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from "react"
 import { insertDailyTask } from "../_services/InsertDailyTasks";
 import { deleteTask, renameTask } from "../_services/UpdateDailyTasks";
+import { broadcastUpdatedTask } from "../_services/TaskTimeUtils";
 
 interface useManageTasksProps {
     focusedTask: Task|null;
@@ -8,10 +9,9 @@ interface useManageTasksProps {
     setTaskIntervals: Dispatch<SetStateAction<TaskInterval[]>>;
     setStartedFocusedTask: Dispatch<SetStateAction<boolean>>;
     setFocusedTask: Dispatch<SetStateAction<Task|null>>;
-    handlePauseTask: (task: Task) => void;
 }
 
-export const useManageTasks = ({focusedTask, setDailyTasks, setTaskIntervals, handlePauseTask, setStartedFocusedTask, setFocusedTask}: useManageTasksProps) => {
+export const useManageTasks = ({focusedTask, setDailyTasks, setTaskIntervals, setStartedFocusedTask, setFocusedTask}: useManageTasksProps) => {
 
     const addNewTask = async (taskName: string) => {
         // Add task in DB and immediately update on client side
@@ -32,7 +32,8 @@ export const useManageTasks = ({focusedTask, setDailyTasks, setTaskIntervals, ha
         // If trying to delete focused task, pause and reset states
         if(focusedTask?.task_id==task.task_id) {
             // Pausing task emits you aren't working on a task anymore
-            handlePauseTask(task);
+            task.last_start_time=null;
+            broadcastUpdatedTask(task);
             setFocusedTask(null);
             setStartedFocusedTask(false);
         }

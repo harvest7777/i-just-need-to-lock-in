@@ -18,6 +18,8 @@ export default function Changelog() {
             <span className="text-neutral-400">Fixed bugs when working on a task through 12 AM. Please report any issues!</span>
         </div>
         <div>
+            <p className="text-neutral-400">1/24/2025 - Fixed 406 bad request when deleting an in progress task</p>
+            <p className="text-neutral-400">1/24/2025 - Fixed friend activity syncing when tabbed out</p>
             <p className="text-neutral-400">1/24/2025 - Added modal to verify you are still working on a task</p>
             <p className="text-neutral-400">1/23/2025 - Fixed timezone compatability</p>
             <p className="text-neutral-400">1/23/2025 - Added friend notification to dashboard</p>

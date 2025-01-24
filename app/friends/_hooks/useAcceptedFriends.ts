@@ -7,7 +7,6 @@ import { supabase } from "@/utils/supabase/supabase";
 export const useAcceptedFriends = () => {
     const [acceptedFriends, setAcceptedFriends] = useState<Friend[]>([]);
     const [friendActivity, setFriendActivity] = useState<Map<string, Task>>(new Map());
-
     
     const getAndSetAcceptedFriends = async() => {
         const friends = await FetchAcceptedFriends();
@@ -15,8 +14,18 @@ export const useAcceptedFriends = () => {
         setAcceptedFriends(friends);
         setFriendActivity(map);
     }
+
+    const handleVisibilityChange = () => {
+        if (document.visibilityState==="visible") {
+            getAndSetAcceptedFriends();
+            console.log("doc is visible")
+        }
+    }
+
     useEffect(()=>{
         getAndSetAcceptedFriends();
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+        return () => {document.removeEventListener('visibilitychange', handleVisibilityChange)};
     },[])
 
     useEffect(()=>{
