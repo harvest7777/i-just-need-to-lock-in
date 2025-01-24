@@ -10,12 +10,15 @@ import Changelog from "./changelog";
 import { useGetTasks } from "../_hooks/useGetTasks";
 import { useLockIntoTask } from "../_hooks/useLockIntoTask";
 import { useManageTasks } from "../_hooks/useManageTasks";
+import StillWorkingModal from "./still_working_modal";
 
 export default function Dashboard() {
     const {dailyTasks, setDailyTasks, focusedTask, setFocusedTask, startedFocusedTask, setStartedFocusedTask, taskIntervals, setTaskIntervals} = useGetTasks();
     const {lockIntoTask, handleStartTask, handlePauseTask, handleCompleteTask} = useLockIntoTask({focusedTask, setFocusedTask, setDailyTasks, setTaskIntervals, setStartedFocusedTask});
     const {addNewTask, handleRenameTask, handleDeleteTask} = useManageTasks({focusedTask, setFocusedTask, setDailyTasks, setTaskIntervals, setStartedFocusedTask, handlePauseTask});
     return(
+        <>
+        <StillWorkingModal focusedTask={focusedTask}/>
         <div className="flex md:flex-row md:gap-x-5 flex-col space-y-3">
             <div className="md:order-last order-first md:w-4/5 w-full flex flex-col">
             <div className="w-full flex md:flex-row flex-col bg-appFg rounded-2xl justify-center items-center p-3 h-fit my-3">
@@ -51,5 +54,6 @@ export default function Dashboard() {
             </div>
 
         </div>
+        </>
     )
 }

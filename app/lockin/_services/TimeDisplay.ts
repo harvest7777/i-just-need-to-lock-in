@@ -18,3 +18,16 @@ export const getTimeDisplayFromIntervals = (data: TaskInterval[]) => {
         : `${minutes} min`;
     return timeDisplay;
 }
+
+export const getTimeDisplayFromSeconds = (seconds: number) => {
+    const totalMinutes = Math.round(seconds/ 60); // Total minutes
+    const hours = Math.floor(totalMinutes / 60); // Total hours
+    const minutes = totalMinutes % 60; // Remaining minutes
+
+    const timeDisplay =
+        hours > 0
+        ? `${hours} hr${hours > 1 ? "s" : ""} ${minutes} min`
+        : `${minutes} min`;
+    return timeDisplay;
+
+}
