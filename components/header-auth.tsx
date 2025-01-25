@@ -2,7 +2,7 @@ import { signOutAction } from "@/app/actions";
 import { createClient } from "@/utils/supabase/server";
 import { LiaUserFriendsSolid } from "react-icons/lia";
 import { PiSignOut } from "react-icons/pi";
-import { FaLeaf } from "react-icons/fa";
+import { MdLock } from "react-icons/md";
 import { MdOutlineAutoGraph } from "react-icons/md";
 import { LuSettings } from "react-icons/lu";
 import Dropdown from "./ui/dropdown";
@@ -14,11 +14,11 @@ export default async function AuthButton() {
   } = await supabase.auth.getUser();
   return user&& (
     // Nav container
-    <div className="p-2 rounded-2xl h-10 w-full flex items-center gap-4 justify-between mb-3">
-      <Link href="/lockin" className="flex space-x-6 btn-hover" >
-        <FaLeaf className="text-emerald-600 h-full text-4xl"/>
+    <div className="p-2 rounded-2xl h-10 w-full flex items-center gap-4 justify-between mb-1">
+      <Link href="/lockin" className="flex sm:space-x-6 space-x-2 btn-hover" >
+        <MdLock className="text-emerald-600 h-full sm:text-4xl text-3xl"/>
         <div className="flex align-center items-baseline space-x-3">
-          <h1 className="sm:text-4xl text-2xl font-extrabold text-emerald-800">lock in</h1>
+          <h1 className="sm:text-4xl text-3xl font-extrabold text-emerald-800">LOCK IN</h1>
           <p className="text-emerald-800">beta 1.0</p>
         </div>
       </Link>

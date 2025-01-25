@@ -17,17 +17,35 @@ const FriendsList = React.memo(function FriendsList() {
                 <MdOutlineManageAccounts className="text-2xl btn-hover hover:text-emerald-600"/>
             </Link>
             </div>
-            {acceptedFriends.length !== 0? (
-                acceptedFriends.map((friend) => (
+
+            {acceptedFriends.length !== 0 && (
+                <div className="w-full">
+                {acceptedFriends.map((friend) => (
                     <div className="pl-2 w-full rounded-md" key={friend.user_id}>
-                        <p className="font-semibold">{friend.name}</p>
-                        <p className="italic">{friendActivity.get(friend.user_id)?.last_start_time? `🔒${friendActivity.get(friend.user_id)?.name}`: ("Not locked in")}</p>
+                        {friendActivity.get(friend.user_id)?.last_start_time != null && (
+                            <div>
+                            <p className="font-semibold">{friend.name}</p>
+                            <p className="italic">🔒{friendActivity.get(friend.user_id)?.name}</p>
+                            </div>
+                        )}
                     </div>
-                ))
-            ):(
-                <p className="italic"></p>
+
+                ))}
+                {acceptedFriends.map((friend) => (
+                    <div className="pl-2 w-full rounded-md" key={friend.user_id}>
+                        {friendActivity.get(friend.user_id)?.last_start_time == null && (
+                            <div>
+                            <p className="font-semibold">{friend.name}</p>
+                            <p className="italic text-neutral-400">Unlocked</p>
+                            </div>
+                        )}
+                    </div>
+
+                ))}
+
+                </div>
             )}
-            </div>
+        </div>
     )
 })
 export default FriendsList
