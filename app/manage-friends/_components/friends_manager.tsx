@@ -3,7 +3,8 @@
 import { IoMdClose } from "react-icons/io";
 import { Friend } from "@/app/friends/_services/FriendSchema";
 import { DeleteFriend } from "@/app/friends/_services/TerminateFriend";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
+import ConfirmRemoveFriendModal from "./confirm_remove_friend_modal";
 
 // List all friends with option to remove them
 interface FriendsManagerProps {
@@ -11,17 +12,17 @@ interface FriendsManagerProps {
     setAcceptedFriends: Dispatch<SetStateAction<Friend[]>>;
 }
 export default function FriendsManager({acceptedFriends, setAcceptedFriends}: FriendsManagerProps) {
-    const handleRemove = async (friendUUID: string) => {
-        await DeleteFriend(friendUUID);
-        setAcceptedFriends((prev)=>prev.filter(friend=>friend.user_id!=friendUUID));
-    }
+    const [friendToRemove, setFriendToRemove] = useState<Friend|null>(null);
+
     return (
+        
         <div className="w-full">
+            <ConfirmRemoveFriendModal friendToRemove={friendToRemove} setFriendToRemove={setFriendToRemove} setAcceptedFriends={setAcceptedFriends}/>
             {acceptedFriends.length > 0? (
                 acceptedFriends.map((friend) => (
                     <div key={friend.user_id} className="flex space-x-1">
                         <p className="w-4/5">{friend.name}</p>
-                        <IoMdClose onClick={()=>handleRemove(friend.user_id)} className="w-1/5 text-2xl btn-hover hover:text-red-600"/>
+                        <IoMdClose onClick={()=>setFriendToRemove(friend)} className="w-1/5 text-2xl btn-hover hover:text-red-600"/>
                     </div>
                 ))
             ): (
