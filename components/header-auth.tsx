@@ -16,9 +16,9 @@ export default async function AuthButton() {
     // Nav container
     <div className="p-2 rounded-2xl h-10 w-full flex items-center gap-4 justify-between mb-1">
       <Link href="/lockin" className="flex sm:space-x-6 space-x-2 btn-hover" >
-        <MdLock className="text-emerald-600 h-full sm:text-4xl text-3xl"/>
+        <MdLock className="text-emerald-600 h-full sm:text-4xl text-2xl"/>
         <div className="flex align-center items-baseline space-x-3">
-          <h1 className="sm:text-4xl text-3xl font-extrabold text-emerald-800">LOCK IN</h1>
+          <h1 className="sm:text-4xl text-2xl font-extrabold text-emerald-800">LOCK IN</h1>
           <p className="text-emerald-800">beta 1.0</p>
         </div>
       </Link>

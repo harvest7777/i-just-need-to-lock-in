@@ -1,5 +1,6 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef } from "react";
 import { completeTask, pauseTask, startTask } from "../_services/TaskTimeUtils";
+import JSConfetti from "js-confetti";
 
 export interface useLockIntoTaskProps {
     focusedTask: Task|null;
@@ -10,6 +11,15 @@ export interface useLockIntoTaskProps {
 }
 
 export const useLockIntoTask = ({focusedTask, setFocusedTask, setDailyTasks, setTaskIntervals, setStartedFocusedTask}: useLockIntoTaskProps) => {
+    const jsConfettiRef = useRef<JSConfetti | null>(null);
+
+    // lazy load confetti
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            jsConfettiRef.current = new JSConfetti();
+        }
+    }, []);
+    
     const lockIntoTask = async (taskToFocus: Task) => {
         // If you're trying to focus the same task, do nothing
         if(taskToFocus.task_id==focusedTask?.task_id) return;
@@ -86,14 +96,33 @@ export const useLockIntoTask = ({focusedTask, setFocusedTask, setDailyTasks, set
         const updatedTask: Task = await pauseTask(task);
         updateTaskAndStates(task, updatedTask);
         setFocusedTask(updatedTask);
+
     };
 
     const handleCompleteTask = async (task: Task) => {
         // Immediately update on ui
-        setStartedFocusedTask(false);
         const completedTask = await completeTask(task);
+        if(jsConfettiRef.current) {
+            jsConfettiRef.current.addConfetti({
+                confettiColors: [
+                    '#ff3e3e', // Bright Red
+                    '#ff9f00', // Vibrant Orange
+                    '#ffdc3e', // Sunny Yellow
+                    '#3eff3e', // Bright Green
+                    '#3eb5ff', // Sky Blue
+                    '#763eff', // Deep Purple
+                    '#ff3ec9', // Hot Pink
+                    '#ffffff', // White
+                ],
+                confettiRadius: 7,
+                confettiNumber: 350,
+            });
+        }
+
+        setStartedFocusedTask(false);
         updateTaskAndStates(task, completedTask);
         setFocusedTask(null);
+
     };
 
     return {lockIntoTask, handleStartTask, handlePauseTask, handleCompleteTask};
