@@ -53,7 +53,7 @@ export default function ManageProfile () {
     },[])
 
     return(
-        <div className="bg-appFg rounded-2xl p-2 lg:w-1/3 md:w-2/3 w-full flex flex-col space-y-4 pb-10">
+        <div className="bg-appFg rounded-2xl p-2 md:w-2/3 w-full flex flex-col space-y-4 pb-10 mt-5">
             <h1 className="text-center text-emerald-600 font-bold text-3xl">Profile</h1>
             {/* username container */}
             <div className="flex">
