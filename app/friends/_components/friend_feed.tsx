@@ -1,6 +1,6 @@
 "use client";
 import { useAcceptedFriends } from "../_hooks/useAcceptedFriends";
-import { FetchFriendDailyTasks, getFriendTaskIntervals } from "../_services/FetchFriends"
+import { getFriendTaskIntervals } from "../_services/FetchFriends"
 import { useState, useEffect } from "react";
 import { Friend } from "../_services/FriendSchema";
 import TimeGraph from "@/app/lockin/_components/time_graph";

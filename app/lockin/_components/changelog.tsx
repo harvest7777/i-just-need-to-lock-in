@@ -22,6 +22,7 @@ export default function Changelog() {
             <span className="text-neutral-400">Lock in history and statistics</span>
         </div>
         <div>
+            <p className="text-neutral-400">1/25/2025 - Added confiration when deleting a task</p>
             <p className="text-neutral-400">1/24/2025 - Added confetti when completing a task</p>
             <p className="text-neutral-400">1/24/2025 - Added priority to friends list and friends feed</p>
             <p className="text-neutral-400">1/24/2025 - Fixed 406 bad request when deleting an in progress task</p>

@@ -4,6 +4,7 @@ import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
 import { IoCheckmarkOutline } from "react-icons/io5";
 import { useForm } from "react-hook-form";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import ConfirmDeleteModal from "./confirm_delete_modal";
 
 interface IncompleteTasksProps {
   dailyTasks: Task[];
@@ -24,6 +25,7 @@ const IncompleteTasks: React.FC<IncompleteTasksProps> = ({
 }) => {
   const [editingTaskId, setEditingTaskId] = useState<number | null>(null);
   const { register, handleSubmit, reset } = useForm<FormData>();
+  const [taskToDelete, setTaskToDelete] = useState<Task|null>(null);
 
   const onSubmit = (data: FormData, task: Task) => {
     if(!data.newTaskName.trim()) {
@@ -38,39 +40,37 @@ const IncompleteTasks: React.FC<IncompleteTasksProps> = ({
 
   return (
     <div className="flex flex-col items-center w-full p-2">
+      <ConfirmDeleteModal taskToDelete={taskToDelete} setTaskToDelete={setTaskToDelete} handleDeleteTask={handleDeleteTask}/>
       <h1 className="font-bold text-xl pl-2 w-full">To do</h1>
       {dailyTasks?.map( (task) => !task.is_complete && (
+        // list out incomplete tasks and corresponding buttons
         <div className="my-1 flex space-x-1 w-full rounded-xl" key={task.task_id}>
           <CiLock className="text-2xl w-1/5 btn-hover hover:text-green-600" onClick={() => lockIntoTask(task)}/>
+
+          {/* if the task is being edited, show input box */}
           {editingTaskId === task.task_id ? (
-            <form onSubmit={handleSubmit((data) => onSubmit(data, task))} className="w-4/6">
-              <input
-                id="newTaskName"
-                type="text"
-                placeholder={task.name}
-                {...register("newTaskName")}
-                className="w-full rounded-lg bg-appBg pl-2"
-              />
-            </form>
+            <>
+              <form onSubmit={handleSubmit((data) => onSubmit(data, task))} className="w-4/6">
+                <input
+                  id="newTaskName"
+                  type="text"
+                  placeholder={task.name}
+                  {...register("newTaskName")}
+                  className="w-full rounded-lg bg-appBg pl-2"
+                />
+              </form>
+              <IoCheckmarkOutline className="text-2xl w-1/5 btn-hover text-appBg hover:text-green-600" onClick={handleSubmit((data) => onSubmit(data, task))}/>
+            </>
           ) : (
-            <p className="w-4/6 rounded-lg">{task.name}</p>
+            <>
+              <p className="w-4/6 rounded-lg">{task.name}</p>
+              <div className="flex w-2/5 space-x-2">
+                <RiDeleteBin6Line  className="text-2xl w-1/2 btn-hover text-appBg hover:text-red-600" onClick={()=>setTaskToDelete(task)}/>
+                <MdOutlineDriveFileRenameOutline className="text-2xl w-1/2 btn-hover text-appBg hover:text-blue-600" onClick={() => setEditingTaskId(task.task_id)}/>
+              </div>
+            </>
           )}
-          {editingTaskId !== task.task_id ? (
-            <div className="flex w-2/5 space-x-2">
-              <RiDeleteBin6Line 
-              className="text-2xl w-1/2 btn-hover text-appBg hover:text-red-600"
-              onClick={()=>handleDeleteTask(task)}
-              />
-              <MdOutlineDriveFileRenameOutline
-              className="text-2xl w-1/2 btn-hover text-appBg hover:text-blue-600"
-              onClick={() => setEditingTaskId(task.task_id)}
-            />
-            </div>
-          ) : (
-            <IoCheckmarkOutline
-              className="text-2xl w-1/5 btn-hover hover:text-green-600"
-              onClick={handleSubmit((data) => onSubmit(data, task))}/>
-          )}
+          
         </div>
         )
       )}
