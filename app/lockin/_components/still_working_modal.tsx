@@ -28,12 +28,12 @@ export default function StillWorkingModal({focusedTask}: StillWorkingModalProps)
     
     return (
         (visible && focusedTask!=null && secondsSpent >= 3600) &&
-        <div className="fixed top-0 left-0 w-full min-h-full flex justify-center z-50">
+        <div className="fixed top-0 left-0 w-full min-h-full flex justify-center md:items-start items-center z-50">
             {/* Background Overlay */}
             <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50"></div>
 
             {/* Modal Content */}
-            <div className="relative md:w-3/5 w-11/12 bg-appFg p-3 rounded-xl h-fit mt-32 text-xl flex flex-col justify-center items-center">
+            <div className="relative md:w-3/5 w-11/12 bg-appFg p-3 rounded-xl h-fit md:mt-28 text-xl flex flex-col justify-center items-center">
                 <h1 className="text-center text-2xl font-bold">Still there?</h1>
                 <div className="mt-3">
                     <span>You've been working on </span>
