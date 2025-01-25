@@ -1,5 +1,6 @@
 import HeaderAuth from "@/components/header-auth";
 import { GeistSans } from "geist/font/sans";
+import { Analytics } from "@vercel/analytics/react"
 import "./globals.css";
 
 const defaultUrl = process.env.VERCEL_URL
@@ -19,6 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={GeistSans.className} suppressHydrationWarning>
+      <Analytics/>
       <body className="bg-appBg text-foreground p-5 rounded-lg">
         {/* switch to serverside? */}
             <HeaderAuth />
