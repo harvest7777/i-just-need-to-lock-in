@@ -41,7 +41,7 @@ const IncompleteTasks: React.FC<IncompleteTasksProps> = ({
   return (
     <div className="flex flex-col items-center w-full p-2">
       <ConfirmDeleteModal taskToDelete={taskToDelete} setTaskToDelete={setTaskToDelete} handleDeleteTask={handleDeleteTask}/>
-      <h1 className="font-bold text-xl pl-2 w-full">To do</h1>
+      <h1 className="font-bold text-xl pl-2 w-full">To Do</h1>
       {dailyTasks?.map( (task) => !task.is_complete && (
         // list out incomplete tasks and corresponding buttons
         <div className="my-1 flex space-x-1 w-full rounded-xl" key={task.task_id}>
