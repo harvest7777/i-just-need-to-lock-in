@@ -8,7 +8,7 @@
   .btn-hover {
     @apply transform transition-transform duration-75 hover:cursor-pointer active:scale-90;
   }
-}
+  }
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -68,7 +68,20 @@
     @apply font-title;
     overflow: auto;
   }
-  ::-webkit-scrollbar {
-    display: none;
-  }
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #ededed;
+  border-radius:5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #cecece;
+  border-radius: 5px;
+}
+
 }

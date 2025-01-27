@@ -29,9 +29,6 @@ export default function FriendFeed() {
         initialize();
     },[acceptedFriends])
 
-    useEffect(()=>{
-        console.log(friendData);
-    },[friendData])
     return(
         <div className="w-full flex flex-col items-center">
         {friendData.length > 0? (
