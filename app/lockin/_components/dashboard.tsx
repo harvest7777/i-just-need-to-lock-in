@@ -11,11 +11,17 @@ import { useGetTasks } from "../_hooks/useGetTasks";
 import { useLockIntoTask } from "../_hooks/useLockIntoTask";
 import { useManageTasks } from "../_hooks/useManageTasks";
 import StillWorkingModal from "./still_working_modal";
+import DailyStopwatch from "./stopwatch_daily";
+import { useState } from "react";
+import ChooseDisplay from "./choose_display_dropdown";
+import SessionStopWatch from "./stopwatch_session";
 
 export default function Dashboard() {
-    const {dailyTasks, setDailyTasks, focusedTask, setFocusedTask, startedFocusedTask, setStartedFocusedTask, taskIntervals, setTaskIntervals} = useGetTasks();
-    const {lockIntoTask, handleStartTask, handlePauseTask, handleCompleteTask} = useLockIntoTask({focusedTask, setFocusedTask, setDailyTasks, setTaskIntervals, setStartedFocusedTask});
-    const {addNewTask, handleRenameTask, handleDeleteTask} = useManageTasks({focusedTask, setFocusedTask, setDailyTasks, setTaskIntervals, setStartedFocusedTask});
+    const {toDos, setToDos, focusedTask, setFocusedTask, startedFocusedTask, setStartedFocusedTask, taskIntervals, setTaskIntervals, completedTasks, setCompletedTasks} = useGetTasks();
+    const {lockIntoTask, handleStartTask, handlePauseTask, handleCompleteTask} = useLockIntoTask({focusedTask, setFocusedTask, setToDos, setTaskIntervals, setCompletedTasks,setStartedFocusedTask});
+    const {addNewTask, handleRenameTask, handleDeleteTask} = useManageTasks({focusedTask, setFocusedTask, setToDos, setTaskIntervals, setStartedFocusedTask});
+
+    const [timerDisplay, setTimerDisplay] = useState<string>("today");
     return(
         <>
         <StillWorkingModal focusedTask={focusedTask}/>
@@ -27,9 +33,19 @@ export default function Dashboard() {
                     {focusedTask? (
                         <>
                             <div className="w-full space-y-2 p-5 rounded-2xl h-min">
-                            <p className="text-center italic">Currently locked into...</p>
                             <LockedInTask focusedTask={focusedTask} handleCompleteTask={handleCompleteTask} startedFocusedTask={startedFocusedTask} handleStartTask={handleStartTask} handlePauseTask={handlePauseTask}/>
-                            <Stopwatch focusedTask={focusedTask} startedFocusedTask={startedFocusedTask} />
+                            <div className="flex justify-center items-center align-middle space-x-2">
+                            <ChooseDisplay timerDisplay={timerDisplay} setTimerDisplay={setTimerDisplay}/>
+                            {timerDisplay=="today" && (
+                                <DailyStopwatch focusedTask={focusedTask} startedFocusedTask={startedFocusedTask} taskIntervals={taskIntervals} />
+                            )}
+                            {timerDisplay=="total" && (
+                                <Stopwatch focusedTask={focusedTask} startedFocusedTask={startedFocusedTask} />
+                            )} 
+                            {timerDisplay=="session" && (
+                                <SessionStopWatch focusedTask={focusedTask} startedFocusedTask={startedFocusedTask}/>
+                            )}
+                            </div>
                             </div>
                         </>
                     ) : (
@@ -44,11 +60,11 @@ export default function Dashboard() {
             {/* container for task lists */}
             <div className="md:order-1 order-2 flex flex-col md:w-1/5 w-full space-y-3">
                 <div className="bg-appFg rounded-2xl">
-                    <IncompleteTasks dailyTasks={dailyTasks} lockIntoTask={lockIntoTask} handleRenameTask={handleRenameTask} handleDeleteTask={handleDeleteTask}/>
+                    <IncompleteTasks toDos={toDos} lockIntoTask={lockIntoTask} handleRenameTask={handleRenameTask} handleDeleteTask={handleDeleteTask}/>
                     <NewTaskForm addNewTask={addNewTask}/>
                 </div>
                 <div className="bg-appFg rounded-2xl">
-                    <CompletedTasks dailyTasks={dailyTasks}/>
+                    <CompletedTasks completedTasks={completedTasks} taskIntervals={taskIntervals}/>
                 </div>
             </div>
             {/* container for friends */}

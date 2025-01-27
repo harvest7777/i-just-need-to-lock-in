@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import { getTodaysTasks, getTaskIntervals } from "../_services/FetchDailyTasks";
+import { getTodaysTasks, getTaskIntervals, getCompletedTasks } from "../_services/FetchDailyTasks";
 import { getInProgressTask } from "../_services/TaskTimeUtils";
 
 export const useGetTasks = () => {
-    const [dailyTasks, setDailyTasks] = useState<Task[]>([]);
+    const [toDos, setToDos] = useState<Task[]>([]);
+    const [completedTasks, setCompletedTasks] = useState<Task[]>([]);
     const [focusedTask, setFocusedTask] = useState<Task | null>(null);
     const [startedFocusedTask, setStartedFocusedTask] = useState<boolean>(false);
     const [taskIntervals, setTaskIntervals] = useState<TaskInterval[]>([]);
@@ -11,8 +12,10 @@ export const useGetTasks = () => {
     const fetchTasks = async () => {
         const fetchedTasks = await getTodaysTasks();
         const fetchedTaskIntervals = await getTaskIntervals();
-        setDailyTasks(fetchedTasks);
+        const fetchedCompletedTasks = await getCompletedTasks();
+        setToDos(fetchedTasks);
         setTaskIntervals(fetchedTaskIntervals);
+        setCompletedTasks(fetchedCompletedTasks);
 
         // check if the user was working on a task
         const inProgressTask: Task | null = await getInProgressTask();
@@ -33,10 +36,9 @@ export const useGetTasks = () => {
         // if 12 am (next day), reset the states of everything unless the user was
         // working on something
         if (hours === 0 && minutes === 0) {
-            console.log('HAI HAI HAI');
-            if(inProgressTask) setDailyTasks([inProgressTask]);
-            else setDailyTasks([]);
+            console.log("CLEARING");
             setTaskIntervals([]);
+            setCompletedTasks([]);
 
             clearInterval(interval);
         }
@@ -49,5 +51,5 @@ export const useGetTasks = () => {
         fetchTasks();
     }, [])
     
-    return {dailyTasks, setDailyTasks, taskIntervals, setTaskIntervals, focusedTask, setFocusedTask, startedFocusedTask, setStartedFocusedTask}
+    return {toDos, setToDos, taskIntervals, setTaskIntervals, focusedTask, setFocusedTask, startedFocusedTask, setStartedFocusedTask, completedTasks, setCompletedTasks}
 }

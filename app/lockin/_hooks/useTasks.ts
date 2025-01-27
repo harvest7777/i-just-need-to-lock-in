@@ -7,7 +7,7 @@ import { renameTask } from "../_services/UpdateDailyTasks";
 import { deleteTask } from "../_services/UpdateDailyTasks";
 
 export const useTasks = () => {
-    const [dailyTasks, setDailyTasks] = useState<Task[]>([]);
+    const [toDos, setToDos] = useState<Task[]>([]);
     const [focusedTask, setFocusedTask] = useState<Task | null>(null);
     const [startedFocusedTask, setStartedFocusedTask] = useState<boolean>(false);
     const [taskIntervals, setTaskIntervals] = useState<TaskInterval[]>([]);
@@ -17,7 +17,7 @@ export const useTasks = () => {
         try {
             const fetchedTasks = await getTodaysTasks();
             const fetchedTaskIntervals = await getTaskIntervals();
-            setDailyTasks(fetchedTasks);
+            setToDos(fetchedTasks);
             setTaskIntervals(fetchedTaskIntervals);
 
             const inProgressTask: Task | null = await getInProgressTask();
@@ -51,7 +51,7 @@ export const useTasks = () => {
         // Find the old task and replace it with new task. 
         // This also means new interval and new states because you only update on pause and complete
 
-        setDailyTasks((prev) => prev.map((task)=> (
+        setToDos((prev) => prev.map((task)=> (
             task.task_id===updatedTask.task_id? updatedTask: task
         )))
 
@@ -77,7 +77,7 @@ export const useTasks = () => {
         setStartedFocusedTask(true);
         const startedTask = await startTask(task);
         // We must update the daily task with our new task data
-        setDailyTasks((prev) => prev.map((task)=> (
+        setToDos((prev) => prev.map((task)=> (
             task.task_id===startedTask.task_id? startedTask: task
         )));
         // We must update the focused task with the new task data
@@ -106,13 +106,13 @@ export const useTasks = () => {
 
     const addNewTask = async (taskName: string) => {
         const newTask = await insertDailyTask(taskName);
-        setDailyTasks((prev)=>[...prev,newTask]);
+        setToDos((prev)=>[...prev,newTask]);
     };
 
     const handleRenameTask = async(task: Task, newName: string) => {
         // Rename task in DB and immediately update on client side
         const renamedTask = await renameTask(task, newName);
-        setDailyTasks((prev) => prev.map((task)=> (
+        setToDos((prev) => prev.map((task)=> (
             task.task_id===renamedTask.task_id? renamedTask: task
         )));
         if(focusedTask?.task_id===renamedTask.task_id) focusedTask.name=renamedTask.name;
@@ -128,11 +128,11 @@ export const useTasks = () => {
         }
         // Delete the task from db and immediately update on client side
         const deletedTask = await deleteTask(task);
-        setDailyTasks((prev)=> prev.filter((t) => t.task_id!=deletedTask.task_id));
+        setToDos((prev)=> prev.filter((t) => t.task_id!=deletedTask.task_id));
         setTaskIntervals((prev)=>prev.filter((t)=> t.task_id!=deletedTask.task_id));
     };
     return {
-        dailyTasks,
+        toDos,
         focusedTask,
         startedFocusedTask,
         lockIntoTask,

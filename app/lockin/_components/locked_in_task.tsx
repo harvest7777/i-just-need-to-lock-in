@@ -20,7 +20,7 @@ const LockedInTask: React.FC<LockedInTaskProps> = ({
 }) => {
   return (
     <div className="w-full flex items-center align-middle justify-center space-x-5">
-      <h1 className="font-semibold text-2xl text-center">{focusedTask?.name}</h1>
+      <h1 className="font-semibold text-2xl text-center"> {startedFocusedTask? "🔒":"🔓"} {focusedTask?.name}</h1>
       {/* Button container */}
         {!startedFocusedTask ? (
           <CiPlay1 className="text-4xl btn-hover" onClick={()=>handleStartTask(focusedTask)}/>

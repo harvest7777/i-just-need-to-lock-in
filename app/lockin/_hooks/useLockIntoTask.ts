@@ -5,12 +5,13 @@ import JSConfetti from "js-confetti";
 export interface useLockIntoTaskProps {
     focusedTask: Task|null;
     setFocusedTask: Dispatch<SetStateAction<Task|null>>;
-    setDailyTasks: Dispatch<SetStateAction<Task[]>>;
+    setToDos: Dispatch<SetStateAction<Task[]>>;
     setTaskIntervals: Dispatch<SetStateAction<TaskInterval[]>>;
+    setCompletedTasks: Dispatch<SetStateAction<Task[]>>;
     setStartedFocusedTask: Dispatch<SetStateAction<boolean>>;
 }
 
-export const useLockIntoTask = ({focusedTask, setFocusedTask, setDailyTasks, setTaskIntervals, setStartedFocusedTask}: useLockIntoTaskProps) => {
+export const useLockIntoTask = ({focusedTask, setFocusedTask, setToDos, setTaskIntervals, setCompletedTasks, setStartedFocusedTask}: useLockIntoTaskProps) => {
     const jsConfettiRef = useRef<JSConfetti | null>(null);
 
     // lazy load confetti
@@ -35,7 +36,7 @@ export const useLockIntoTask = ({focusedTask, setFocusedTask, setDailyTasks, set
         // Find the old task and replace it with new task. 
         // This also means new interval and new states because you only update on pause and complete
 
-        setDailyTasks((prev) => prev.map((task)=> (
+        setToDos((prev) => prev.map((task)=> (
             task.task_id===updatedTask.task_id? updatedTask: task
         )))
 
@@ -79,7 +80,7 @@ export const useLockIntoTask = ({focusedTask, setFocusedTask, setDailyTasks, set
         setStartedFocusedTask(true);
         const startedTask = await startTask(task);
         // We must update the daily task with our new task data
-        setDailyTasks((prev) => prev.map((task)=> (
+        setToDos((prev) => prev.map((task)=> (
             task.task_id===startedTask.task_id? startedTask: task
         )));
         // We must update the focused task with the new task data
@@ -121,6 +122,7 @@ export const useLockIntoTask = ({focusedTask, setFocusedTask, setDailyTasks, set
 
         setStartedFocusedTask(false);
         updateTaskAndStates(task, completedTask);
+        setCompletedTasks((prev=>[...prev, completedTask]));
         setFocusedTask(null);
 
     };

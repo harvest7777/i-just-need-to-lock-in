@@ -1,12 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
-import { getTaskSeconds} from "../_services/TaskTimeUtils";
+import { getTaskSecondsFromIntervals} from "../_services/TaskTimeUtils";
 
 interface StopWatchProps {
     focusedTask: Task | null;
     startedFocusedTask: boolean;
+    taskIntervals: TaskInterval[];
 }
 
-const StopwatchComponent: React.FC<StopWatchProps> = ({ startedFocusedTask, focusedTask }) => {
+const DailyStopwatch: React.FC<StopWatchProps> = ({ startedFocusedTask, focusedTask, taskIntervals }) => {
+    useEffect(()=>{
+        if(taskIntervals.length==0) {
+            setStartTime(Date.now());
+        }
+    },[taskIntervals])
     const [startTime, setStartTime] = useState<number|null>(null);
     const [now, setNow] = useState<number|null>(null);
     const intervalRef = useRef<NodeJS.Timeout|null>(null);
@@ -15,7 +21,7 @@ const StopwatchComponent: React.FC<StopWatchProps> = ({ startedFocusedTask, focu
     const handleUpdate = async () => {
         // If there is a focused task, get its initial seconds
         if(focusedTask) {
-            initialSecondsRef.current= await getTaskSeconds(focusedTask.task_id);
+            initialSecondsRef.current= await getTaskSecondsFromIntervals(focusedTask, taskIntervals);
             // Setting start time and now time will cause secondsSpent to update, causing re render
             setStartTime(Date.now()-initialSecondsRef.current*1000);
             setNow(Date.now());
@@ -76,4 +82,4 @@ const StopwatchComponent: React.FC<StopWatchProps> = ({ startedFocusedTask, focu
     );
 };
 
-export default StopwatchComponent;
+export default DailyStopwatch;

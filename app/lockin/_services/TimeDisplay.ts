@@ -4,7 +4,7 @@ export const getTimeDisplayFromIntervals = (data: TaskInterval[]) => {
         const startLocal = new Date(interval.start_time);
         const endLocal = new Date(interval.end_time);
 
-        const diffSeconds = Math.floor((endLocal.getTime() - startLocal.getTime())/1000);
+        const diffSeconds = (endLocal.getTime() - startLocal.getTime())/1000;
         totalSeconds+=diffSeconds;
     })
 

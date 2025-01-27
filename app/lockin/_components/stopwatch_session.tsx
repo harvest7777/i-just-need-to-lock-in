@@ -1,25 +1,36 @@
 import React, { useState, useEffect, useRef } from "react";
-import { getTaskSeconds} from "../_services/TaskTimeUtils";
+import { getSecondsSinceLastStart } from "../_services/TaskTimeUtils";
 
 interface StopWatchProps {
     focusedTask: Task | null;
     startedFocusedTask: boolean;
 }
 
-const StopwatchComponent: React.FC<StopWatchProps> = ({ startedFocusedTask, focusedTask }) => {
+const SessionStopWatch: React.FC<StopWatchProps> = ({ startedFocusedTask, focusedTask }) => {
     const [startTime, setStartTime] = useState<number|null>(null);
     const [now, setNow] = useState<number|null>(null);
+    const focusRef = useRef<number>();
     const intervalRef = useRef<NodeJS.Timeout|null>(null);
     const initialSecondsRef = useRef<number>(0);
 
     const handleUpdate = async () => {
-        // If there is a focused task, get its initial seconds
-        if(focusedTask) {
-            initialSecondsRef.current= await getTaskSeconds(focusedTask.task_id);
+        // if you switch tasks, reset the timer
+        if(focusedTask && focusedTask.task_id!=focusRef.current) {
+            // reset session from 0
+            initialSecondsRef.current= await getSecondsSinceLastStart(focusedTask.task_id);
             // Setting start time and now time will cause secondsSpent to update, causing re render
             setStartTime(Date.now()-initialSecondsRef.current*1000);
             setNow(Date.now());
+
         }
+        if(focusedTask && startedFocusedTask) {
+            // reset session from 0
+            initialSecondsRef.current= await getSecondsSinceLastStart(focusedTask.task_id);
+            // Setting start time and now time will cause secondsSpent to update, causing re render
+            setStartTime(Date.now()-initialSecondsRef.current*1000);
+            setNow(Date.now());
+        } 
+            
     }
 
     const handleStart = () => {
@@ -51,6 +62,7 @@ const StopwatchComponent: React.FC<StopWatchProps> = ({ startedFocusedTask, focu
         else {
             handleStop();
         }
+        focusRef.current=focusedTask?.task_id;
         return () => {
             handleStop();
         }
@@ -76,4 +88,4 @@ const StopwatchComponent: React.FC<StopWatchProps> = ({ startedFocusedTask, focu
     );
 };
 
-export default StopwatchComponent;
+export default SessionStopWatch;

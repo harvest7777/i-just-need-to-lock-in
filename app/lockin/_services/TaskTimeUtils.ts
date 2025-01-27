@@ -27,6 +27,7 @@ export const startTask = async (task: Task) => {
 
     return data[0] as Task;
 }
+
 export const pauseTask= async (task: Task): Promise<Task>  => {
     // Pauses the unique task by updating its seconds and setting last start to null and returns it
 
@@ -104,6 +105,7 @@ export const pauseTask= async (task: Task): Promise<Task>  => {
     }
     return updatedTask[0] as Task;
 }
+
 export const completeTask= async (task: Task) => {
     // Updates the unique task and returns it
 
@@ -140,6 +142,37 @@ export const getTaskSeconds = async(taskId: number) => {
     return totalSecondsSpent;
 }
 
+export const getTaskSecondsFromIntervals = async (task: Task, taskIntervals: TaskInterval[]): Promise<number> => {
+    let secondsSinceLastStart = await getSecondsSinceLastStart(task.task_id);
+
+    // calculate how long you spent working today when tasks refresh
+    const now = new Date();
+
+    const startOfDay = new Date();
+    startOfDay.setHours(0,0,0); //12 am 
+
+    const lastStart = new Date(now.getTime() - (secondsSinceLastStart*1000));
+    // if you started the task before today, only count today's working time
+    if(lastStart.getDay()!=startOfDay.getDay()) {
+        let offset=0;
+        offset = Math.floor((startOfDay.getTime()-lastStart.getTime())/1000);
+        secondsSinceLastStart-=offset;
+    }
+
+    let seconds=0;
+
+    // calcaulte seconds spent during each interval today
+    taskIntervals
+    .filter((interval) => interval.task_id==task.task_id)
+    .map((interval) => {
+        const start = new Date(interval.start_time);
+        const end = new Date(interval.end_time);
+        const intervalSeconds = Math.floor((end.getTime()-start.getTime())/1000);
+        seconds+=intervalSeconds;
+    })
+    return seconds + secondsSinceLastStart;
+}
+
 export const getInProgressTask = async(): Promise<Task|null> => {
     // Find a task, if any, that is in progress and return its id. If no task in progress, return null
     const userId = (await supabase.auth.getUser()).data.user?.id;
@@ -158,6 +191,7 @@ export const getInProgressTask = async(): Promise<Task|null> => {
     if(data) return data[0] as Task;
     return null;
 }
+
 export const getSecondsSinceLastStart = async (taskId: number) => {
     const { data, error } = await supabase
         .from("tasks")

@@ -14,11 +14,13 @@ export const getTodaysTasks = async (): Promise<Task[]> => {
     // get tasks that were created today
     // get tasks which were updated today
     // get tasks which are currently in progress
+
     const {data, error} = await supabase
     .from("tasks")
     .select("*")
     .eq("user_id", userId)
-    .or(`and(updated_at.gte.${startOfDayUTC},updated_at.lte.${endOfDayUTC}),last_start_time.not.is.null,and(created_at.gte.${startOfDayUTC},created_at.lte.${endOfDayUTC})`);
+    .eq("is_complete", false);
+    // .or(`and(updated_at.gte.${startOfDayUTC},updated_at.lte.${endOfDayUTC}),last_start_time.not.is.null,and(created_at.gte.${startOfDayUTC},created_at.lte.${endOfDayUTC})`);
     
     if(error) {
         console.log("getTodaysTasks() - Error fetching daily tasks");
@@ -53,6 +55,32 @@ export const getTaskIntervals = async(): Promise<TaskInterval[]> => {
     }
     return data as TaskInterval[];
 }
+
+export const getCompletedTasks = async(): Promise<Task[]> => {
+    const { startOfDayUTC, endOfDayUTC} = getDayStartEnd();
+    
+    const userId = (await supabase.auth.getUser()).data.user?.id;
+    if(userId==null) {
+        console.log("getCompleteTasks() - Error fetching user ID");
+        throw new Error("Error getting user ID");
+    }
+    const{data, error} = await supabase
+    .from("tasks")
+    .select("*")
+    .eq("user_id", userId)
+    .eq("is_complete", true)
+    .gte("updated_at", startOfDayUTC)
+    .lte("updated_at", endOfDayUTC);
+
+    if(error) {
+        console.log("Error fetching cmopleted tasks");
+        throw error;
+    }
+    console.log("completed: ", data);
+    return data as Task[];
+    
+}
+
 export const calculateHourlyIntervals = (data: TaskInterval[]) => {
     const intervals = Array(24).fill(0);
 
