@@ -21,7 +21,8 @@ export default function Changelog() {
             <span className="text-yellow-600 font-bold">In development - </span>
             <span className="text-neutral-400">Lock in history and statistics</span>
         </div>
-        <div>
+        <div className="max-h-24 overflow-y-auto">
+            <p className="text-neutral-400">1/26/2025 - Added support for Google login</p>
             <p className="text-neutral-400">1/25/2025 - Added confirmation when removing a friend</p>
             <p className="text-neutral-400">1/25/2025 - UI changes</p>
             <p className="text-neutral-400">1/25/2025 - Added confirmation when deleting a task</p>
@@ -36,7 +37,7 @@ export default function Changelog() {
             <p className="text-neutral-400">1/20/2025 - Fixed null total time when completing a task</p>
             <p className="text-neutral-400">1/19/2025 - Fixed activity status not updating on desktop</p>
         </div>
-        <h1 className="text-neutral-400 mt-2">🤍 Your feedback is valuable. If you encounter any bugs or want a feature added please reach out to me on discord @bagillionaire.</h1>
+        <h1 className="text-neutral-400 mt-2">🤍 Your feedback is valuable. If you encounter any bugs or ideas please reach out to me on discord @bagillionaire.</h1>
        </div> 
         }
         </>
