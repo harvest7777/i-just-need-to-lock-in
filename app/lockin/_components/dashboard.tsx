@@ -15,6 +15,7 @@ import DailyStopwatch from "./stopwatch_daily";
 import { useState } from "react";
 import ChooseDisplay from "./choose_display_dropdown";
 import SessionStopWatch from "./stopwatch_session";
+import { setDefaultAutoSelectFamily } from "net";
 
 export default function Dashboard() {
     const {toDos, setToDos, focusedTask, setFocusedTask, startedFocusedTask, setStartedFocusedTask, taskIntervals, setTaskIntervals, completedTasks, setCompletedTasks} = useGetTasks();
@@ -24,7 +25,7 @@ export default function Dashboard() {
     const [timerDisplay, setTimerDisplay] = useState<string>("session");
     return(
         <>
-        <StillWorkingModal focusedTask={focusedTask}/>
+        <StillWorkingModal focusedTask={focusedTask} setFocusedTask={setFocusedTask} setToDos={setToDos} setStartedFocusedTask={setStartedFocusedTask}/>
         <div className="flex md:flex-row md:gap-x-5 flex-col space-y-3">
             {/* graph and changelog container */}
             <div className="md:order-2 order-1 md:w-3/5 w-full flex flex-col">

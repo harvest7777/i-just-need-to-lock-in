@@ -18,6 +18,7 @@ export default function Changelog() {
             <span className="text-neutral-400">Lock in history</span>
         </div>
         <div className="max-h-24 overflow-y-auto">
+            <p className="text-neutral-400">🟩 1/27/2025 - Added option to cancel session if you accidentally leave a timer running</p>
             <p className="text-neutral-400">🟩 1/26/2025 - Added total time spent to completed tasks</p>
             <p className="text-neutral-400">🟩 1/26/2025 - Added session timer</p>
             <p className="text-neutral-400">🔃 1/26/2025 - Tasks no longer reset daily</p>
