@@ -18,7 +18,6 @@ export const useAcceptedFriends = () => {
     const handleVisibilityChange = () => {
         if (document.visibilityState==="visible") {
             getAndSetAcceptedFriends();
-            console.log("doc is visible")
         }
     }
 

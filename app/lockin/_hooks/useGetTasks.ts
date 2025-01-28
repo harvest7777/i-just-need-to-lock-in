@@ -35,7 +35,7 @@ export const useGetTasks = () => {
         
         // if 12 am (next day), reset the states of everything unless the user was
         // working on something
-        if (hours === 0 && minutes === 0) {
+        if (hours === 0  && minutes === 0) {
             console.log("CLEARING");
             setTaskIntervals([]);
             setCompletedTasks([]);

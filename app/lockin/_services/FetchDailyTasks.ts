@@ -76,7 +76,6 @@ export const getCompletedTasks = async(): Promise<Task[]> => {
         console.log("Error fetching cmopleted tasks");
         throw error;
     }
-    console.log("completed: ", data);
     return data as Task[];
     
 }

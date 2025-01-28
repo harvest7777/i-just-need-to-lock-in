@@ -18,6 +18,11 @@ export const usePendingFriends= () => {
         const friends = await FetchPendingFriends();
         setPendingFriends(friends);
     }
+    const handleVisibilityChange = () => {
+        if (document.visibilityState==="visible") {
+            getAndSetPendingFriends();
+        }
+    }
 
     // Update pending friends with new payload
     const handlePayload = async(payload: {new: PayloadNewResponse}) => {
@@ -59,8 +64,9 @@ export const usePendingFriends= () => {
         }
 
         initialize();
-
+        document.addEventListener('visibilitychange', handleVisibilityChange);
         return () => {
+            document.removeEventListener('visibilitychange', handleVisibilityChange);
             if(channel) {
                 supabase.removeChannel(channel);
             }

@@ -21,7 +21,7 @@ export default function Dashboard() {
     const {lockIntoTask, handleStartTask, handlePauseTask, handleCompleteTask} = useLockIntoTask({focusedTask, setFocusedTask, setToDos, setTaskIntervals, setCompletedTasks,setStartedFocusedTask});
     const {addNewTask, handleRenameTask, handleDeleteTask} = useManageTasks({focusedTask, setFocusedTask, setToDos, setTaskIntervals, setStartedFocusedTask});
 
-    const [timerDisplay, setTimerDisplay] = useState<string>("today");
+    const [timerDisplay, setTimerDisplay] = useState<string>("session");
     return(
         <>
         <StillWorkingModal focusedTask={focusedTask}/>
