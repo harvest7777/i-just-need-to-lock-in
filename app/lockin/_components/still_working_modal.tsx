@@ -42,7 +42,7 @@ export default function StillWorkingModal({focusedTask, setFocusedTask, setToDos
         setVisible(false);
     }
     return (
-        (visible && focusedTask!=null && secondsSpent >= 1) &&
+        (visible && focusedTask!=null && secondsSpent >= 3600) &&
         <div className="fixed top-0 left-0 w-full min-h-full flex justify-center md:items-start items-center z-50">
             {/* Background Overlay */}
             <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50"></div>
