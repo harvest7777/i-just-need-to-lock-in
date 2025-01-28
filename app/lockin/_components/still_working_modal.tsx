@@ -37,6 +37,11 @@ export default function StillWorkingModal({focusedTask, setFocusedTask, setToDos
         if(updatedTask) {
             updatedTask.last_start_time=null;
             broadcastUpdatedTask(updatedTask);
+            setToDos((prev) =>
+                prev.map((task) =>
+                    task.task_id === updatedTask.task_id ? { ...task, ...updatedTask } : task
+                )
+            );
         }
         setFocusedTask(null);
         setVisible(false);

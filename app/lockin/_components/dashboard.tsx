@@ -15,7 +15,6 @@ import DailyStopwatch from "./stopwatch_daily";
 import { useState } from "react";
 import ChooseDisplay from "./choose_display_dropdown";
 import SessionStopWatch from "./stopwatch_session";
-import { setDefaultAutoSelectFamily } from "net";
 
 export default function Dashboard() {
     const {toDos, setToDos, focusedTask, setFocusedTask, startedFocusedTask, setStartedFocusedTask, taskIntervals, setTaskIntervals, completedTasks, setCompletedTasks} = useGetTasks();
