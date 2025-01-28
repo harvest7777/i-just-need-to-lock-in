@@ -244,3 +244,19 @@ export const broadcastUpdatedTask = async(updatedTask: Task) => {
     });
 
 }
+
+export const cancelLastStart = async(task: Task|null) => {
+    if(task==null) return;
+    const userId = (await supabase.auth.getUser()).data.user?.id;
+    if(userId==null) {
+        console.log("cancelLastStart() - Error getting user ID");
+        throw new Error("couldn't get user id");
+    }
+    const { data, error} = await supabase
+    .from("tasks")
+    .update({last_start_time: null})
+    .eq("user_id", userId)
+    .eq("task_id", task.task_id);
+    console.log(data);
+    if(error) throw error;
+}

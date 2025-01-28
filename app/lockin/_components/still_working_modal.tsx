@@ -1,12 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { getTimeDisplayFromSeconds } from "../_services/TimeDisplay";
+import { broadcastUpdatedTask, cancelLastStart } from "../_services/TaskTimeUtils";
 
 interface StillWorkingModalProps {
     focusedTask: Task|null;
+    setFocusedTask: Dispatch<SetStateAction<Task|null>>;
+    setToDos: Dispatch<SetStateAction<Task[]>>;
+    setStartedFocusedTask: Dispatch<SetStateAction<boolean>>;
 }
-export default function StillWorkingModal({focusedTask}: StillWorkingModalProps) {
+export default function StillWorkingModal({focusedTask, setFocusedTask, setToDos, setStartedFocusedTask}: StillWorkingModalProps) {
     const [secondsSpent, setSecondsSpent] = useState<number>(0);
     const [timeSpent, setTimeSpent] = useState<string>("0 min");
     const [visible, setVisible] = useState<boolean>(true);
@@ -26,6 +30,22 @@ export default function StillWorkingModal({focusedTask}: StillWorkingModalProps)
 
     },[focusedTask])
     
+    const handleCancelSession = () => {
+        setStartedFocusedTask(false);
+        cancelLastStart(focusedTask);
+        let updatedTask = focusedTask;
+        if(updatedTask) {
+            updatedTask.last_start_time=null;
+            broadcastUpdatedTask(updatedTask);
+            setToDos((prev) =>
+                prev.map((task) =>
+                    task.task_id === updatedTask.task_id ? { ...task, ...updatedTask } : task
+                )
+            );
+        }
+        setFocusedTask(null);
+        setVisible(false);
+    }
     return (
         (visible && focusedTask!=null && secondsSpent >= 3600) &&
         <div className="fixed top-0 left-0 w-full min-h-full flex justify-center md:items-start items-center z-50">
@@ -44,11 +64,14 @@ export default function StillWorkingModal({focusedTask}: StillWorkingModalProps)
                 </div>
                 
                 <div className="mt-3">
-                    <span>If this was a mistake, you can delete the task to avoid logging </span>
+                    <span>If this was a mistake, you can cancel this session to avoid adding </span>
                     <span className="px-2 bg-appBg rounded-xl">{timeSpent}</span>
                     <span> to your graph and total time.</span>
                 </div>
-                <p onClick={()=>setVisible(false)} className="mt-3 p-2 text-center text-appFg rounded-xl font-bold bg-emerald-600 w-fit btn-hover">OK</p>
+                <div className="flex space-x-8">
+                <p onClick={()=>handleCancelSession()} className="mt-3 p-2 text-center text-appFg bg-red-600 rounded-xl font-bold w-fit btn-hover">Cancel Session</p>
+                <p onClick={()=>setVisible(false)} className="mt-3 p-2 text-center text-appFg rounded-xl font-bold bg-neutral-400 w-fit btn-hover">Continue Session</p>
+                </div>
             </div>
         </div>
     );

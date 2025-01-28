@@ -9,7 +9,7 @@ interface StopWatchProps {
 const SessionStopWatch: React.FC<StopWatchProps> = ({ startedFocusedTask, focusedTask }) => {
     const [startTime, setStartTime] = useState<number|null>(null);
     const [now, setNow] = useState<number|null>(null);
-    const focusRef = useRef<number>();
+    const focusRef = useRef<number|null>(null);
     const intervalRef = useRef<NodeJS.Timeout|null>(null);
     const initialSecondsRef = useRef<number>(0);
 
@@ -62,7 +62,8 @@ const SessionStopWatch: React.FC<StopWatchProps> = ({ startedFocusedTask, focuse
         else {
             handleStop();
         }
-        focusRef.current=focusedTask?.task_id;
+        if(focusedTask) focusRef.current=focusedTask.task_id;
+        else focusRef.current=null;
         return () => {
             handleStop();
         }
