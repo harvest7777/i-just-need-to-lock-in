@@ -150,7 +150,6 @@ export const getFriendTaskIntervals = async(friend: Friend): Promise<TaskInterva
 }
 
 export const getFriendActivity = async(friends: Friend[]): Promise<Map<string, Task>> => { 
-  console.log("updating friend activity");
   let map = new Map();
   await Promise.all( friends.map(async (friend) => {
     const {data,error} = await supabase

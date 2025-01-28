@@ -5,24 +5,24 @@ import { broadcastUpdatedTask } from "../_services/TaskTimeUtils";
 
 interface useManageTasksProps {
     focusedTask: Task|null;
-    setDailyTasks: Dispatch<SetStateAction<Task[]>>;
+    setToDos: Dispatch<SetStateAction<Task[]>>;
     setTaskIntervals: Dispatch<SetStateAction<TaskInterval[]>>;
     setStartedFocusedTask: Dispatch<SetStateAction<boolean>>;
     setFocusedTask: Dispatch<SetStateAction<Task|null>>;
 }
 
-export const useManageTasks = ({focusedTask, setDailyTasks, setTaskIntervals, setStartedFocusedTask, setFocusedTask}: useManageTasksProps) => {
+export const useManageTasks = ({focusedTask, setToDos, setTaskIntervals, setStartedFocusedTask, setFocusedTask}: useManageTasksProps) => {
 
     const addNewTask = async (taskName: string) => {
         // Add task in DB and immediately update on client side
         const newTask = await insertDailyTask(taskName);
-        setDailyTasks((prev)=>[...prev,newTask]);
+        setToDos((prev)=>[...prev,newTask]);
     };
 
     const handleRenameTask = async(task: Task, newName: string) => {
         // Rename task in DB and immediately update on client side
         const renamedTask = await renameTask(task, newName);
-        setDailyTasks((prev) => prev.map((task)=> (
+        setToDos((prev) => prev.map((task)=> (
             task.task_id===renamedTask.task_id? renamedTask: task
         )));
         if(focusedTask?.task_id===renamedTask.task_id) focusedTask.name=renamedTask.name;
@@ -39,7 +39,7 @@ export const useManageTasks = ({focusedTask, setDailyTasks, setTaskIntervals, se
         }
         // Delete the task from db and immediately update on client side
         const deletedTask = await deleteTask(task);
-        setDailyTasks((prev)=> prev.filter((t) => t.task_id!=deletedTask.task_id));
+        setToDos((prev)=> prev.filter((t) => t.task_id!=deletedTask.task_id));
         setTaskIntervals((prev)=>prev.filter((t)=> t.task_id!=deletedTask.task_id));
     }
     return {addNewTask, handleRenameTask, handleDeleteTask};

@@ -7,7 +7,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import ConfirmDeleteModal from "./confirm_delete_modal";
 
 interface IncompleteTasksProps {
-  dailyTasks: Task[];
+  toDos: Task[];
   lockIntoTask: (task: Task) => void;
   handleRenameTask: (task: Task, taskName: string) => void;
   handleDeleteTask:(task:Task) => void;
@@ -18,7 +18,7 @@ interface FormData {
 }
 
 const IncompleteTasks: React.FC<IncompleteTasksProps> = ({
-  dailyTasks,
+  toDos,
   lockIntoTask,
   handleRenameTask,
   handleDeleteTask
@@ -42,7 +42,7 @@ const IncompleteTasks: React.FC<IncompleteTasksProps> = ({
     <div className="flex flex-col items-center w-full p-2">
       <ConfirmDeleteModal taskToDelete={taskToDelete} setTaskToDelete={setTaskToDelete} handleDeleteTask={handleDeleteTask}/>
       <h1 className="font-bold text-xl pl-2 w-full">To Do</h1>
-      {dailyTasks?.map( (task) => !task.is_complete && (
+      {toDos?.map( (task) => !task.is_complete && (
         // list out incomplete tasks and corresponding buttons
         <div className="my-1 flex space-x-1 w-full rounded-xl" key={task.task_id}>
           <CiLock className="text-2xl w-1/5 btn-hover hover:text-green-600" onClick={() => lockIntoTask(task)}/>
