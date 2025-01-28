@@ -29,7 +29,7 @@ const ChooseDisplay:React.FC<ChooseDisplayInterface> = ({timerDisplay,setTimerDi
             className={`transition-transform duration-200 ${ isOpen ? "rotate-180" : "rotate-0"}`}/>
         </div>
         {isOpen && (
-            <div className="absolute top-10 left-0 bg-appBg rounded-xl px-2 py-1 w-36 divide-y divide-gray-700 cursor-default">
+            <div className="absolute top-10 left-0 bg-appBg rounded-xl border-4 border-appFg px-2 py-1 w-36 divide-y divide-gray-700 cursor-default">
                 <p onClick={handleShowSession}>session ✨</p>
                 <p onClick={handleShowToday}>today</p>
                 <p onClick={handleShowTotal}>total</p>

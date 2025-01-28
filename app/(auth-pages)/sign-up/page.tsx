@@ -32,6 +32,12 @@ export default async function Signup(props: {
           <Label htmlFor="name">Name</Label>
           <Input name="name" placeholder="Silly Guy" required />
           <Label htmlFor="email">Email</Label>
+          <div className="text-xs italic">
+            <span>*Unfortunately, </span>
+            <span className="font-bold">Outlook</span>
+            <span> isn't currently supported.</span>
+          </div>
+
           <Input name="email" placeholder="you@example.com" required />
           <Label htmlFor="password">Password</Label>
           <Input
