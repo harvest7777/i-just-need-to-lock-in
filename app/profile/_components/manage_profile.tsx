@@ -83,10 +83,6 @@ export default function ManageProfile () {
                 <p className="w-1/3">email</p>
                 <p className="w-2/3 bg-appBg rounded-xl pl-2">{userData.email}</p>
             </div>
-            <div className="flex">
-                <p className="w-1/3">password</p>
-                <Link href="/reset-password"  className="w-2/3 bg-emerald-600 text-appFg rounded-xl text-center btn-hover">Reset password</Link>
-            </div>
         </div>
     )
 }
