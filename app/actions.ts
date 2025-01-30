@@ -8,26 +8,20 @@ import { redirect } from "next/navigation";
 export const signUpAction = async (formData: FormData) => {
   const name = formData.get("name")?.toString();
   const email = formData.get("email")?.toString();
-  const password = formData.get("password")?.toString();
   const supabase = await createClient();
-  const origin = (await headers()).get("origin");
 
-  if (!email || !password) {
+  if (!email || !name?.trim()) {
     return encodedRedirect(
       "error",
       "/sign-up",
-      "Email and password are required",
+      "Email and Username required",
     );
   }
 
-  const { error } = await supabase.auth.signUp({
-    email,
-    password,
-    options: {
-      emailRedirectTo: `${origin}/auth/callback`,
-      data: { name },
-    },
-  });
+  const{error} = await supabase.auth.signInWithOtp({email, options: {
+    data: {name},
+    shouldCreateUser:true
+  }})
 
   if (error) {
     console.error(error.code + " " + error.message);
@@ -35,27 +29,58 @@ export const signUpAction = async (formData: FormData) => {
   } else {
     return encodedRedirect(
       "success",
-      "/sign-up",
-      "Thanks for signing up! Please check your email for a verification link.",
-    );
+      "/verify-otp",
+      email
+    )
   }
 };
 
-export const signInAction = async (formData: FormData) => {
-  const email = formData.get("email") as string;
-  const password = formData.get("password") as string;
+export const confirmOTP = async(formData: FormData, email:string) => {
+  const supabase = await createClient();
+  const token = formData.get("code")?.toString();
+  if(!token) return;
+  const { error } = await supabase.auth.verifyOtp({ email, token, type: 'email'})
+
+  if(error) return encodedRedirect(
+    "error",
+    "/verify-otp",
+    error.message
+  )
+  return redirect("/lockin") 
+}
+
+export const tryAgainOTP = async(email:string) => {
   const supabase = await createClient();
 
-  const { error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  });
+  const{error} = await supabase.auth.signInWithOtp({email, options: {
+    shouldCreateUser: false
+  }})
+  if(error) return encodedRedirect(
+    "error",
+    "/verify-otp",
+    error.message
+  )
+}
 
-  if (error) {
-    return encodedRedirect("error", "/sign-in", error.message);
+export const signInAction = async (formData: FormData) => {
+  const email = formData.get("email") as string;
+  const supabase = await createClient();
+
+  const{error} = await supabase.auth.signInWithOtp({email, options: {
+    shouldCreateUser:false
+  }})
+  if(error) {
+    return encodedRedirect(
+      "error",
+      "/verify-otp",
+      error.message
+    )
   }
-
-  return redirect("/lockin");
+  return encodedRedirect(
+    "success",
+    "/verify-otp",
+    email
+  ) 
 };
 
 export const signInWithGoogle = async () => {

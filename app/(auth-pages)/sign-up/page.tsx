@@ -12,8 +12,9 @@ export default async function Signup(props: {
   const searchParams = await props.searchParams;
   if ("message" in searchParams) {
     return (
-      <div className="w-full flex-1 flex items-center h-screen sm:max-w-md justify-center gap-2 p-4">
-        <FormMessage message={searchParams} />
+      <div className=" w-full flex-1 flex items-center h-screen sm:max-w-md justify-center gap-2 p-4">
+        <FormMessage message={searchParams} />      
+
       </div>
     );
   }
@@ -32,28 +33,18 @@ export default async function Signup(props: {
           <Label htmlFor="name">Name</Label>
           <Input name="name" placeholder="Silly Guy" required />
           <Label htmlFor="email">Email</Label>
-          <div className="text-xs italic">
-            <span>*Unfortunately, </span>
-            <span className="font-bold">Outlook</span>
-            <span> isn't currently supported.</span>
-          </div>
-
           <Input name="email" placeholder="you@example.com" required />
-          <Label htmlFor="password">Password</Label>
-          <Input
-            type="password"
-            name="password"
-            placeholder="Your password"
-            minLength={6}
-            required
-          />
           <SubmitButton className="bg-emerald-600 rounded-lg text-appFg btn-hover" formAction={signUpAction} pendingText="Signing up...">
             Sign up
           </SubmitButton>
           <SignInWithGoogleButton />
           <FormMessage message={searchParams} />
         </div>
+
       </form>
+      
+
+
     </div>
   );
 }
