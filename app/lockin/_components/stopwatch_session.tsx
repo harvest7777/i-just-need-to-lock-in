@@ -82,11 +82,11 @@ const SessionStopWatch: React.FC<StopWatchProps> = ({ startedFocusedTask, focuse
     };
 
     return (
-        <div className="flex items-center align-middle justify-center space-x-2">
-            <h1 className="text-2xl w-fit px-2 bg-appBg rounded-xl">
+        <div className="md:text-2xl text-xl flex items-center align-middle justify-center space-x-2">
+            <h1 className="w-fit px-2 bg-appBg rounded-xl">
                 {formatTime(secondsPassed)} {/* Display the formatted time */}
             </h1>
-            {focusedTask?.last_start_time && <h1 onClick={()=>setCancelVisible(true)} className="text-2xl w-fit px-2 bg-appBg rounded-xl btn-hover hover:bg-red-600 hover:text-appFg">cancel</h1>}
+            {focusedTask?.last_start_time && <h1 onClick={()=>setCancelVisible(true)} className="w-fit px-2 bg-appBg rounded-xl btn-hover hover:bg-red-600 hover:text-appFg">cancel</h1>}
         </div>
     );
 };

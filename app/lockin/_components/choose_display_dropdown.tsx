@@ -23,7 +23,7 @@ const ChooseDisplay:React.FC<ChooseDisplayInterface> = ({timerDisplay,setTimerDi
     }
     return (
         <div className="relative">
-        <div onClick={()=>setIsOpen(!isOpen)} className="pl-2 text-2xl rounded-xl bg-appBg flex flex-row items-center justify-center align-middle cursor-pointer gap-x-2">
+        <div onClick={()=>setIsOpen(!isOpen)} className="pl-2 md:text-2xl text-xl rounded-xl bg-appBg flex flex-row items-center justify-center align-middle cursor-pointer gap-x-2">
             {timerDisplay}
             <RiArrowDropDownLine
             className={`transition-transform duration-200 ${ isOpen ? "rotate-180" : "rotate-0"}`}/>
