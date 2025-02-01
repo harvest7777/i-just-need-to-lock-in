@@ -3,8 +3,6 @@ import { supabase } from "@/utils/supabase/supabase";
 import { getDayStartEnd } from "./TaskTimeUtils";
 
 export const getTodaysTasks = async (): Promise<Task[]> => {
-    const {startOfDayUTC, endOfDayUTC} = getDayStartEnd();
-
     const userId = (await supabase.auth.getUser()).data.user?.id;
     if(userId==null) {
         console.log("getTodaysTasks() - Error fetching user ID");

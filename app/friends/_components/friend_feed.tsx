@@ -31,13 +31,14 @@ export default function FriendFeed() {
 
     return(
         <div className="w-full flex flex-col items-center">
+        <h1 className="text-center text-emerald-600 font-bold text-3xl mt-5 bg-appFg p-2 px-4 rounded-2xl">Friend Feed</h1>
         {friendData.length > 0? (
         <>
         {friendData
         .slice()
         .sort((a,b) => b.totalSeconds - a.totalSeconds)
         .map((data)=> (
-            <div key={data.friend.user_id} className="p-2 bg-appFg rounded-2xl mt-10 md:w-3/5 w-full">
+            <div key={data.friend.user_id} className="p-2 bg-appFg rounded-2xl mt-5 md:w-3/5 w-full">
                 <div className="flex justify-between mb-1">
                 <p className="text-2xl ml-5">{data.friend.name}</p>
                 <p className="text-2xl italic mr-5">{friendActivity.get(data.friend.user_id)?.last_start_time? `🔒${friendActivity.get(data.friend.user_id)?.name}`: ("Unlocked")}</p>
