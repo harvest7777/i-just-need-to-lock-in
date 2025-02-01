@@ -64,7 +64,7 @@ export default function Dashboard() {
                     <NewTaskForm addNewTask={addNewTask}/>
                 </div>
                 <div className="bg-appFg rounded-2xl">
-                    <CompletedTasks completedTasks={completedTasks} taskIntervals={taskIntervals}/>
+                    <CompletedTasks completedTasks={completedTasks} taskIntervals={taskIntervals} setToDos={setToDos} setCompletedTasks={setCompletedTasks}/>
                 </div>
             </div>
             {/* container for friends */}
