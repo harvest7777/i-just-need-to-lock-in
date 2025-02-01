@@ -14,10 +14,11 @@ export default function Changelog() {
         <IoCloseOutline className="text-3xl text-red-800 btn-hover md:w-min w-1/12" onClick={()=>setVisible(false)}/>
         </div>
         <div className="mb-2">
-            <span className="text-yellow-600 font-bold">In development - </span>
+            <span className="text-green-600 font-bold">Public Testing - </span>
             <span className="text-neutral-400">Lock in history</span>
         </div>
         <div className="max-h-24 overflow-y-auto">
+            <p className="text-neutral-400">🟩 1/31/2025 - Added weekly lock in history</p>
             <p className="text-neutral-400">🔃 1/29/2025 - Sign up and login now use OTP to support Outlook emails</p>
             <p className="text-neutral-400">🟩 1/27/2025 - Added option to cancel session if you accidentally leave a timer running</p>
             <p className="text-neutral-400">🟩 1/26/2025 - Added total time spent to completed tasks</p>
