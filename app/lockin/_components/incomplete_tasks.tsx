@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { CiLock } from "react-icons/ci";
+import { MdLock } from "react-icons/md";
 import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
 import { IoCheckmarkOutline } from "react-icons/io5";
 import { useForm } from "react-hook-form";
@@ -45,7 +45,7 @@ const IncompleteTasks: React.FC<IncompleteTasksProps> = ({
       {toDos?.map( (task) => !task.is_complete && (
         // list out incomplete tasks and corresponding buttons
         <div className="my-1 flex space-x-1 w-full rounded-xl" key={task.task_id}>
-          <CiLock className="text-2xl w-1/5 btn-hover hover:text-green-600" onClick={() => lockIntoTask(task)}/>
+          <MdLock className="text-2xl w-1/5 btn-hover text-appBg hover:text-green-600" onClick={() => lockIntoTask(task)}/>
 
           {/* if the task is being edited, show input box */}
           {editingTaskId === task.task_id ? (

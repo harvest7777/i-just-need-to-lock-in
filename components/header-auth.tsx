@@ -1,9 +1,7 @@
 import { signOutAction } from "@/app/actions";
 import { createClient } from "@/utils/supabase/server";
-import { LiaUserFriendsSolid } from "react-icons/lia";
 import { PiSignOut } from "react-icons/pi";
 import { MdLock } from "react-icons/md";
-import { MdOutlineAutoGraph } from "react-icons/md";
 import { LuSettings } from "react-icons/lu";
 import Dropdown from "./ui/dropdown";
 import Link from "next/link";
