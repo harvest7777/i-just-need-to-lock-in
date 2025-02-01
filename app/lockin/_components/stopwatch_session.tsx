@@ -1,12 +1,13 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, SetStateAction, Dispatch } from "react";
 import { getSecondsSinceLastStart } from "../_services/TaskTimeUtils";
 
 interface StopWatchProps {
     focusedTask: Task | null;
     startedFocusedTask: boolean;
+    setCancelVisible: Dispatch<SetStateAction<boolean>>;
 }
 
-const SessionStopWatch: React.FC<StopWatchProps> = ({ startedFocusedTask, focusedTask }) => {
+const SessionStopWatch: React.FC<StopWatchProps> = ({ startedFocusedTask, focusedTask, setCancelVisible }) => {
     const [startTime, setStartTime] = useState<number|null>(null);
     const [now, setNow] = useState<number|null>(null);
     const focusRef = useRef<number|null>(null);
@@ -81,10 +82,11 @@ const SessionStopWatch: React.FC<StopWatchProps> = ({ startedFocusedTask, focuse
     };
 
     return (
-        <div className="flex flex-col items-center">
+        <div className="flex items-center align-middle justify-center space-x-2">
             <h1 className="text-2xl w-fit px-2 bg-appBg rounded-xl">
                 {formatTime(secondsPassed)} {/* Display the formatted time */}
             </h1>
+            {focusedTask?.last_start_time && <h1 onClick={()=>setCancelVisible(true)} className="text-2xl w-fit px-2 bg-appBg rounded-xl btn-hover hover:bg-red-600 hover:text-appFg">cancel</h1>}
         </div>
     );
 };

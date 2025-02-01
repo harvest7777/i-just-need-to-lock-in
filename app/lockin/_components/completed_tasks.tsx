@@ -33,7 +33,7 @@ const CompletedTasks: React.FC<CompletedTasksProps> = ({ completedTasks, taskInt
         return (
           <div className="flex w-full my-1" key={task.task_id}>
             <RiArrowGoBackFill onClick={()=>handleMarkTaskIncomplete(task)} className="text-appBg text-2xl btn-hover w-1/5 hover:text-orange-400"/>
-            <p className="italic pl-2 line-through w-3/5 text-neutral-400">
+            <p className="italic line-through w-3/5 text-neutral-400">
               {task.name}
             </p>
             {timeSpentDisplay=="today" && (<p className="w-1/5 italic text-neutral-400 rounded-r-md rounded-tr-md text-right pr-2">{dailyMinutes}m</p>)}
