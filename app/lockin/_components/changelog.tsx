@@ -18,6 +18,7 @@ export default function Changelog() {
             <span className="text-neutral-400">Lock in history</span>
         </div>
         <div className="max-h-24 overflow-y-auto">
+            <p className="text-neutral-400">🟩 2/1/2025 - Added ability to cancel session on demand</p>
             <p className="text-neutral-400">🟩 2/1/2025 - Added ability to mark tasks incomplete</p>
             <p className="text-neutral-400">🟩 1/31/2025 - Added weekly lock in history</p>
             <p className="text-neutral-400">🔃 1/29/2025 - Sign up and login now use OTP to support Outlook emails</p>

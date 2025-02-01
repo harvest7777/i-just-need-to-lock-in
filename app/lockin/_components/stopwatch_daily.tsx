@@ -1,13 +1,14 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, Dispatch, SetStateAction } from "react";
 import { getTaskSecondsFromIntervals} from "../_services/TaskTimeUtils";
 
 interface StopWatchProps {
     focusedTask: Task | null;
     startedFocusedTask: boolean;
     taskIntervals: TaskInterval[];
+    setCancelVisible: Dispatch<SetStateAction<boolean>>;
 }
 
-const DailyStopwatch: React.FC<StopWatchProps> = ({ startedFocusedTask, focusedTask, taskIntervals }) => {
+const DailyStopwatch: React.FC<StopWatchProps> = ({ startedFocusedTask, focusedTask, taskIntervals, setCancelVisible }) => {
     useEffect(()=>{
         if(taskIntervals.length==0) {
             setStartTime(Date.now());
@@ -74,10 +75,11 @@ const DailyStopwatch: React.FC<StopWatchProps> = ({ startedFocusedTask, focusedT
     };
 
     return (
-        <div className="flex flex-col items-center">
+        <div className="flex items-center align-middle justify-center space-x-2">
             <h1 className="text-2xl w-fit px-2 bg-appBg rounded-xl">
                 {formatTime(secondsPassed)} {/* Display the formatted time */}
             </h1>
+            {focusedTask?.last_start_time && <h1 onClick={()=>setCancelVisible(true)} className="text-2xl w-fit px-2 bg-appBg rounded-xl btn-hover hover:bg-red-600 hover:text-appFg">cancel</h1>}
         </div>
     );
 };

@@ -22,9 +22,12 @@ export default function Dashboard() {
     const {addNewTask, handleRenameTask, handleDeleteTask} = useManageTasks({focusedTask, setFocusedTask, setToDos, setTaskIntervals, setStartedFocusedTask});
 
     const [timerDisplay, setTimerDisplay] = useState<string>("session");
+
+
+    const [cancelVisible, setCancelVisible] = useState<boolean>(false);
     return(
         <>
-        <StillWorkingModal focusedTask={focusedTask} setFocusedTask={setFocusedTask} setToDos={setToDos} setStartedFocusedTask={setStartedFocusedTask}/>
+        {cancelVisible&&<StillWorkingModal focusedTask={focusedTask} setFocusedTask={setFocusedTask} setToDos={setToDos} setStartedFocusedTask={setStartedFocusedTask} setCancelVisible={setCancelVisible}/>}
         <div className="flex md:flex-row md:gap-x-5 flex-col space-y-3">
             {/* graph and changelog container */}
             <div className="md:order-2 order-1 md:w-3/5 w-full flex flex-col">
@@ -37,13 +40,13 @@ export default function Dashboard() {
                             <div className="flex justify-center items-center align-middle space-x-2">
                             <ChooseDisplay timerDisplay={timerDisplay} setTimerDisplay={setTimerDisplay}/>
                             {timerDisplay=="today" && (
-                                <DailyStopwatch focusedTask={focusedTask} startedFocusedTask={startedFocusedTask} taskIntervals={taskIntervals} />
+                                <DailyStopwatch focusedTask={focusedTask} startedFocusedTask={startedFocusedTask} taskIntervals={taskIntervals} setCancelVisible={setCancelVisible} />
                             )}
                             {timerDisplay=="total" && (
-                                <Stopwatch focusedTask={focusedTask} startedFocusedTask={startedFocusedTask} />
+                                <Stopwatch focusedTask={focusedTask} startedFocusedTask={startedFocusedTask} setCancelVisible={setCancelVisible}/>
                             )} 
                             {timerDisplay=="session" && (
-                                <SessionStopWatch focusedTask={focusedTask} startedFocusedTask={startedFocusedTask}/>
+                                <SessionStopWatch focusedTask={focusedTask} startedFocusedTask={startedFocusedTask} setCancelVisible={setCancelVisible}/>
                             )}
                             </div>
                             </div>
