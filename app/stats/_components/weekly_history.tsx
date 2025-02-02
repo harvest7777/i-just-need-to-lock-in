@@ -8,18 +8,21 @@ const WeeklyHistory = () => {
     // get intervals based on some offset
     const [intervals, setIntervals] = useState<Map<number,TaskInterval[]>>();
     const dayValues = {
+        0: "Sunday",
         1: "Monday",
         2: "Tuesday",
         3: "Wednesday",
         4: "Thursday",
         5: "Friday",
-        6: "Saturday",
-        7: "Sunday"
+        6: "Saturday"
     };
     const initialize = async () => {
-        const day = new Date(); //1 = monday
-        const dayNumber=day.getDay();
-        for(let offset=dayNumber-1;offset>=0;offset--) {
+        const day = new Date(); 
+        let dayNumber=day.getDay();
+
+        //traverse offset in circular fashion to cover the whole week regardless of start day
+        for(let i=0;i<7;i++) {
+            const offset=(dayNumber-i)%7;
             const fetchedIntervals = await getOffsetIntervals(offset);
             setIntervals((prev)=>new Map(prev).set(dayNumber-offset, fetchedIntervals));
         }
