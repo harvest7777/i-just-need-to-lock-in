@@ -1,6 +1,6 @@
 import { supabase } from "@/utils/supabase/supabase";
 import { Friend } from "./FriendSchema";
-import { getDayStartEnd } from "@/app/lockin/_services/TaskTimeUtils";
+import { getDayStartEnd } from "../../lockin/_services/TaskTimeUtils";
 import { Profile } from "@/app/manage-friends/_services/profile_schema";
 export const getNameFromUUID = async(uuid: string): Promise<string> => {
     const{data, error} = await supabase

@@ -3,7 +3,7 @@ import { useAcceptedFriends } from "../_hooks/useAcceptedFriends";
 import { getFriendTaskIntervals } from "../_services/FetchFriends"
 import { useState, useEffect } from "react";
 import { Friend } from "../_services/FriendSchema";
-import TimeGraph from "@/app/lockin/_components/time_graph";
+import TimeGraph from "@/app/lockin/_components/TimeGraph";
 export default function FriendFeed() { 
     const {acceptedFriends, friendActivity} = useAcceptedFriends();
     const [friendData, setFriendData] = useState<

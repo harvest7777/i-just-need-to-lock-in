@@ -1,7 +1,7 @@
 "use client";
-import FriendsManager from "./_components/friends_manager"
-import IncomingFriends from "./_components/incoming_friends";
-import SearchFriendForm from "./_components/search_friend_form";
+import FriendsManager from "./_components/FriendsManager"
+import IncomingFriends from "./_components/IncomingFriends";
+import SearchFriendForm from "./_components/SearchFriendForm";
 import { useAcceptedFriends } from "../friends/_hooks/useAcceptedFriends"
 import { usePendingFriends } from "../friends/_hooks/usePendingFriends";
 import { useState,useEffect } from "react";

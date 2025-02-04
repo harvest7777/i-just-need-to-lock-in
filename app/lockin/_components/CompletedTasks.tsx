@@ -1,6 +1,6 @@
 // CompletedTasks.tsx
 import React, { Dispatch, SetStateAction, useState } from "react";
-import ChooseCompleted from "./choose_completed_display_dropdown";
+import ChooseCompleted from "./ChooseCompleted";
 import { RiArrowGoBackFill } from "react-icons/ri";
 import { markTaskIncomplete } from "../_services/UpdateDailyTasks";
 

@@ -4,7 +4,6 @@ import { supabase } from "@/utils/supabase/supabase";
 import { useState, useEffect } from "react";
 import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
 import { IoCheckmarkOutline } from "react-icons/io5";
-import Link from "next/link";
 import { useForm } from "react-hook-form";
 interface FormData {
     newName: string;
