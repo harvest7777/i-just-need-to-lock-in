@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
-import { getTodaysTasks, getTaskIntervals, getCompletedTasks } from "../_services/FetchDailyTasks";
-import { getInProgressTask } from "../_services/TaskTimeUtils";
+
+import { getTodaysTasks, getCompletedTasks } from "@/app/(api)/taskServices";
+import { getTaskIntervals } from "@/app/(api)/taskIntervalServices";
+import { getInProgressTask } from "@/app/(api)/taskServices";
 
 export const useGetTasks = () => {
     const [toDos, setToDos] = useState<Task[]>([]);

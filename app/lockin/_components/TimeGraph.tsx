@@ -1,7 +1,10 @@
 "use client";
+
 import { useState, useEffect } from "react";
-import { calculateHourlyIntervals } from "../_services/FetchDailyTasks";
-import { getTimeDisplayFromIntervals } from "../_services/TimeDisplay";
+
+import { calculateHourlyIntervals } from "@/app/(helpers)/calculateHourlyIntervals";
+import { getTimeDisplayFromIntervals } from "@/app/(helpers)/getTimeDisplay";
+
 interface TimeGraphProps {
     taskIntervals: TaskInterval[];
 }

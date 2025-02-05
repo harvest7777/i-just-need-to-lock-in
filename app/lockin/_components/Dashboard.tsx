@@ -1,4 +1,7 @@
 "use client";
+
+import { useState } from "react";
+
 import CompletedTasks from "./CompletedTasks";
 import IncompleteTasks from "./IncompleteTasks";
 import LockedInTask from "./LockedInTask";
@@ -7,14 +10,14 @@ import Stopwatch from "./TotalStopwatch";
 import TimeGraph from "./TimeGraph"; 
 import FriendsList from "@/app/friends/_components/FriendsList";
 import Changelog from "./Changelog";
+import StillWorkingModal from "./ConfirmCancelSessionModal";
+import DailyStopwatch from "./DailyStopwatch";
+import ChooseDisplay from "./ChooseTimer";
+import SessionStopWatch from "./SessionStopwatch";
+
 import { useGetTasks } from "../_hooks/useGetTasks";
 import { useLockIntoTask } from "../_hooks/useLockIntoTask";
 import { useManageTasks } from "../_hooks/useManageTasks";
-import StillWorkingModal from "./ConfirmCancelSessionModal";
-import DailyStopwatch from "./DailyStopwatch";
-import { useState } from "react";
-import ChooseDisplay from "./ChooseTimer";
-import SessionStopWatch from "./SessionStopwatch";
 
 export default function Dashboard() {
     const {toDos, setToDos, focusedTask, setFocusedTask, startedFocusedTask, setStartedFocusedTask, taskIntervals, setTaskIntervals, completedTasks, setCompletedTasks} = useGetTasks();

@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from "react"
-import { insertDailyTask } from "../_services/InsertDailyTasks";
-import { deleteTask, renameTask } from "../_services/UpdateDailyTasks";
-import { broadcastUpdatedTask } from "../_services/TaskTimeUtils";
+
+import { insertDailyTask, deleteTask, renameTask } from "@/app/(api)/taskServices";
+import { broadcastUpdatedTask } from "@/app/(api)/realtimeServices";
 
 interface useManageTasksProps {
     focusedTask: Task|null;

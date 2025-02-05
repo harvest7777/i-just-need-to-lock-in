@@ -1,3 +1,5 @@
+import { supabase } from "@/utils/supabase/supabase";
+
 export const getTimeDisplayFromIntervals = (data: TaskInterval[]) => {
     let totalSeconds=0;
     data.forEach((interval) => {

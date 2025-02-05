@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, Dispatch, SetStateAction } from "react";
-import { getTaskSeconds} from "../_services/TaskTimeUtils";
+
+import { getTaskSeconds } from "@/app/(api)/taskTimeServices";
 
 interface StopWatchProps {
     focusedTask: Task | null;

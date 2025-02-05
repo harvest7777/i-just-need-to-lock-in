@@ -1,8 +1,11 @@
-// CompletedTasks.tsx
+"use client";
+
 import React, { Dispatch, SetStateAction, useState } from "react";
+
 import ChooseCompleted from "./ChooseCompleted";
 import { RiArrowGoBackFill } from "react-icons/ri";
-import { markTaskIncomplete } from "../_services/UpdateDailyTasks";
+
+import { markTaskIncomplete } from "@/app/(api)/taskServices";
 
 interface CompletedTasksProps {
   completedTasks: Task[];

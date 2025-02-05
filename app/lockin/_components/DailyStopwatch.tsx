@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, Dispatch, SetStateAction } from "react";
-import { getTaskSecondsFromIntervals} from "../_services/TaskTimeUtils";
+
+import { getTodaysWorkingTime } from "@/app/(api)/taskTimeServices";
 
 interface StopWatchProps {
     focusedTask: Task | null;
@@ -22,7 +23,7 @@ const DailyStopwatch: React.FC<StopWatchProps> = ({ startedFocusedTask, focusedT
     const handleUpdate = async () => {
         // If there is a focused task, get its initial seconds
         if(focusedTask) {
-            initialSecondsRef.current= await getTaskSecondsFromIntervals(focusedTask, taskIntervals);
+            initialSecondsRef.current= await getTodaysWorkingTime(focusedTask, taskIntervals);
             // Setting start time and now time will cause secondsSpent to update, causing re render
             setStartTime(Date.now()-initialSecondsRef.current*1000);
             setNow(Date.now());
