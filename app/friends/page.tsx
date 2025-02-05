@@ -1,4 +1,4 @@
-import FriendFeed from "./_components/friend_feed"
+import FriendFeed from "./_components/FriendFeed"
 export default function FriendsPage() {
     return(
         <>

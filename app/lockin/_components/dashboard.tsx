@@ -1,20 +1,20 @@
 "use client";
-import CompletedTasks from "./completed_tasks";
-import IncompleteTasks from "./incomplete_tasks";
-import LockedInTask from "./locked_in_task";
-import NewTaskForm from "./new_task_form";
-import Stopwatch from "./stopwatch";
-import TimeGraph from "./time_graph"; 
-import FriendsList from "@/app/friends/_components/friends_list";
-import Changelog from "./changelog";
+import CompletedTasks from "./CompletedTasks";
+import IncompleteTasks from "./IncompleteTasks";
+import LockedInTask from "./LockedInTask";
+import NewTaskForm from "./NewTaskForm";
+import Stopwatch from "./TotalStopwatch";
+import TimeGraph from "./TimeGraph"; 
+import FriendsList from "@/app/friends/_components/FriendsList";
+import Changelog from "./Changelog";
 import { useGetTasks } from "../_hooks/useGetTasks";
 import { useLockIntoTask } from "../_hooks/useLockIntoTask";
 import { useManageTasks } from "../_hooks/useManageTasks";
-import StillWorkingModal from "./still_working_modal";
-import DailyStopwatch from "./stopwatch_daily";
+import StillWorkingModal from "./ConfirmCancelSessionModal";
+import DailyStopwatch from "./DailyStopwatch";
 import { useState } from "react";
-import ChooseDisplay from "./choose_display_dropdown";
-import SessionStopWatch from "./stopwatch_session";
+import ChooseDisplay from "./ChooseTimer";
+import SessionStopWatch from "./SessionStopwatch";
 
 export default function Dashboard() {
     const {toDos, setToDos, focusedTask, setFocusedTask, startedFocusedTask, setStartedFocusedTask, taskIntervals, setTaskIntervals, completedTasks, setCompletedTasks} = useGetTasks();

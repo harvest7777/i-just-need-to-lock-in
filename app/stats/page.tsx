@@ -1,4 +1,4 @@
-import WeeklyHistory from "./_components/weekly_history";
+import WeeklyHistory from "./_components/WeeklyHistory";
 
 export default function Stats() {
     return (

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { getOffsetIntervals } from "../_services/StatsHelpers";
-import TimeGraph from "@/app/lockin/_components/time_graph";
+import TimeGraph from "@/app/lockin/_components/TimeGraph";
 
 const WeeklyHistory = () => {
     // get intervals based on some offset

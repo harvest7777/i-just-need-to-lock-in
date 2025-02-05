@@ -4,7 +4,7 @@ import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
 import { IoCheckmarkOutline } from "react-icons/io5";
 import { useForm } from "react-hook-form";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import ConfirmDeleteModal from "./confirm_delete_modal";
+import ConfirmDeleteModal from "./ConfirmDeleteModal";
 
 interface IncompleteTasksProps {
   toDos: Task[];

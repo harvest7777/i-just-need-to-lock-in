@@ -4,7 +4,7 @@ import { IoMdClose } from "react-icons/io";
 import { Friend } from "@/app/friends/_services/FriendSchema";
 import { DeleteFriend } from "@/app/friends/_services/TerminateFriend";
 import { Dispatch, SetStateAction, useState } from "react";
-import ConfirmRemoveFriendModal from "./confirm_remove_friend_modal";
+import ConfirmRemoveFriendModal from "./ConfirmRemoveFriendModal";
 
 // List all friends with option to remove them
 interface FriendsManagerProps {

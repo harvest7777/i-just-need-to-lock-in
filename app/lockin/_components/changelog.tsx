@@ -14,8 +14,8 @@ export default function Changelog() {
         <IoCloseOutline className="text-3xl text-red-800 btn-hover md:w-min w-1/12" onClick={()=>setVisible(false)}/>
         </div>
         <div className="mb-2">
-            <span className="text-green-600 font-bold">Public Testing - </span>
-            <span className="text-neutral-400">Lock in history</span>
+            <span className="text-yellow-600 font-bold">In Development - </span>
+            <span className="text-neutral-400">Polishing and refactoring</span>
         </div>
         <div className="max-h-24 overflow-y-auto">
             <p className="text-neutral-400">🔨 2/2/2025 - Fixed lock in history skipping Sunday</p>
