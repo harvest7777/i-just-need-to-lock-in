@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction, useEffect, useRef } from "react";
-import { completeTask, pauseTask, startTask } from "../_services/TaskTimeUtils";
 import JSConfetti from "js-confetti";
+
+import { completeTask, pauseTask, startTask } from "@/app/(api)/taskTimeServices";
 
 export interface useLockIntoTaskProps {
     focusedTask: Task|null;

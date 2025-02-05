@@ -1,5 +1,6 @@
-"use client";
 import { supabase } from "@/utils/supabase/supabase";
+import { broadcastUpdatedTask } from "@/app/(api)/realtimeServices";
+
 export const startTask = async (task: Task) => {
     // Updates the unique task and returns it
     const taskId = task.task_id;
@@ -142,7 +143,28 @@ export const getTaskSeconds = async(taskId: number) => {
     return totalSecondsSpent;
 }
 
-export const getTaskSecondsFromIntervals = async (task: Task, taskIntervals: TaskInterval[]): Promise<number> => {
+export const getSecondsSinceLastStart = async (taskId: number) => {
+    const { data, error } = await supabase
+        .from("tasks")
+        .select("last_start_time")
+        .eq("task_id", taskId)
+        .single();
+
+    if (error) throw error;
+
+    // If task isn't started yet, 0 sec have passed basically
+    if(data.last_start_time==null) return 0;
+
+    // Convert to Date objects and find diff
+    const lastStartTime = new Date(data.last_start_time);  // Assuming last_start_time is in UTC
+    const currentTime = new Date();
+
+    const timeDifferenceInSeconds = Math.floor((currentTime.getTime() - lastStartTime.getTime()) / 1000);
+
+    return timeDifferenceInSeconds;
+}
+
+export const getTodaysWorkingTime = async (task: Task, taskIntervals: TaskInterval[]): Promise<number> => {
     let secondsSinceLastStart = await getSecondsSinceLastStart(task.task_id);
 
     // calculate how long you spent working today when tasks refresh
@@ -171,78 +193,6 @@ export const getTaskSecondsFromIntervals = async (task: Task, taskIntervals: Tas
         seconds+=intervalSeconds;
     })
     return seconds + secondsSinceLastStart;
-}
-
-export const getInProgressTask = async(): Promise<Task|null> => {
-    // Find a task, if any, that is in progress and return its id. If no task in progress, return null
-    const userId = (await supabase.auth.getUser()).data.user?.id;
-    if(userId==null) {
-        console.log("getInProgressTaskId - Error getting user ID!");
-        return null;
-    }
-
-    const {data, error} = await supabase
-    .from("tasks")
-    .select("*")
-    .eq("user_id",userId)
-    .not("last_start_time", "is", null);
-    if(error) throw(error);
-
-    if(data) return data[0] as Task;
-    return null;
-}
-
-export const getSecondsSinceLastStart = async (taskId: number) => {
-    const { data, error } = await supabase
-        .from("tasks")
-        .select("last_start_time")
-        .eq("task_id", taskId)
-        .single();
-
-    if (error) throw error;
-
-    // If task isn't started yet, 0 sec have passed basically
-    if(data.last_start_time==null) return 0;
-
-    // Convert to Date objects and find diff
-    const lastStartTime = new Date(data.last_start_time);  // Assuming last_start_time is in UTC
-    const currentTime = new Date();
-
-    const timeDifferenceInSeconds = Math.floor((currentTime.getTime() - lastStartTime.getTime()) / 1000);
-
-    return timeDifferenceInSeconds;
-}
-
-export const getDayStartEnd = () => {
-    const now = new Date();
-    const today = new Date(now);
-
-    // Define the start and end of the day in the user's time zone
-    const startOfDayLocal = new Date(today);
-    startOfDayLocal.setHours(0, 0, 0, 0); // 00:00 local time
-
-    const endOfDayLocal = new Date(today);
-    endOfDayLocal.setHours(23, 59, 59, 999); // 23:59 local time
-
-    // Convert the start and end of the day to UTC to use in Supabase
-    const startOfDayUTC = startOfDayLocal.toISOString();
-    const endOfDayUTC = endOfDayLocal.toISOString();
-    return {startOfDayUTC, endOfDayUTC};
-
-}
-
-export const broadcastUpdatedTask = async(updatedTask: Task) => {
-    const userId = (await supabase.auth.getUser()).data.user?.id;
-
-    const channel = supabase.channel(`status_${userId}`);
-    channel.send({
-        type: "broadcast",
-        event: "status_update",
-        payload: {
-            task: updatedTask,
-        }
-    });
-
 }
 
 export const cancelLastStart = async(task: Task|null) => {

@@ -1,8 +1,10 @@
 "use client";
 
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { getTimeDisplayFromSeconds } from "../_services/TimeDisplay";
-import { broadcastUpdatedTask, cancelLastStart } from "../_services/TaskTimeUtils";
+
+import { getTimeDisplayFromSeconds } from "@/app/(helpers)/getTimeDisplay";
+import { cancelLastStart } from "@/app/(api)/taskTimeServices";
+import { broadcastUpdatedTask } from "@/app/(api)/realtimeServices";
 
 interface StillWorkingModalProps {
     focusedTask: Task|null;

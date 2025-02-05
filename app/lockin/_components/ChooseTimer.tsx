@@ -2,6 +2,7 @@
 
 import { useState, Dispatch, SetStateAction } from "react";
 import { RiArrowDropDownLine } from "react-icons/ri"; 
+
 interface ChooseDisplayInterface {
     timerDisplay: string;
     setTimerDisplay: Dispatch<SetStateAction<string>>;

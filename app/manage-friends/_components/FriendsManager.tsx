@@ -2,7 +2,6 @@
 
 import { IoMdClose } from "react-icons/io";
 import { Friend } from "@/app/friends/_services/FriendSchema";
-import { DeleteFriend } from "@/app/friends/_services/TerminateFriend";
 import { Dispatch, SetStateAction, useState } from "react";
 import ConfirmRemoveFriendModal from "./ConfirmRemoveFriendModal";
 
