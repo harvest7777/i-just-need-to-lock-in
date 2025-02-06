@@ -1,11 +1,15 @@
 "use client";
+
+import { useState} from "react";
+
 import FriendsManager from "./_components/FriendsManager"
 import IncomingFriends from "./_components/IncomingFriends";
 import SearchFriendForm from "./_components/SearchFriendForm";
+
 import { useAcceptedFriends } from "../friends/_hooks/useAcceptedFriends"
 import { usePendingFriends } from "../friends/_hooks/usePendingFriends";
-import { useState,useEffect } from "react";
 import { useSentFriends } from "../friends/_hooks/useSentFriends";
+
 export default function ManageFriendsPage() {
     // Accepting, declining, and removing friends require coupling between accepted and pending friends
     const {acceptedFriends, setAcceptedFriends} = useAcceptedFriends();

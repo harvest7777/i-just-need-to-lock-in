@@ -1,16 +1,16 @@
 "use client";
 import { useState, useEffect } from "react";
-import { FetchSentFriends } from "../_services/FetchFriends";
-import { Friend } from "../_services/FriendSchema";
+
+import { getSentFriends } from "@/app/(api)/friendServices";
 
 export const useSentFriends = () => {
     const [sentFriends, setSentFriends] = useState<Friend[]>([]);
-    const getSentFriends = async () => {
-        const fetchedSentFriends = await FetchSentFriends();
+    const initialize = async () => {
+        const fetchedSentFriends = await getSentFriends();
         setSentFriends(fetchedSentFriends);
     }
     useEffect(()=>{
-        getSentFriends();
+        initialize();
     },[])
     return {sentFriends, setSentFriends};
 }

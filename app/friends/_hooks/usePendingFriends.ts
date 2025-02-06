@@ -1,8 +1,11 @@
 "use client";
 import { useState, useEffect } from "react"
-import { FetchPendingFriends, getNameFromUUID } from "../_services/FetchFriends";
-import { Friend } from "../_services/FriendSchema";
+
 import { supabase } from "@/utils/supabase/supabase";
+
+import { getPendingFriends } from "@/app/(api)/friendServices";
+import { getNameFromUUID } from "@/app/(api)/profileServices";
+
 interface PayloadNewResponse {
     created_at: string;
     id: number;
@@ -15,7 +18,7 @@ export const usePendingFriends= () => {
 
     // For state variable
     const getAndSetPendingFriends = async() => {
-        const friends = await FetchPendingFriends();
+        const friends = await getPendingFriends();
         setPendingFriends(friends);
     }
     const handleVisibilityChange = () => {

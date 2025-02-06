@@ -1,9 +1,11 @@
 "use client";
-import { useAcceptedFriends } from "../_hooks/useAcceptedFriends";
-import { getFriendTaskIntervals } from "../_services/FetchFriends"
 import { useState, useEffect } from "react";
-import { Friend } from "../_services/FriendSchema";
+
 import TimeGraph from "@/app/lockin/_components/TimeGraph";
+
+import { useAcceptedFriends } from "../_hooks/useAcceptedFriends";
+import { getFriendTaskIntervals } from "@/app/(api)/friendServices";
+
 export default function FriendFeed() { 
     const {acceptedFriends, friendActivity} = useAcceptedFriends();
     const [friendData, setFriendData] = useState<
