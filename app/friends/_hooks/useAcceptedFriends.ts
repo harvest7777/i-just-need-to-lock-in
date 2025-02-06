@@ -1,15 +1,18 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Friend } from "../_services/FriendSchema";
-import { FetchAcceptedFriends, getFriendActivity } from "../_services/FetchFriends";
+
 import { supabase } from "@/utils/supabase/supabase";
+
+import { getAcceptedFriends } from "@/app/(api)/friendServices";
+import { getFriendActivity } from "@/app/(api)/realtimeServices";
+
 export const useAcceptedFriends = () => {
     const [acceptedFriends, setAcceptedFriends] = useState<Friend[]>([]);
     const [friendActivity, setFriendActivity] = useState<Map<string, Task>>(new Map());
     
     const getAndSetAcceptedFriends = async() => {
-        const friends = await FetchAcceptedFriends();
+        const friends = await getAcceptedFriends();
         const map: Map<string, Task> = await getFriendActivity(friends);
         setAcceptedFriends(friends);
         setFriendActivity(map);

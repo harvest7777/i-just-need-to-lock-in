@@ -1,13 +1,14 @@
 "use client";
+
+import { useEffect, useState, Dispatch, SetStateAction } from "react";
 import { useForm } from "react-hook-form";
-import { getFriendsByUsername } from "@/app/friends/_services/FetchFriends";
-import { Profile } from "../_services/profile_schema";
-import { useEffect, useState } from "react";
-import { createClient } from "@/utils/supabase/client";
-import { Friend } from "@/app/friends/_services/FriendSchema";
+
 import { FaMagnifyingGlass } from "react-icons/fa6";
-import { AddFriend } from "@/app/friends/_services/AddFriend";
-import { Dispatch, SetStateAction } from "react";
+
+import { getProfilesByUsername } from "@/app/(api)/profileServices";
+import { addFriend } from "@/app/(api)/friendServices";
+import { supabase } from "@/utils/supabase/supabase";
+
 interface FormData {
     friendName: string;
 }
@@ -23,13 +24,12 @@ export default function SearchFriendForm ({acceptedFriends, sentFriends, setSent
     const [profiles, setProfiles] = useState<Profile[]>([]);
     const [userId, setUserId] = useState<string>();
     const getUserId = async () => {
-        const supabase = createClient();
         const id = (await supabase.auth.getUser()).data.user?.id;
         if(id) setUserId(id);
     }
     const onSubmit = async (data: FormData) => {
         let fetchedProfiles;
-        fetchedProfiles = await getFriendsByUsername(data.friendName);
+        fetchedProfiles = await getProfilesByUsername(data.friendName);
         fetchedProfiles = fetchedProfiles.filter((profile)=>profile.user_id!=userId && !acceptedFriends.some((friend)=>friend.user_id==profile.user_id));
 
         setProfiles(fetchedProfiles);
@@ -41,7 +41,7 @@ export default function SearchFriendForm ({acceptedFriends, sentFriends, setSent
         reset();
     }
     const handleAdd = async(profile: Profile) => {
-        const newlyAddedFriend: Friend|null = await AddFriend(profile.user_id);
+        const newlyAddedFriend: Friend|null = await addFriend(profile.user_id);
         console.log("from search", newlyAddedFriend)
         if(newlyAddedFriend===null) return;
         setSentFriends((prev)=> [...prev, newlyAddedFriend])

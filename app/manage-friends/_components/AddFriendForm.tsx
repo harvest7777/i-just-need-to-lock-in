@@ -1,7 +1,9 @@
 "use client";
-import { AddFriend } from "../../friends/_services/AddFriend";
-import { useForm } from "react-hook-form";
+
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+
+import { addFriend } from "@/app/(api)/friendServices";
 
 interface FormData {
     friendUUID: string;
@@ -12,7 +14,7 @@ export default function AddFriendForm() {
     const [sendFriendError, setSendFriendError] = useState(false);
     const onSubmit = async(data: FormData) => {
         try{
-            await AddFriend(data.friendUUID);
+            await addFriend(data.friendUUID);
             setSendFriendError(false);
         } catch(error)
         {

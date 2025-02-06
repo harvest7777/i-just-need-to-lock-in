@@ -1,7 +1,8 @@
 "use client";
+
 import { Dispatch, SetStateAction } from "react";
-import { Friend } from "@/app/friends/_services/FriendSchema";
-import { DeleteFriend } from "@/app/friends/_services/TerminateFriend";
+
+import { deleteFriend } from "@/app/(api)/friendServices";
 
 interface ConfirmRemoveFriendModalProps {
     friendToRemove: Friend|null;
@@ -11,7 +12,7 @@ interface ConfirmRemoveFriendModalProps {
 const  ConfirmRemoveFriendModal: React.FC<ConfirmRemoveFriendModalProps> = ({friendToRemove, setFriendToRemove, setAcceptedFriends}) => {
     const handleConfirmDelete = async() => {
         if(friendToRemove==null) return;
-        await DeleteFriend(friendToRemove.user_id);
+        await deleteFriend(friendToRemove.user_id);
         setAcceptedFriends((prev)=>prev.filter(friend=>friend.user_id!=friendToRemove.user_id));
         setFriendToRemove(null);
 

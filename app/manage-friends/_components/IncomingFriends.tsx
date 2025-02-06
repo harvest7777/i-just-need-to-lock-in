@@ -1,10 +1,11 @@
 "use client";
-import { AcceptFriend } from "@/app/friends/_services/AddFriend";
-import { Friend } from "@/app/friends/_services/FriendSchema";
-import { DeleteFriend } from "@/app/friends/_services/TerminateFriend";
+
 import { Dispatch, SetStateAction } from "react";
+
 import { IoMdClose } from "react-icons/io";
 import { IoCheckmarkOutline } from "react-icons/io5";
+
+import { acceptFriend, deleteFriend } from "@/app/(api)/friendServices";
 
 interface IncomingFriendsProps {
     setAcceptedFriends: Dispatch<SetStateAction<Friend[]>>;
@@ -14,7 +15,7 @@ interface IncomingFriendsProps {
 
 export default function IncomingFriends({setAcceptedFriends, pendingFriends, setPendingFriends}: IncomingFriendsProps) {
     const handleAccept = async (friendUUID: string) => {
-        await AcceptFriend(friendUUID);
+        await acceptFriend(friendUUID);
         const acceptedFriend = pendingFriends.find(friend =>friend.user_id===friendUUID);
         if(acceptedFriend)
         {
@@ -23,7 +24,7 @@ export default function IncomingFriends({setAcceptedFriends, pendingFriends, set
         }
     }
     const handleDecline = async (friendUUID: string) => {
-        await DeleteFriend(friendUUID);
+        await deleteFriend(friendUUID);
         setPendingFriends((prev) => prev.filter(friend => friend.user_id != friendUUID));
     }
     return (

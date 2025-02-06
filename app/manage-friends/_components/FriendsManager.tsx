@@ -1,8 +1,9 @@
 "use client";
 
-import { IoMdClose } from "react-icons/io";
-import { Friend } from "@/app/friends/_services/FriendSchema";
 import { Dispatch, SetStateAction, useState } from "react";
+
+import { IoMdClose } from "react-icons/io";
+
 import ConfirmRemoveFriendModal from "./ConfirmRemoveFriendModal";
 
 // List all friends with option to remove them

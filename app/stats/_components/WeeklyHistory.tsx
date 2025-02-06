@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getOffsetIntervals } from "../_services/StatsHelpers";
+
 import TimeGraph from "@/app/lockin/_components/TimeGraph";
+
+import { getOffsetIntervals } from "@/app/(helpers)/getTimeOffsets";
 
 const WeeklyHistory = () => {
     // get intervals based on some offset

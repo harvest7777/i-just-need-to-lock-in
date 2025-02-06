@@ -1,9 +1,13 @@
 "use client";
-import { useAcceptedFriends } from "../_hooks/useAcceptedFriends";
-import { MdOutlineManageAccounts } from "react-icons/md";
-import Link from "next/link";
+
 import React from "react";
+import Link from "next/link";
+
+import { MdOutlineManageAccounts } from "react-icons/md";
+
+import { useAcceptedFriends } from "../_hooks/useAcceptedFriends";
 import { usePendingFriends } from "../_hooks/usePendingFriends";
+
 const FriendsList = React.memo(function FriendsList() {
     const {acceptedFriends, friendActivity} = useAcceptedFriends();
     const {pendingFriends} = usePendingFriends();

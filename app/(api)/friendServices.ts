@@ -1,19 +1,61 @@
 import { supabase } from "@/utils/supabase/supabase";
-import { Friend } from "./FriendSchema";
-
+import { getNameFromUUID } from "@/app/(api)/profileServices";
 import { getDayStartEnd } from "@/app/(helpers)/getDayStartEnd";
-import { Profile } from "@/app/manage-friends/_services/profile_schema";
-export const getNameFromUUID = async(uuid: string): Promise<string> => {
-    const{data, error} = await supabase
-    .from("profiles")
-    .select("name")
-    .eq("user_id", uuid)
-    .single();
-    if(error) throw(error);
-    return data? data.name: "";
+
+export const addFriend = async(friendUUID: string): Promise<Friend|null> => {
+    // This will insert a row where you are the initiator, friendUUID is the recipient
+    const userId = (await supabase.auth.getUser()).data.user?.id;
+    if(userId==null) throw new Error("Error getting user ID!");
+
+    // check if a relationship exists already
+    const {data} = await supabase
+    .from("friends")
+    .select("*")
+    .or(`and(initiator.eq.${userId},recipient.eq.${friendUUID}),and(initiator.eq.${friendUUID},recipient.eq.${userId})`);
+    if(data?.length !== 0) return null;
+
+    const{data: newFriend } = await supabase
+    .from("friends")
+    .insert({
+        initiator: userId,
+        recipient: friendUUID
+    })
+    .select(`
+        created_at,
+        recipient,
+        profiles!recipient(name)
+      `);
+    interface Profile {
+        name: string;
+    }
+    interface dataReturned {
+        recipient: string;
+        created_at: string;
+        profiles: Profile;
+    }
+    if(newFriend == null) return null;
+    const fetchedData: dataReturned = newFriend[0] as unknown as dataReturned;
+    const sentFriend: Friend = {
+        user_id: fetchedData.recipient,
+        name: fetchedData.profiles.name,
+        is_accepted: false,
+        created: fetchedData.created_at
+    }
+    return sentFriend;
+    
 }
 
-export const FetchPendingFriends = async() => {
+export const acceptFriend = async (friendUUID: string) => {
+    
+    const{error} = await supabase
+    .from("friends")
+    .update({is_accepted: true})
+    .eq('initiator', friendUUID);
+
+    if(error) throw error;
+}
+
+export const getPendingFriends = async() => {
     const userId = (await supabase.auth.getUser()).data.user?.id;
     if(userId==null) {
       throw new Error("Error fetching user id");
@@ -44,7 +86,7 @@ export const FetchPendingFriends = async() => {
     return friends;
 }
 
-export const FetchAcceptedFriends = async () => {
+export const getAcceptedFriends = async () => {
     const user = supabase.auth.getUser();
     const userId = (await user).data.user?.id;
 
@@ -86,9 +128,9 @@ export const FetchAcceptedFriends = async () => {
     return friends;
 }
 
-export const FetchSentFriends = async () => {
+export const getSentFriends = async () => {
   const userId = (await supabase.auth.getUser()).data.user?.id;
-  if(userId==null) throw new Error("fetchSentFriends - Error fetching user id");
+  if(userId==null) throw new Error("getSentFriends - Error fetching user id");
   const { data, error } = await supabase
   .from("friends")
   .select(`
@@ -122,7 +164,7 @@ export const FetchSentFriends = async () => {
   return friends;
 }
 
-export const FetchFriendDailyTasks = async(friend: Friend): Promise<Task[]> => {
+export const getFriendToDos = async(friend: Friend): Promise<Task[]> => {
   const{startOfDayUTC, endOfDayUTC} = getDayStartEnd();
   const {data, error} = await supabase
   .from("tasks")
@@ -133,6 +175,7 @@ export const FetchFriendDailyTasks = async(friend: Friend): Promise<Task[]> => {
   if(error) throw error;
   return data as Task[];
 }
+
 export const getFriendTaskIntervals = async(friend: Friend): Promise<TaskInterval[]> => {
     const {startOfDayUTC, endOfDayUTC} = getDayStartEnd();
     const { data, error } = await supabase
@@ -150,26 +193,12 @@ export const getFriendTaskIntervals = async(friend: Friend): Promise<TaskInterva
     return data as TaskInterval[];
 }
 
-export const getFriendActivity = async(friends: Friend[]): Promise<Map<string, Task>> => { 
-  let map = new Map();
-  await Promise.all( friends.map(async (friend) => {
-    const {data,error} = await supabase
-    .from("tasks")
-    .select("*")
-    .eq("user_id", friend.user_id)
-    .not("last_start_time", "is", null);
+export const deleteFriend = async(friendUUID: string) => {
+    const{error} = await supabase
+    .from("friends")
+    .delete()
+    .or(`recipient.eq.${friendUUID},initiator.eq.${friendUUID}`)
+    .select();
+    
     if(error) throw error;
-
-    if(data && data.length >0)map.set(friend.user_id,data[0]);
-  }));
-  return map;
-}
-
-export const getFriendsByUsername = async(name: string): Promise<Profile[]> => {
-  const {data, error} = await supabase
-  .from("profiles")
-  .select("*")
-  .ilike("name", `%${name}%`)
-  if(error) throw error;
-  return data as Profile[]; 
 }
