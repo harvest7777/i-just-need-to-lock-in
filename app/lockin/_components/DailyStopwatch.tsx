@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef, Dispatch, SetStateAction } from "react";
 
+import WordBlock from "@/components/ui/word-block";
+
 import { getTodaysWorkingTime } from "@/app/(api)/taskTimeServices";
 
 interface StopWatchProps {
@@ -77,10 +79,8 @@ const DailyStopwatch: React.FC<StopWatchProps> = ({ startedFocusedTask, focusedT
 
     return (
         <div className="md:text-2xl text-xl flex items-center align-middle justify-center space-x-2">
-            <h1 className="w-fit px-2 bg-appBg rounded-xl">
-                {formatTime(secondsPassed)} {/* Display the formatted time */}
-            </h1>
-            {focusedTask?.last_start_time && <h1 onClick={()=>setCancelVisible(true)} className="w-fit px-2 bg-appBg rounded-xl btn-hover hover:bg-red-600 hover:text-appFg">cancel</h1>}
+            <WordBlock text={formatTime(secondsPassed)}/>
+            {focusedTask?.last_start_time && <WordBlock onClick={()=>setCancelVisible(true)} className="hover:bg-red-600 hover:text-appFg btn-hover" text="cancel"/>}
         </div>
     );
 };

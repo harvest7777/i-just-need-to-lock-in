@@ -8,6 +8,9 @@
   .btn-hover {
     @apply transform transition-transform duration-75 hover:cursor-pointer active:scale-90;
   }
+  .card-outline {
+    @apply shadow-md rounded-2xl;
+  }
   }
 @layer base {
   :root {

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 
 import BarGraph from "@/app/lockin/_components/BarGraph";
+import HeaderCard from "@/components/ui/header-card";
 
 import { getOffsetIntervals } from "@/app/(helpers)/getTimeOffsets";
 
@@ -34,7 +35,7 @@ const WeeklyHistory = () => {
     },[])
     return (
         <div className="flex flex-col justify-center items-center align-middle ">
-        <h1 className="text-center text-emerald-600 font-bold text-3xl mt-5 bg-appFg p-2 px-4 rounded-2xl">Weekly History</h1>
+        <HeaderCard title="Weekly History"/>
         {Object.entries(dayValues).map(([key, value]) => {
             const currentDate = new Date();
             const offset = currentDate.getDay()-Number(key);
@@ -42,10 +43,9 @@ const WeeklyHistory = () => {
             const month = currentDate.toLocaleString('default', { month: 'long' });
             const day = currentDate.getDate();
             return(
-                <div key={key} className="p-2 bg-appFg rounded-2xl mt-5 md:w-3/5 w-full">
-                    <div className="flex justify-between">
-                        <p className="text-2xl pl-5">{value} </p>
-                        <p className="text-2xl pr-5">{month} {day}</p>
+                <div key={key} className="p-2 bg-appFg card-outline mt-5 md:w-3/5 w-full">
+                    <div className="mb-3 mt-1 text-gray-600">
+                        <p className="md:text-2xl text-xl pl-5">{value}, {month} {day} </p>
                     </div>
                     <BarGraph taskIntervals={intervals?.get(Number(key)) || []}/>
                 </div>
