@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import TimeGraph from "@/app/lockin/_components/TimeGraph";
+import BarGraph from "@/app/lockin/_components/BarGraph";
 
 import { getOffsetIntervals } from "@/app/(helpers)/getTimeOffsets";
 
@@ -47,7 +47,7 @@ const WeeklyHistory = () => {
                         <p className="text-2xl pl-5">{value} </p>
                         <p className="text-2xl pr-5">{month} {day}</p>
                     </div>
-                    <TimeGraph taskIntervals={intervals?.get(Number(key)) || []}/>
+                    <BarGraph taskIntervals={intervals?.get(Number(key)) || []}/>
                 </div>
             )})}
         </div>

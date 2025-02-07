@@ -7,7 +7,7 @@ import IncompleteTasks from "./IncompleteTasks";
 import LockedInTask from "./LockedInTask";
 import NewTaskForm from "./NewTaskForm";
 import Stopwatch from "./TotalStopwatch";
-import TimeGraph from "./TimeGraph"; 
+import BarGraph from "./BarGraph";
 import FriendsList from "@/app/friends/_components/FriendsList";
 import Changelog from "./Changelog";
 import StillWorkingModal from "./ConfirmCancelSessionModal";
@@ -58,7 +58,7 @@ export default function Dashboard() {
                         <p className="text-center lg:text-2xl text-xl w-full mb-2">Click the 🔒 next to any task to lock in!</p>
                     )}
                     <div className="w-full">
-                        <TimeGraph taskIntervals={taskIntervals}/>
+                        <BarGraph taskIntervals={taskIntervals}/>
                     </div>
                 </div>
                 <Changelog/>
