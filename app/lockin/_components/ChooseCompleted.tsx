@@ -1,36 +1,36 @@
 "use client";
 
-import { useState, Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { RiArrowDropDownLine } from "react-icons/ri"; 
+
+import WordBlock from "@/components/ui/word-block";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 interface ChooseDisplayInterface {
     timeSpentDisplay: string;
     setTimeSpentDisplay: Dispatch<SetStateAction<string>>;
 }
 const ChooseCompleted:React.FC<ChooseDisplayInterface> = ({timeSpentDisplay,setTimeSpentDisplay})=> {
-    const [isOpen, setIsOpen] = useState<boolean>(false);
-    const handleShowToday = () => {
-        setIsOpen(false);
-        setTimeSpentDisplay("today");
-    }
-    const handleShowTotal = () => {
-        setIsOpen(false);
-        setTimeSpentDisplay("total");
-    }
-
-    return (
-        <div className="relative w-full">
-        <div onClick={()=>setIsOpen(!isOpen)} className="px-2 rounded-lg bg-appBg flex justify-between items-center align-middle cursor-pointer gap-x-2">
-            time spent {timeSpentDisplay}
-            <RiArrowDropDownLine
-            className={`transition-transform duration-200 ${ isOpen ? "rotate-180" : "rotate-0"}`}/>
-        </div>
-        {isOpen && (
-            <div className="absolute top-8 left-0 bg-appBg z-10 rounded-lg border-4 border-appFg px-2 w-full divide-y divide-gray-700 cursor-default">
-                <p onClick={handleShowToday}>today</p>
-                <p onClick={handleShowTotal}>total</p>
-            </div>
-        )}
+        return (
+        <div className="relative z-10 w-full ">
+            <DropdownMenu modal={false}>
+            <DropdownMenuTrigger className="w-full ring-0 focus:ring-0 focus:outline-none">
+                <WordBlock text={"time spent " + timeSpentDisplay} className="w-full !text-base !justify-between"><RiArrowDropDownLine/></WordBlock>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-40 mt-3 bg-appFg">
+                <DropdownMenuRadioGroup value={timeSpentDisplay} onValueChange={setTimeSpentDisplay}>
+                <DropdownMenuRadioItem value="total">total</DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="today">today</DropdownMenuRadioItem>
+                </DropdownMenuRadioGroup>
+            </DropdownMenuContent>
+            </DropdownMenu>
         </div>
     )
 }

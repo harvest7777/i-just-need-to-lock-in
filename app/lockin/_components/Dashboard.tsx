@@ -34,7 +34,7 @@ export default function Dashboard() {
         <div className="flex md:flex-row md:gap-x-5 flex-col space-y-3">
             {/* graph and changelog container */}
             <div className="md:order-2 order-1 md:w-3/5 w-full flex flex-col">
-                <div className="w-full flex flex-col bg-appFg rounded-2xl justify-center items-center p-3 h-fit my-3">
+                <div className="w-full flex flex-col bg-appFg card-outline justify-center items-center p-3 h-fit my-3">
                     {/* locked in task and graph */}
                     {focusedTask? (
                         <>
@@ -61,21 +61,23 @@ export default function Dashboard() {
                         <BarGraph taskIntervals={taskIntervals}/>
                     </div>
                 </div>
+                <div className="card-outline">
                 <Changelog/>
+                </div>
             </div>
             {/* container for task lists */}
             <div className="md:order-1 order-2 flex flex-col md:w-1/5 w-full space-y-3">
-                <div className="bg-appFg rounded-2xl">
+                <div className="bg-appFg card-outline">
                     <IncompleteTasks toDos={toDos} lockIntoTask={lockIntoTask} handleRenameTask={handleRenameTask} handleDeleteTask={handleDeleteTask}/>
                     <NewTaskForm addNewTask={addNewTask}/>
                 </div>
-                <div className="bg-appFg rounded-2xl">
+                <div className="bg-appFg card-outline">
                     <CompletedTasks completedTasks={completedTasks} taskIntervals={taskIntervals} setToDos={setToDos} setCompletedTasks={setCompletedTasks}/>
                 </div>
             </div>
             {/* container for friends */}
             <div className="flex flex-col md:w-1/5 order-3 w-full space-y-3">
-                <div className="bg-appFg rounded-2xl">
+                <div className="bg-appFg card-outline">
                     <FriendsList />
                 </div>
             </div>
