@@ -75,7 +75,7 @@ const BarGraph: React.FC<BarGraphProps> = ({taskIntervals}) => {
             <XAxis
             dataKey="time"
             tickLine={true}
-            interval={2}
+            interval={4}
             tickSize={5}
             tickMargin={10}
             axisLine={false}
