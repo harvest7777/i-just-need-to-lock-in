@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 
-import TimeGraph from "@/app/lockin/_components/TimeGraph";
+import BarGraph from "@/app/lockin/_components/BarGraph";
 
 import { useAcceptedFriends } from "../_hooks/useAcceptedFriends";
 import { getFriendTaskIntervals } from "@/app/(api)/friendServices";
@@ -45,7 +45,7 @@ export default function FriendFeed() {
                 <p className="text-2xl ml-5">{data.friend.name}</p>
                 <p className="text-2xl italic mr-5">{friendActivity.get(data.friend.user_id)?.last_start_time? `🔒${friendActivity.get(data.friend.user_id)?.name}`: ("Unlocked")}</p>
                 </div>
-                <TimeGraph taskIntervals={data.intervals}/>
+                <BarGraph taskIntervals={data.intervals}/>
             </div>
         ))}
         </>
