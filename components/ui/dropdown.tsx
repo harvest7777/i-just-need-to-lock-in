@@ -11,6 +11,9 @@ export default function Dropdown() {
           <GiHamburgerMenu onClick={()=>setDropdownOpen(!dropdownOpen)} className="btn-hover text-3xl"/>
           {dropdownOpen && 
           <div className="z-30 absolute top-10 left-[-35px] w-20 bg-appBg p-2 rounded-xl">
+            <Link href="/lockin" onClick={closeDropdown} className="btn-hover">
+              <p>home</p>
+            </Link>
             <Link href="/stats" onClick={closeDropdown} className="btn-hover">
               <p>stats</p>
             </Link>

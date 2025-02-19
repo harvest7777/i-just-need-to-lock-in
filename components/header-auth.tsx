@@ -25,6 +25,11 @@ export default async function AuthButton() {
         </div>
       </Link>
       <div className="md:flex hidden space-x-12 text-3xl">
+        <Link href="/lockin" className="relative group">
+          {/* <p className="absolute bottom-full left-1/2 transform -translate-x-1/2 p-1 pb-0 text-sm bg-appBg hidden group-hover:block text-nowrap">stats</p>
+          <MdOutlineAutoGraph className="btn-hover tex-3xl"/> */}
+          <p className="text-lg btn-hover font-bold">home</p>
+        </Link>
         <Link href="/stats" className="relative group">
           {/* <p className="absolute bottom-full left-1/2 transform -translate-x-1/2 p-1 pb-0 text-sm bg-appBg hidden group-hover:block text-nowrap">stats</p>
           <MdOutlineAutoGraph className="btn-hover tex-3xl"/> */}
