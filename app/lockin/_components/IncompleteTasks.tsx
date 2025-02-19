@@ -63,7 +63,7 @@ const IncompleteTasks: React.FC<IncompleteTasksProps> = ({
   const countToDos = (id: number): number => {
     let count=0;
     toDos.forEach((task)=> {
-      if(task.group_id===id) count++;
+      if(task.group_id===id && !task.is_complete) count++;
     })
     return count;
   }
