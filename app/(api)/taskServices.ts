@@ -118,3 +118,15 @@ export const markTaskIncomplete = async (task: Task):Promise<Task> => {
     return data as Task;
 
 }
+
+export const updateTaskGroup = async(task: Task, groupId: number|null):Promise<Task> => {
+    const {data, error} = await supabase
+    .from("tasks")
+    .update({group_id: groupId})
+    .eq("task_id", task.task_id)
+    .select("*")
+    .single();
+
+    if(error) throw error;
+    return data as Task;
+}

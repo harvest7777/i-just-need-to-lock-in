@@ -15,9 +15,10 @@ export default function Changelog() {
         </div>
         <div className="mb-2">
             <span className="text-yellow-600 font-bold">In Development - </span>
-            <span className="text-neutral-400">Polishing and refactoring</span>
+            <span className="text-neutral-400">Getting cooked by my classes, updates on pause.</span>
         </div>
         <div className="max-h-24 overflow-y-auto">
+            <p className="text-neutral-400">🟩 2/18/2025 - Added task groups</p>
             <p className="text-neutral-400">🔃 2/7/2025 - UI changes</p>
             <p className="text-neutral-400">🔨 2/2/2025 - Fixed lock in history skipping Sunday</p>
             <p className="text-neutral-400">🟩 2/1/2025 - Added ability to cancel session on demand</p>
