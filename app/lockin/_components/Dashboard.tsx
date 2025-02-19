@@ -57,7 +57,7 @@ export default function Dashboard() {
                             </div>
                         </>
                     ) : (
-                        <p className="text-center lg:text-2xl text-xl w-full mb-2">Click the 🔒 next to any task to lock in!</p>
+                        <p className="text-center lg:text-2xl text-xl w-full mb-2">Click the ⭐ next to any task to lock in!</p>
                     )}
                     <div className="w-full">
                         <BarGraph taskIntervals={taskIntervals}/>
