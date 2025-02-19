@@ -1,36 +1,37 @@
 "use client";
-import { useState } from "react"
+import React, {useState} from 'react';
+import {DndContext, DragEndEvent} from '@dnd-kit/core';
 
-import WordBlock from "@/components/ui/word-block";
-
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+import Droppable from './Droppable';
+import Draggable from './Draggable';
 
 export default function Playground() {
-  const [position, setPosition] = useState("session")
+  const groups= {
+    1:"some group",
+    2:"hello!",
+    3:"ahhh"
+  }
+  const tasks = {
+    0:"some task",
+    1:"another task"
+  }
   return (
-    <div className="flex flex-col items-center justify-center align-middle w-full h-screen bg-appFg ">
-    <DropdownMenu modal={false}>
-      <DropdownMenuTrigger >
-          <WordBlock text="asdf"></WordBlock>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56 mt-3">
-          <DropdownMenuLabel>Timer Type</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
-          <DropdownMenuRadioItem value="session">session</DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="today">today</DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="total">total</DropdownMenuRadioItem>
-        </DropdownMenuRadioGroup>
-      </DropdownMenuContent>
-    </DropdownMenu>
-    </div>
+    <DndContext onDragEnd={handleDragEndEvent}>
+      {Object.entries(groups).map(([id, name]) => (
+        <Droppable id={Number(id)}>
+          {name}
+        </Droppable>
+      ))}
+      {Object.entries(tasks).map(([id, name]) => (
+        <Draggable id={Number(id)}>
+          {name}
+        </Draggable>
+      ))}
+    </DndContext>
   )
+}
+
+function handleDragEndEvent(event: DragEndEvent) {
+  const over = event.over;
+  const active = event.active;
 }

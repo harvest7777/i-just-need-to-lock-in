@@ -21,5 +21,6 @@
     "http",
     "net"
   ],
+  "vim.leader": "\u003cSpace\u003e",
   "vim.smartRelativeLine": true
 }

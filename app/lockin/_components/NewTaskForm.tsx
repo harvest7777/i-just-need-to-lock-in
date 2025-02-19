@@ -28,7 +28,7 @@ const NewTaskForm: React.FC<NewTaskFormProps> = ({addNewTask}) => {
                     type="text"
                     placeholder="daily leetcode"
                     {...register("taskName", { required: "Need name!" })}  // Register input field with validation
-                    className="pl-2 w-5/6 rounded-lg bg-appBg"
+                    className="px-2 w-5/6 rounded-lg bg-appBg"
                     />
                     <button type="submit" className="bg-emerald-600 rounded-lg w-1/6 text-white btn-hover flex items-center justify-center">
                         <FaPlus/>

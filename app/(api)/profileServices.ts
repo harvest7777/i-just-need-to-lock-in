@@ -18,3 +18,9 @@ export const getProfilesByUsername = async(name: string): Promise<Profile[]> => 
   if(error) throw error;
   return data as Profile[]; 
 }
+
+export const getUserId = async():Promise<string> => {
+  const userId = (await supabase.auth.getUser()).data.user?.id;
+  if(userId==null) throw new Error("Error getting user id!");
+  return userId;
+}
