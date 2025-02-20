@@ -68,13 +68,6 @@ const IncompleteTasks: React.FC<IncompleteTasksProps> = ({
     return count;
   }
 
-  const mouseSensor = useSensor(MouseSensor, {
-      activationConstraint: {
-        delay: 200,    // delay in ms before drag activation
-        tolerance: 50,  // pointer movement tolerance in px
-      },
-  });
-
   const touchSensor = useSensor(TouchSensor, {
       activationConstraint: {
         delay: 200,    // delay in ms before drag activation
@@ -90,7 +83,6 @@ const IncompleteTasks: React.FC<IncompleteTasksProps> = ({
   })
 
   const sensors = useSensors(
-    mouseSensor,
     touchSensor,
     pointerSensor,
   );
@@ -118,7 +110,7 @@ const IncompleteTasks: React.FC<IncompleteTasksProps> = ({
 
   return (
     <DndContext onDragEnd={handleDropTask} sensors={sensors}>
-    <div className="flex flex-col items-center w-full p-2 pt-0 draggable">
+    <div className="flex flex-col items-center w-full p-2 pt-0 draggable select-none">
       <ConfirmDeleteModal taskToDelete={taskToDelete} setTaskToDelete={setTaskToDelete} handleDeleteTask={handleDeleteTask}/>
       <ConfirmDeleteGroupModal groupToDelete={groupToDelete} setGroupToDelete={setGroupToDelete} handleDeleteGroup={handleDeleteGroup}/>
       {groups.map((group: Group) => (
@@ -133,7 +125,7 @@ const IncompleteTasks: React.FC<IncompleteTasksProps> = ({
               <EditGroupName group={group} handleRenameGroup={handleRenameGroup} setEditingGroupId={setEditingGroupId}/>
             ):(
             <>
-              <div className="flex flex-1 space-x-2 overflow-hidden">
+              <div className="flex flex-1 space-x-2 overflow-hidden hover:cursor-pointer" onClick={()=>handleToggleShowGroup(group.id)}>
               <span className={`hover:cursor-pointer truncate ${shownGroups.includes(group.id) && "font-semibold"} `} onClick={()=>handleToggleShowGroup(group.id)}>{group.name}</span>
               <span className=""> {!shownGroups.includes(group.id) && `(${countToDos(group.id)})`}</span>
               </div>
@@ -149,16 +141,18 @@ const IncompleteTasks: React.FC<IncompleteTasksProps> = ({
           {/* all tasks part of this group */}
           {toDos.filter((task:Task)=>task.group_id===group.id&&!task.is_complete&&shownGroups.includes(group.id))
           .map((task:Task) => (
-            <DraggableTask className=" group relative flex space-x-1 w-full rounded-xl my-1 bg-appFg touch-none " key={task.task_id} id={task.task_id}>
+            <DraggableTask className=" group relative flex space-x-1 w-full rounded-xl my-1 bg-appFg touch-none" key={task.task_id} id={task.task_id}>
               {/* if the task is being edited, show input box */}
               {editingTaskId === task.task_id ? (
                 <EditTaskName handleRenameTask={handleRenameTask} task={task} setEditingTaskId={setEditingTaskId}/>
               ) : (
                 <>
                   <p className="flex-1 rounded-lg truncate">{task.name}</p>
+                    <div className="flex space-x-1" onPointerDown={(e)=>{e.stopPropagation()}} onTouchStart={(e)=>{e.stopPropagation()}} onMouseDown={(e)=>{e.stopPropagation()}}>
                     <RiDeleteBin6Line  className="hidden group-hover:block text-2xl flex-none btn-hover text-appBg hover:text-red-600"  onClick={()=>{setTaskToDelete(task)}}/>
                     <MdOutlineDriveFileRenameOutline className="hidden group-hover:block text-2xl flex-none btn-hover text-appBg hover:text-blue-600" onClick={()=>{setEditingTaskId(task.task_id); setEditingGroupId(null);}}/>
                     <FaRegStar className={`text-2xl flex-none btn-hover text-appBg ${focusedTask?.task_id==task.task_id && 'text-yellow-400'} hover:text-yellow-600`} onClick={()=>lockIntoTask(task)} />
+                    </div>
                 </>
               )}
             </DraggableTask>
@@ -171,16 +165,18 @@ const IncompleteTasks: React.FC<IncompleteTasksProps> = ({
       
       {toDos?.map( (task) => (!task.is_complete && !task.group_id) && (
         // list out incomplete tasks and corresponding buttons
-        <DraggableTask className="group relative flex space-x-1 w-full rounded-xl my-1 bg-appFg touch-none" key={task.task_id} id={task.task_id}>
+        <DraggableTask className=" group relative flex space-x-1 w-full rounded-xl my-1 bg-appFg touch-none" key={task.task_id} id={task.task_id}>
           {/* if the task is being edited, show input box */}
           {editingTaskId === task.task_id ? (
-              <EditTaskName handleRenameTask={handleRenameTask} task={task} setEditingTaskId={setEditingTaskId}/>
+            <EditTaskName handleRenameTask={handleRenameTask} task={task} setEditingTaskId={setEditingTaskId}/>
           ) : (
             <>
               <p className="flex-1 rounded-lg truncate">{task.name}</p>
-                <RiDeleteBin6Line  className="hidden group-hover:block text-2xl flex-none btn-hover text-appBg hover:text-red-600"  onClick={()=>setTaskToDelete(task)}/>
-                <MdOutlineDriveFileRenameOutline className="hidden group-hover:block text-2xl flex-none btn-hover text-appBg hover:text-blue-600"  onClick={()=>{setEditingTaskId(task.task_id); setEditingGroupId(null);}}/>
+                <div className="flex space-x-1" onPointerDown={(e)=>{e.stopPropagation()}} onTouchStart={(e)=>{e.stopPropagation()}} onMouseDown={(e)=>{e.stopPropagation()}}>
+                <RiDeleteBin6Line  className="hidden group-hover:block text-2xl flex-none btn-hover text-appBg hover:text-red-600"  onClick={()=>{setTaskToDelete(task)}}/>
+                <MdOutlineDriveFileRenameOutline className="hidden group-hover:block text-2xl flex-none btn-hover text-appBg hover:text-blue-600" onClick={()=>{setEditingTaskId(task.task_id); setEditingGroupId(null);}}/>
                 <FaRegStar className={`text-2xl flex-none btn-hover text-appBg ${focusedTask?.task_id==task.task_id && 'text-yellow-400'} hover:text-yellow-600`} onClick={()=>lockIntoTask(task)} />
+                </div>
             </>
           )}
         </DraggableTask>
