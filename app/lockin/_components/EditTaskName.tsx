@@ -26,8 +26,8 @@ const EditTaskName: React.FC<EditTaskNameProps> = ({handleRenameTask, setEditing
     };
 
     return (
-        <>
-        <form onSubmit={handleSubmit((data) => onSubmit(data, task))} className="flex-1">
+        <div className="flex space-x-1" onPointerDown={(e)=>{e.stopPropagation()}} onTouchStart={(e)=>{e.stopPropagation()}} onMouseDown={(e)=>{e.stopPropagation()}}>
+        <form onSubmit={handleSubmit((data) => onSubmit(data, task))} className="flex-1" >
         <input
             id="newTaskName"
             type="text"
@@ -37,7 +37,7 @@ const EditTaskName: React.FC<EditTaskNameProps> = ({handleRenameTask, setEditing
         />
         </form>
         <IoCheckmarkOutline className="text-2xl flex-none btn-hover text-appBg hover:text-green-600"  onClick={handleSubmit((data)=>onSubmit(data,task))} />
-        </>
+        </div>
     )
 }
 export default EditTaskName;
