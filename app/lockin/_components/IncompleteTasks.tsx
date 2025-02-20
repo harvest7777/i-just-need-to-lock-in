@@ -70,21 +70,21 @@ const IncompleteTasks: React.FC<IncompleteTasksProps> = ({
 
   const mouseSensor = useSensor(MouseSensor, {
       activationConstraint: {
-        delay: 100,    // delay in ms before drag activation
+        delay: 200,    // delay in ms before drag activation
         tolerance: 50,  // pointer movement tolerance in px
       },
   });
 
   const touchSensor = useSensor(TouchSensor, {
       activationConstraint: {
-        delay: 100,    // delay in ms before drag activation
+        delay: 200,    // delay in ms before drag activation
         tolerance: 50,  // pointer movement tolerance in px
       },
   });
   
   const pointerSensor = useSensor(PointerSensor, {
       activationConstraint: {
-        delay: 100,    // delay in ms before drag activation
+        delay: 200,    // delay in ms before drag activation
         tolerance: 50,  // pointer movement tolerance in px
       },
   })
