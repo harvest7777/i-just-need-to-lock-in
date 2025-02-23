@@ -26,7 +26,7 @@ export default function Features() {
           <h1 className="text-4xl font-bold">Feel connected 💖</h1>
           <div className="gap-x-2 mt-8 text-2xl">
             <span>Productivity doesn't have to be sad or lonely.</span>
-            <span className="font-bold text-black"> Win, grow, and stay connected with the people you love.</span>
+            <span className="font-bold text-black"> Win, grow, and stay productive with the people you love.</span>
           </div>
         </div>
         <div className="md:w-1/3 md:mt-0 mt-10 shadow-[0_0_20px_1px] shadow-emerald-400 md:p-10 p-5 rounded-xl">
