@@ -12,6 +12,7 @@ export default function HeaderSection() {
         <p className="text-2xl p-4 rounded-xl bg-appFg text-center text-emerald-800 w-fit font-bold btn-hover">I'M READY TO LOCK IN</p>
       </div>
       {/* demo video */}
+      <video src="demo.mp4" controls />
     </div>
   )
 }
