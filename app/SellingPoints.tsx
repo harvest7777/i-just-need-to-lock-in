@@ -7,14 +7,14 @@ export default function SellingPoints() {
   return (
     <div className="flex flex-col items-center justify-center align-middle w-full">
       {/* header */}
-      <h1 className="mt-24">
-        <span className="text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-blue-500">
+      <h1 className="md:mt-32 mt-24 flex items-center justify-center align-middle">
+        <span className="text-center md:text-6xl text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-blue-500">
           Every second counts
         </span>
       </h1>
 
       {/* relatability point */}
-      <h2 className="mt-10 text-2xl gap-x-2 w-full justify-center text-neutral-600 px-52">
+      <h2 className="mt-10 md:text-2xl text-xl gap-x-2 w-full justify-center text-neutral-600 md:px-52 px-10">
         <span>Do you ever find yourself wondering,</span>
         <span className="font-bold text-black"> where did all that time go?</span>
         <span> Managing time with imalockin boosts productivity and motivation, yielding</span>
@@ -22,22 +22,22 @@ export default function SellingPoints() {
       </h2>
 
       {/* benefits */}
-      <div className="mt-16 flex space-x-2 text-7xl text-emerald-400 w-5/6">
-        <div className="w-1/4 flex flex-col items-center justify-center h-full">
+      <div className="mt-24 flex md:flex-nowrap flex-wrap space-x-2 md:text-7xl text-5xl text-emerald-400  items-center justify-center align-top">
+        <div className="w-1/4 flex flex-col items-center justify-start align-top  h-36">
           <MdOutlineFilterCenterFocus />
-          <p className="text-2xl text-neutral-600 text-center">Better focus</p>
+          <p className="md:text-2xl text-lg text-neutral-600 text-center ">Better focus</p>
         </div>
-        <div className="w-1/4 flex flex-col items-center justify-center h-full">
+        <div className="w-1/4 flex flex-col items-center justify-start align-top h-36 ">
           <IoMdFolder />
-          <p className="text-2xl text-neutral-600 text-center">Stay organized</p>
+          <p className="md:text-2xl text-lg text-neutral-600 text-center">Stay organized</p>
         </div>
-        <div className="w-1/4 flex flex-col items-center justify-center h-full">
+        <div className="w-1/4 flex flex-col items-center justify-start align-top h-36">
           <MdAutoGraph />
-          <p className="text-2xl text-neutral-600 text-center">Visualize progress</p>
+          <p className="md:text-2xl text-lg text-neutral-600 text-center">Visualize progress</p>
         </div>
-        <div className="w-1/4 flex flex-col items-center justify-center h-full">
+        <div className="w-1/4 flex flex-col items-center justify-start align-top h-36">
           <FaUserFriends />
-          <p className="text-2xl text-neutral-600 text-center">Stay motivated with friends</p>
+          <p className="md:text-2xl text-lg text-neutral-600 text-center">Stay motivated with friends</p>
         </div>
       </div>
     </div>

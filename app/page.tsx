@@ -1,6 +1,7 @@
 import HeaderSection from "./HeaderSection"
 import SellingPoints from "./SellingPoints"
 import Features from "./Features"
+import Statistics from "./Statistics"
 
 export default function Landing() {
   return (
@@ -8,6 +9,7 @@ export default function Landing() {
       <HeaderSection />
       <SellingPoints />
       <Features />
+      <Statistics />
     </div>
   )
 }
