@@ -2,7 +2,6 @@ import { signOutAction } from "@/app/actions";
 import { createClient } from "@/utils/supabase/server";
 
 import { PiSignOut } from "react-icons/pi";
-import { MdLock } from "react-icons/md";
 import { LuSettings } from "react-icons/lu";
 import { FaHome } from "react-icons/fa";
 
@@ -14,11 +13,11 @@ export default async function AuthButton() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  return user&& (
+  return user && (
     // Nav container
     <div className="p-2 my-2 mb-3 rounded-2xl h-10 w-full flex items-center gap-4 justify-between ">
       <Link href="/lockin" className="flex sm:space-x-6 space-x-2 btn-hover" >
-        <FaHome className="text-emerald-600 h-full sm:text-4xl text-2xl"/>
+        <FaHome className="text-emerald-600 h-full sm:text-4xl text-2xl" />
         <div className="flex align-center items-baseline space-x-3">
           <h1 className="sm:text-4xl text-2xl font-extrabold text-emerald-800">LOCK IN</h1>
           <p className="text-emerald-800">beta 1.0</p>
@@ -41,13 +40,13 @@ export default async function AuthButton() {
           <p className="text-lg btn-hover font-bold">feed</p>
         </Link>
         <Link href="/profile" className="relative">
-          <LuSettings className="btn-hover text-3xl"/>
+          <LuSettings className="btn-hover text-3xl" />
         </Link>
         <div className="relative">
-          <PiSignOut className="btn-hover tetx-3xl" onClick={signOutAction}/>
+          <PiSignOut className="btn-hover tetx-3xl" onClick={signOutAction} />
         </div>
       </div>
-      <Dropdown/>
+      <Dropdown />
     </div>
   );
 }
