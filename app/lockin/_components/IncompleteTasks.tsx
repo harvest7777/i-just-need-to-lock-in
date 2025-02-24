@@ -125,8 +125,8 @@ const IncompleteTasks: React.FC<IncompleteTasksProps> = ({
                 <EditGroupName group={group} handleRenameGroup={handleRenameGroup} setEditingGroupId={setEditingGroupId} />
               ) : (
                 <>
-                  <div className="flex flex-1 space-x-2 overflow-hidden hover:cursor-pointer" onClick={() => handleToggleShowGroup(group.id)}>
-                    <span className={`hover:cursor-pointer truncate ${shownGroups.includes(group.id) && "font-semibold"} `} onClick={() => handleToggleShowGroup(group.id)}>{group.name}</span>
+                  <div className="gap-x-2 hover:cursor-pointer" onClick={() => handleToggleShowGroup(group.id)}>
+                    <span className={`hover:cursor-pointer  ${shownGroups.includes(group.id) && "font-semibold"} `} onClick={() => handleToggleShowGroup(group.id)}>{group.name}</span>
                     <span className=""> {!shownGroups.includes(group.id) && `(${countToDos(group.id)})`}</span>
                   </div>
                   <RiDeleteBin6Line className="hidden group-hover:block text-2xl flex-none btn-hover text-appBg hover:text-red-600" onClick={() => setGroupToDelete(group)} />
@@ -147,7 +147,7 @@ const IncompleteTasks: React.FC<IncompleteTasksProps> = ({
                       <EditTaskName handleRenameTask={handleRenameTask} task={task} setEditingTaskId={setEditingTaskId} />
                     ) : (
                       <>
-                        <p className="flex-1 rounded-lg truncate">{task.name}</p>
+                        <p className="flex-1 rounded-lg">{task.name}</p>
                         <div className="flex space-x-1" onPointerDown={(e) => { e.stopPropagation() }} onTouchStart={(e) => { e.stopPropagation() }} onMouseDown={(e) => { e.stopPropagation() }}>
                           <RiDeleteBin6Line className="hidden group-hover:block text-2xl flex-none btn-hover text-appBg hover:text-red-600" onClick={() => { setTaskToDelete(task) }} />
                           <MdOutlineDriveFileRenameOutline className="hidden group-hover:block text-2xl flex-none btn-hover text-appBg hover:text-blue-600" onClick={() => { setEditingTaskId(task.task_id); setEditingGroupId(null); }} />
@@ -165,13 +165,13 @@ const IncompleteTasks: React.FC<IncompleteTasksProps> = ({
 
         {toDos?.map((task) => (!task.is_complete && !task.group_id) && (
           // list out incomplete tasks and corresponding buttons
-          <DraggableTask className=" group relative flex space-x-1 w-full rounded-xl my-1 bg-appFg touch-none" key={task.task_id} id={task.task_id}>
+          <DraggableTask className=" group relative space-x-1 flex w-full rounded-xl my-1 bg-appFg touch-none" key={task.task_id} id={task.task_id}>
             {/* if the task is being edited, show input box */}
             {editingTaskId === task.task_id ? (
               <EditTaskName handleRenameTask={handleRenameTask} task={task} setEditingTaskId={setEditingTaskId} />
             ) : (
               <>
-                <p className="flex-1 rounded-lg truncate">{task.name}</p>
+                <p className="flex-1 rounded-lg ">{task.name}</p>
                 <div className="flex space-x-1" onPointerDown={(e) => { e.stopPropagation() }} onTouchStart={(e) => { e.stopPropagation() }} onMouseDown={(e) => { e.stopPropagation() }}>
                   <RiDeleteBin6Line className="hidden group-hover:block text-2xl flex-none btn-hover text-appBg hover:text-red-600" onClick={() => { setTaskToDelete(task) }} />
                   <MdOutlineDriveFileRenameOutline className="hidden group-hover:block text-2xl flex-none btn-hover text-appBg hover:text-blue-600" onClick={() => { setEditingTaskId(task.task_id); setEditingGroupId(null); }} />
