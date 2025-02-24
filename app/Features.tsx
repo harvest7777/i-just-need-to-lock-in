@@ -1,4 +1,5 @@
 import DemoGraph from "./DemoGraph"
+import DemoPieChart from "./DemoPieChart"
 import DemoFriendsList from "./DemoFriendsList"
 import DemoToDos from "./DemoToDos"
 
@@ -7,7 +8,8 @@ export default function Features() {
     <div className="p-5 pt-0">
       {/* sell the time graph */}
       <div className="md:mt-32 mt-24 flex md:flex-row flex-col md:space-x-10 w-full md:p-5">
-        <div className="md:w-1/2 md:mt-0 mt-10 shadow-[0_0_20px_1px] shadow-emerald-400 md:p-10 p-3 rounded-xl md:order-1 order-2">
+        <div className="flex flex-col md:w-1/2 md:mt-0 mt-10 shadow-[0_0_20px_1px] shadow-emerald-400 md:p-10 p-3 rounded-xl md:order-1 order-2">
+          <DemoPieChart />
           <DemoGraph />
         </div>
         <div className="text-neutral-600 md:p-10 md:w-1/2 md:text-left text-center flex flex-col justify-center md:order-2 order-1">
