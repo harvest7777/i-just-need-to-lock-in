@@ -14,15 +14,15 @@ export default function Signup(props: {
   const handleGetEmail = async () => {
     const searchParams = await props.searchParams;
     if (searchParams) {
-      if("success" in searchParams) {
-          setEmail(searchParams.success);
+      if ("success" in searchParams) {
+        setEmail(searchParams.success);
       }
-      if("error" in searchParams) {
+      if ("error" in searchParams) {
         setMessage("Account doesn't exist!");
       }
     }
   }
-  useEffect(()=>{handleGetEmail()},[])
+  useEffect(() => { handleGetEmail() }, [])
 
   return (
     <div className="w-full mt-20 flex justify-center items-center">
@@ -39,9 +39,9 @@ export default function Signup(props: {
             required
           />
           <SubmitButton className="bg-emerald-600 rounded-lg text-appFg btn-hover" formAction={(formData) => confirmOTP(formData, email)} pendingText="Signing up...">
-           Verify 
+            Verify
           </SubmitButton>
-          <p onClick={()=>tryAgainOTP(email)}  className="text-xs border-2 p-2 rounded-xl text-center btn-hover">Didn't receive a code within 5 minutes? Click here to try again.</p>
+          <p onClick={() => tryAgainOTP(email)} className="text-xs border-2 p-2 rounded-xl text-center btn-hover">No code in your inbox, junk, or spam? Click here to try again.</p>
           <p className="text-xs pl-2 text-red-500">{message}</p>
         </div>
       </form>
