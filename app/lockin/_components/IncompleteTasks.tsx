@@ -124,14 +124,16 @@ const IncompleteTasks: React.FC<IncompleteTasksProps> = ({
               {editingGroupId == group.id ? (
                 <EditGroupName group={group} handleRenameGroup={handleRenameGroup} setEditingGroupId={setEditingGroupId} />
               ) : (
-                <>
-                  <div className="gap-x-2 hover:cursor-pointer" onClick={() => handleToggleShowGroup(group.id)}>
+                <div className="flex flex-1">
+                  <div className="flex-1 gap-x-2 hover:cursor-pointer" onClick={() => handleToggleShowGroup(group.id)}>
                     <span className={`hover:cursor-pointer  ${shownGroups.includes(group.id) && "font-semibold"} `} onClick={() => handleToggleShowGroup(group.id)}>{group.name}</span>
                     <span className=""> {!shownGroups.includes(group.id) && `(${countToDos(group.id)})`}</span>
                   </div>
-                  <RiDeleteBin6Line className="hidden group-hover:block text-2xl flex-none btn-hover text-appBg hover:text-red-600" onClick={() => setGroupToDelete(group)} />
-                  <MdOutlineDriveFileRenameOutline className="hidden group-hover:block text-2xl flex-none btn-hover text-appBg hover:text-blue-600" onClick={() => { setEditingGroupId(group.id); setEditingTaskId(null); }} />
-                </>)}
+                  <div className="flex flex-none">
+                    <RiDeleteBin6Line className="hidden group-hover:block text-2xl flex-none btn-hover text-appBg hover:text-red-600" onClick={() => setGroupToDelete(group)} />
+                    <MdOutlineDriveFileRenameOutline className="hidden group-hover:block text-2xl flex-none btn-hover text-appBg hover:text-blue-600" onClick={() => { setEditingGroupId(group.id); setEditingTaskId(null); }} />
+                  </div>
+                </div>)}
             </div>
 
             {/* vertical line to seperate folders */}
