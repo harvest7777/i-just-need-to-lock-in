@@ -140,7 +140,7 @@ export default function DailyPieChart() {
   return (
     <div className="w-full card-outline bg-appFg flex flex-col items-center justify-center align-middle">
       <h1 className="text-2xl text-center font-bold py-3 pb-0">Your Day At A Glance</h1>
-      {noData && <h1>No data yet, complete a session to see your pie chart!</h1>}
+      {noData && <h1>No data yet, complete a session to see your pie chart</h1>}
       <CardContent className="p-0 md:w-3/5 w-10/12">
         <ChartContainer
           config={chartConfig}
