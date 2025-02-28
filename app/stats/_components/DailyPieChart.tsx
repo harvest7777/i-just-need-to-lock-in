@@ -14,6 +14,8 @@ import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
+  ChartLegend,
+  ChartLegendContent
 } from "@/components/ui/chart"
 
 interface GroupData {
@@ -22,19 +24,19 @@ interface GroupData {
   fill: String;
 }
 
-
-const chartConfig = {
-  secondsSpent: {
-    label: "Time",
-  },
-} satisfies ChartConfig
-
 export default function DailyPieChart() {
   const { toDos, completedTasks, setToDos, taskIntervals } = useGetTasks();
   const { groups } = useGroups({ setToDos });
 
   // group id: data about that group
   const [chartData, setChartData] = useState<GroupData[]>([]);
+  const [noData, setNoData] = useState<boolean>(true);
+  const [chartConfig, setChartConfig] = useState<ChartConfig>({
+    secondsSpent: {
+      label: "Time",
+    },
+  });
+
 
   const initialize = () => {
 
@@ -45,31 +47,31 @@ export default function DailyPieChart() {
     let newChartData = new Map;
 
     const colors: string[] = [
-      "#A067C5", // Brighter Lavender  
-      "#6F88C9", // Soft Royal Blue  
-      "#A07C6E", // Warm Mocha  
-      "#7FAF72", // Fresh Sage  
-      "#D47F87", // Cheerful Dusty Rose  
-      "#C779A8", // Playful Mauve  
-      "#63A3B8", // Lively Blue-Green  
-      "#C29C74", // Warm Honey Beige  
-      "#B6B15B", // Bright Olive  
-      "#6E9D8E"  // Vibrant Teal  
+      "#A067C5", "#6F88C9", "#A07C6E", "#7FAF72", "#D47F87",
+      "#C779A8", "#63A3B8", "#C29C74", "#B6B15B", "#6E9D8E",
+      "#FFB74D", "#FF8A65", "#81C784", "#64B5F6", "#BA68C8",
+      "#F06292", "#4DB6AC", "#FFD54F", "#E57373", "#7986CB"
     ];
 
 
     let colorIndex: number = 0;
-
+    let newChartConfig: ChartConfig = {
+      secondsSpent: { label: "Time" },
+    };
     let otherGroup: GroupData = { name: "other", secondsSpent: groupIdToSeconds.get(-1)!, fill: colors[colorIndex++] };
     newChartData.set(-1, otherGroup);
+    newChartConfig["other"] = { label: "other" };
 
     groups.forEach((group) => {
       let seconds: number | undefined = groupIdToSeconds.get(group.id);
       if (seconds == undefined) seconds = 0;
+      if (seconds > 0) setNoData(false);
       let newGroupData: GroupData = { name: group.name, secondsSpent: seconds, fill: colors[colorIndex++] };
       newChartData.set(group.id, newGroupData);
+      newChartConfig[group.name] = { label: group.name };
     })
     setChartData(Array.from(newChartData.values()));
+    setChartConfig(newChartConfig);
   }
 
   const initializeTotalTaskSeconds = (taskIntervals: TaskInterval[]) => {
@@ -117,11 +119,6 @@ export default function DailyPieChart() {
     return groupIdToSeconds;
   }
 
-  const displayName = (name: String): String => {
-    const group = chartData.find((group: GroupData) => group.name === name && group.secondsSpent > 0);
-    return group ? name : "";
-  }
-
   useEffect(() => {
     if (groups.length != 0 && toDos.length != 0) initialize();
   }, [toDos, groups, completedTasks, taskIntervals])
@@ -143,6 +140,7 @@ export default function DailyPieChart() {
   return (
     <div className="w-full card-outline bg-appFg flex flex-col items-center justify-center align-middle">
       <h1 className="text-2xl text-center font-bold py-3 pb-0">Your Day At A Glance</h1>
+      {noData && <h1>No data yet, complete a session to see your pie chart!</h1>}
       <CardContent className="p-0 md:w-3/5 w-10/12">
         <ChartContainer
           config={chartConfig}
@@ -152,14 +150,11 @@ export default function DailyPieChart() {
             <ChartTooltip content={<CustomTooltip />} />
             {/* this is the actual data of the chart */}
             <Pie data={chartData} dataKey="secondsSpent">
-              <LabelList
-                dataKey="name"
-                className="fill-background"
-                stroke="none"
-                fontSize={20}
-                formatter={(value: String) => (displayName(value))}
-              />
             </Pie>
+            <ChartLegend
+              content={<ChartLegendContent nameKey="name" />}
+              className=" -translate-y-2 flex-wrap gap-1 [&>*]:basis-1/3 [&>*]:justify-center"
+            />
           </PieChart>
         </ChartContainer>
       </CardContent>
