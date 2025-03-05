@@ -1,7 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
 
-const protectedRoutes = ["/lockin","/friends","/reset-password","/manage-friends","/stats"];
+const protectedRoutes = ["/lockin", "/friends", "/reset-password", "/manage-friends", "/stats", "/leaderboard"];
 const unauthenticatedRoutes = ["/sign-in", "/sign-up", "/forgot-password"];
 export const updateSession = async (request: NextRequest) => {
   // This `try/catch` block is only here for the interactive tutorial.
@@ -46,7 +46,7 @@ export const updateSession = async (request: NextRequest) => {
     }
 
     // only unauthenticated users should be able to view these routes
-    if(unauthenticatedRoutes.some((route) => request.nextUrl.pathname.startsWith(route))&&!user.error) {
+    if (unauthenticatedRoutes.some((route) => request.nextUrl.pathname.startsWith(route)) && !user.error) {
       return NextResponse.redirect(new URL("/lockin", request.url));
     }
     // Auto redirect to lockin page if the user is signed in
