@@ -8,10 +8,24 @@
   .btn-hover {
     @apply transform transition-transform duration-75 hover:cursor-pointer active:scale-90;
   }
+
   .card-outline {
     @apply shadow-md rounded-2xl;
   }
+
+  .perspective {
+    perspective: 800px;
   }
+
+  .podium-item {
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+    border-right: 6px solid rgba(0, 0, 0, 0.2);
+    position: relative;
+  }
+
+
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -67,31 +81,35 @@
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
   }
+
   body {
     @apply font-title;
     overflow: auto;
   }
-::-webkit-scrollbar {
-  width: 8px;
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #ededed;
+    border-radius: 5px;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #cecece;
+    border-radius: 5px;
+  }
+
 }
 
-/* Track */
-::-webkit-scrollbar-track {
-  background: #ededed;
-  border-radius:5px;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #cecece;
-  border-radius: 5px;
-}
-
-}
 @layer base {
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }

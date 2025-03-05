@@ -15,9 +15,10 @@ export default function Changelog() {
           </div>
           <div className="mb-2">
             <span className="text-yellow-600 font-bold">In Development - </span>
-            <span className="text-neutral-400">Getting cooked by my classes, updates on pause.</span>
+            <span className="text-neutral-400">Pomodoro mode, timer updates</span>
           </div>
           <div className="max-h-24 overflow-y-auto">
+            <p className="text-neutral-400">🟩 3/5/2025 - Added locked in leaderboards</p>
             <p className="text-neutral-400">🟩 2/23/2025 - Added pie chart analysis</p>
             <p className="text-neutral-400">🔨 2/18/2025 - Fixed task dragging on touchpad tap</p>
             <p className="text-neutral-400">🟩 2/18/2025 - Added task groups</p>
