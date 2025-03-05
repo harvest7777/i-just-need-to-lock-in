@@ -190,41 +190,9 @@ export type Database = {
         }
         Returns: boolean
       }
-      get_leaderboards:
-        | {
-            Args: {
-              timespan: string
-              user_timezone: string
-            }
-            Returns: {
-              friend_uuid: string
-              friend_name: string
-              locked: unknown
-            }[]
-          }
-        | {
-            Args: {
-              user_uuid: string
-              timespan: string
-              user_timezone: string
-            }
-            Returns: {
-              friend_uuid: string
-              friend_name: string
-              locked: unknown
-              formatted_locked: string
-            }[]
-          }
-      test: {
-        Args: {
-          user_timezone: string
-          cur_uuid: string
-        }
-        Returns: {
-          group_id: number
-          group_name: string
-          total_time: unknown
-        }[]
+      test_function: {
+        Args: Record<PropertyKey, never>
+        Returns: string
       }
     }
     Enums: {

@@ -202,7 +202,7 @@ export const deleteFriend = async (friendUUID: string) => {
   if (error) throw error;
 }
 
-export const getMostLockedInFriends = async (time: String): Promise<LeaderboardData[]> => {
+export const getMostLockedInFriends = async (time: string): Promise<LeaderboardData[]> => {
   const userId = await getUserId();
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   const { data, error } = await supabase.rpc('get_leaderboards', { user_uuid: userId, timespan: time, user_timezone: timezone });
