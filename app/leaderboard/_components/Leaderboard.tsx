@@ -33,7 +33,7 @@ export default function Leaderboard() {
           <div className="flex flex-col items-center ">
             <div className="flex justify-center items-end gap-6 h-fit perspective">
               {/* Second Place */}
-              <div className="md:text-lg text-sm flex flex-col items-center justify-center align-middle bg-gray-400 text-gray-950 font-bold md:w-24 w-20 rounded-lg p-2 podium-item h-36">
+              <div className="md:text-lg text-sm text-center flex flex-col items-center justify-center align-middle bg-gray-400 text-gray-950 font-bold md:w-24 w-20 rounded-lg p-2 podium-item h-36">
                 {leaderboard.length >= 2 ? (
                   <div className="h-full flex flex-col items-center justify-center align-middle">
                     <p>{leaderboard[1].friend_name}</p>
@@ -46,14 +46,14 @@ export default function Leaderboard() {
               </div>
 
               {/* First Place (Tallest) */}
-              <div className="md:text-lg text-sm flex flex-col items-center justify-center align-middle bg-yellow-400 text-yellow-950 font-bold md:w-28 w-24 rounded-lg p-2 podium-item h-48">
+              <div className="md:text-lg text-sm text-center flex flex-col items-center justify-center align-middle bg-yellow-400 text-yellow-950 font-bold md:w-28 w-24 rounded-lg p-2 podium-item h-48">
                 <p>{leaderboard[0].friend_name}</p>
                 <span className="text-2xl font-bold">🥇</span>
                 <p className="md:text-sm">{leaderboard[0].formatted_locked}</p>
               </div>
 
               {/* Third Place */}
-              <div className="md:text-lg text-sm  bg-orange-400 text-orange-950 flex flex-col items-center justify-center align-middle font-bold md:w-24 w-20 rounded-lg p-2 podium-item h-28">
+              <div className="md:text-lg text-sm text-center bg-orange-400 text-orange-950 flex flex-col items-center justify-center align-middle font-bold md:w-24 w-20 rounded-lg p-2 podium-item h-28">
                 {leaderboard.length >= 3 ? (
                   <div className="h-full flex flex-col items-center justify-center align-middle">
                     <p>{leaderboard[2].friend_name}</p>
