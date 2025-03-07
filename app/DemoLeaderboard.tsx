@@ -6,7 +6,7 @@ export default function DemoLeaderboard() {
   const leaderboard: LeaderboardData[] = [
     {
       friend_uuid: "",
-      friend_name: "isis",
+      friend_name: "icu",
       locked: "",
       formatted_locked: "12h 55m"
     },
