@@ -40,7 +40,7 @@ export default function Dashboard() {
             {/* locked in task and graph */}
             {focusedTask ? (
               <>
-                <div className="w-full space-y-2 p-5 rounded-2xl h-min">
+                <div className="w-full space-y-5 p-5 rounded-2xl h-min">
                   <LockedInTask focusedTask={focusedTask} handleCompleteTask={handleCompleteTask} startedFocusedTask={startedFocusedTask} handleStartTask={handleStartTask} handlePauseTask={handlePauseTask} />
                   <div className="flex justify-center items-center align-middle space-x-2">
                     <ChooseDisplay timerDisplay={timerDisplay} setTimerDisplay={setTimerDisplay} />
