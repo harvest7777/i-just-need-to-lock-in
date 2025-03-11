@@ -223,7 +223,7 @@ export type Database = {
         Returns: {
           group_id: number
           group_name: string
-          total_time: unknown
+          total_time: number
         }[]
       }
     }
