@@ -48,17 +48,15 @@ const WeeklyHistory = () => {
     const day = currentDate.getDate();
     return (
       <div className="bg-appFg card-outline w-full">
-        <h1 className="text-2xl text-center font-bold py-3">Weekly History</h1>
+        <div className="w-full flex items-center px-5 py-3">
+          <MdArrowForwardIos onClick={() => setDayView(((dayView - 1) + 7) % 7)} className="rotate-180  btn-hover flex-none md:text-5xl text-3xl text-appBg" />
+          <h1 className="text-2xl text-center font-bold flex-1">Weekly History</h1>
+          <MdArrowForwardIos onClick={() => setDayView((dayView + 1) % 7)} className=" btn-hover flex-none md:text-5xl text-3xl text-appBg" />
+        </div>
         <div className="mb-3 mt-1 text-gray-600 w-full">
           <p className="text-xl pl-16 ml-2">{dayWord}, {month} {day} </p>
         </div>
-        <div className="w-full flex items-center pb-3">
-          <MdArrowForwardIos onClick={() => setDayView(((dayView - 1) + 7) % 7)} className="rotate-180  btn-hover flex-none md:text-5xl text-3xl text-appBg mb-14" />
-          <div className="flex-1">
-            <BarGraph taskIntervals={intervals?.get(dayNumber) || []} />
-          </div>
-          <MdArrowForwardIos onClick={() => setDayView((dayView + 1) % 7)} className=" btn-hover flex-none md:text-5xl text-3xl text-appBg mb-14" />
-        </div>
+        <BarGraph taskIntervals={intervals?.get(dayNumber) || []} />
       </div>
     )
   }
