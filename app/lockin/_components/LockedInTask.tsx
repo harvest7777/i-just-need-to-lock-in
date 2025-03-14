@@ -20,15 +20,15 @@ const LockedInTask: React.FC<LockedInTaskProps> = ({
   handleCompleteTask,
 }) => {
   return (
-    <div className="w-full flex items-center align-middle justify-center space-x-5">
+    <div className="w-full flex items-center align-middle justify-center space-x-5 p-4 rounded-xl outline outline-2 outline-appBg">
       {/* Button container */}
-      <IoCheckmarkOutline className="text-4xl btn-hover" onClick={() => handleCompleteTask(focusedTask)} />
+      <h1 className="font-semibold md:text-2xl text-xl text-center"> {startedFocusedTask ? "🔒" : "🔓"} {focusedTask?.name}</h1>
+      <IoCheckmarkOutline className="text-4xl btn-hover flex-none" onClick={() => handleCompleteTask(focusedTask)} />
       {!startedFocusedTask ? (
-        <CiPlay1 className="text-4xl btn-hover" onClick={() => handleStartTask(focusedTask)} />
+        <CiPlay1 className="text-4xl btn-hover flex-none" onClick={() => handleStartTask(focusedTask)} />
       ) : (
-        <CiPause1 className="text-4xl btn-hover" onClick={() => handlePauseTask(focusedTask)} />
+        <CiPause1 className="text-4xl btn-hover flex-none" onClick={() => handlePauseTask(focusedTask)} />
       )}
-      <h1 className="font-semibold text-2xl text-center"> {startedFocusedTask ? "🔒" : "🔓"} {focusedTask?.name}</h1>
     </div>
   );
 };
