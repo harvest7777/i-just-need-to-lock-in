@@ -8,17 +8,17 @@ export default function DemoToDos() {
     <div className="flex gap-y-2 flex-col text-xl">
       <div className="flex justify-between">
         <h1 className="font-bold text-3xl">To Dos</h1>
-        <FaFolderPlus className="text-3xl text-appBg" />
+        <FaFolderPlus className="text-3xl text-app-bg" />
       </div>
 
       <div>
         <div className="relative group flex space-x-2">
-          <FaFolderOpen className="text-appBg text-2xl" />
+          <FaFolderOpen className="text-app-bg text-2xl" />
           <p className="font-bold">📙 Homework</p>
         </div>
 
         <div className="relative pl-8">
-          <div className="absolute left-4 top-0 h-full bg-red-500 border-l-2 border-appBg"></div>
+          <div className="absolute left-4 top-0 h-full bg-red-500 border-l-2 border-app-bg"></div>
           <div className="flex justify-between">
             <p>history reading</p>
             <FaRegStar className="text-yellow-400 text-2xl" />
@@ -29,12 +29,12 @@ export default function DemoToDos() {
 
       <div>
         <div className="relative group flex space-x-2 ">
-          <FaFolderOpen className="text-2xl text-appBg" />
+          <FaFolderOpen className="text-2xl text-app-bg" />
           <p className="font-bold">💻 Career</p>
         </div>
 
         <div className="relative pl-8">
-          <div className="absolute left-4 top-0 h-full bg-red-500 border-l-2 border-appBg"></div>
+          <div className="absolute left-4 top-0 h-full bg-red-500 border-l-2 border-app-bg"></div>
           <p>daily leetcode</p>
           <p>apply to 3 jobs</p>
         </div>
@@ -42,18 +42,18 @@ export default function DemoToDos() {
 
       <div>
         <div className="relative group flex space-x-2 ">
-          <FaFolderOpen className="text-2xl text-appBg" />
+          <FaFolderOpen className="text-2xl text-app-bg" />
           <p className="font-bold">🌿 Self Care</p>
         </div>
 
         <div className="relative pl-8">
-          <div className="absolute left-4 top-0 h-full bg-red-500 border-l-2 border-appBg"></div>
+          <div className="absolute left-4 top-0 h-full bg-red-500 border-l-2 border-app-bg"></div>
           <p>stretches</p>
           <p>breathing exercises</p>
         </div>
       </div>
       <div className="relative group flex space-x-2 ">
-        <IoMdFolder className="text-2xl text-appBg" />
+        <IoMdFolder className="text-2xl text-app-bg" />
         <p>🌍 Projects (2)</p>
       </div>
     </div>

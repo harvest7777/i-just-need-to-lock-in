@@ -6,7 +6,7 @@ import Link from "next/link";
 import hero_image from "../app/public/images/hero.png"
 export default async function Index() {
   return (
-      <div className="min-h-screen h-max w-full bg-appFg absolute top-0 left-0 pb-10">
+      <div className="min-h-screen h-max w-full bg-app-fg absolute top-0 left-0 pb-10">
         {/* hero container */}
         <div className="flex mt-16 justify-center items-center p-5">
           {/* header */}
@@ -16,7 +16,7 @@ export default async function Index() {
 
             {/* button container */}
             <div className="flex flex-col mt-3">
-              <Link href="sign-up" className="w-32 text-center bg-emerald-600 text-appFg rounded-md font-header p-2 btn-hover">I'M READY TO LOCK IN</Link>
+              <Link href="sign-up" className="w-32 text-center bg-app-highlight text-app-fg rounded-md font-header p-2 btn-hover">I'M READY TO LOCK IN</Link>
             </div>
           </div>
         

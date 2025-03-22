@@ -52,19 +52,19 @@ export default function ManageProfile() {
   }, [])
 
   return (
-    <div className="bg-appFg rounded-2xl p-2 md:w-2/3 w-full flex flex-col space-y-4 pb-10 mt-5">
-      <h1 className="text-center text-emerald-600 font-bold text-3xl">Profile</h1>
+    <div className="bg-app-fg rounded-2xl p-2 md:w-2/3 w-full flex flex-col space-y-4 pb-10 mt-5">
+      <h1 className="text-center text-app-highlight font-bold text-3xl">Profile</h1>
       {/* username container */}
       <div className="flex">
         <p className="w-1/3">username</p>
-        <div className="flex w-1/2 bg-appBg rounded-xl justify-between">
+        <div className="flex w-1/2 bg-app-bg rounded-xl justify-between">
           {editingUsername ? (
             <form onSubmit={handleSubmit((data) => onSubmit(data))} className="w-full">
               <input
                 id="newName"
                 placeholder={userData.username}
                 {...register("newName")}
-                className="w-full pl-2 bg-appBg focus:outline-none rounded-xl"
+                className="w-full pl-2 bg-app-bg focus:outline-hidden rounded-xl"
               />
             </form>
           ) : (
@@ -80,7 +80,7 @@ export default function ManageProfile() {
       {/* email container */}
       <div className="flex">
         <p className="w-1/3">email</p>
-        <p className="w-2/3 bg-appBg rounded-xl pl-2">{userData.email}</p>
+        <p className="w-2/3 bg-app-bg rounded-xl pl-2">{userData.email}</p>
       </div>
     </div>
   )

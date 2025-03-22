@@ -20,7 +20,7 @@ const LockedInTask: React.FC<LockedInTaskProps> = ({
   handleCompleteTask,
 }) => {
   return (
-    <div className="w-full flex items-center align-middle justify-center space-x-5 p-4 rounded-xl outline outline-2 outline-appBg">
+    <div className="w-full flex items-center align-middle justify-center space-x-5 p-4 rounded-xl outline outline-2 outline-app-bg">
       {/* Button container */}
       <h1 className="font-semibold md:text-2xl text-xl text-center"> {startedFocusedTask ? "🔒" : "🔓"} {focusedTask?.name}</h1>
       {!startedFocusedTask ? (

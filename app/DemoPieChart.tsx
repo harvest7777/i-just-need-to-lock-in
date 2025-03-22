@@ -36,7 +36,7 @@ const CustomTooltip = ({ active, payload }: any) => {
   const { name, value } = payload[0]; // Extracting data
 
   return (
-    <div className="p-2 bg-appFg shadow-md rounded-md border" >
+    <div className="p-2 bg-app-fg shadow-md rounded-md border" >
       <p className="font-semibold">{name}</p>
       <p className="text-sm text-gray-600">
         {getTimeDisplayFromSeconds(value)}
@@ -53,7 +53,7 @@ const displayName = (name: String): String => {
 export default function DemoPieChart() {
   return (
 
-    <div className="w-full bg-appFg flex flex-col items-center justify-center align-middle">
+    <div className="w-full bg-app-fg flex flex-col items-center justify-center align-middle">
       <h1 className="text-2xl text-center font-bold py-3 pb-0">Your Day At A Glance</h1>
       <CardContent className="p-0 md:w-3/5 w-10/12">
         <ChartContainer

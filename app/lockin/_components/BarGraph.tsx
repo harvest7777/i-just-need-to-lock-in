@@ -15,81 +15,85 @@ import { calculateHourlyIntervals } from "@/app/(helpers)/calculateHourlyInterva
 import { getTimeDisplayFromIntervals } from "@/app/(helpers)/getTimeDisplay";
 
 interface BarGraphProps {
-    taskIntervals: TaskInterval[];
+  taskIntervals: TaskInterval[];
 }
 
-const BarGraph: React.FC<BarGraphProps> = ({taskIntervals}) => {
-    // This component houses the hourintervals for the graph display
-    // This component houses the time display
-    const [hourIntervals, setHourIntervals] = useState<number[]|null>(null);
-    const [timeDisplay, setTimeDisplay] = useState<string>("0 min");
+const BarGraph: React.FC<BarGraphProps> = ({ taskIntervals }) => {
+  // This component houses the hourintervals for the graph display
+  // This component houses the time display
+  const [hourIntervals, setHourIntervals] = useState<number[] | null>(null);
+  const [timeDisplay, setTimeDisplay] = useState<string>("0 min");
 
-    useEffect(()=>{
-        setHourIntervals(calculateHourlyIntervals(taskIntervals));
-        setTimeDisplay(getTimeDisplayFromIntervals(taskIntervals));
-    },[taskIntervals])
+  useEffect(() => {
+    setHourIntervals(calculateHourlyIntervals(taskIntervals));
+    setTimeDisplay(getTimeDisplayFromIntervals(taskIntervals));
+  }, [taskIntervals])
 
-    if(!hourIntervals) return (
-        <div className="h-full bg-appFg">
-        </div>
-    )
-    const chartData = [
-        { time: "12AM", minutes: hourIntervals[0] },
-        { time: "1AM", minutes: hourIntervals[1] },
-        { time: "2AM", minutes: hourIntervals[2] },
-        { time: "3AM", minutes: hourIntervals[3] },
-        { time: "4AM", minutes: hourIntervals[4] },
-        { time: "5AM", minutes: hourIntervals[5] },
-        { time: "6AM", minutes: hourIntervals[6] },
-        { time: "7AM", minutes: hourIntervals[7] },
-        { time: "8AM", minutes: hourIntervals[8] },
-        { time: "9AM", minutes: hourIntervals[9] },
-        { time: "10AM", minutes: hourIntervals[10] },
-        { time: "11AM", minutes: hourIntervals[11] },
-        { time: "12PM", minutes: hourIntervals[12] },
-        { time: "1PM", minutes: hourIntervals[13] },
-        { time: "2PM", minutes: hourIntervals[14] },
-        { time: "3PM", minutes: hourIntervals[15] },
-        { time: "4PM", minutes: hourIntervals[16] },
-        { time: "5PM", minutes: hourIntervals[17] },
-        { time: "6PM", minutes: hourIntervals[18] },
-        { time: "7PM", minutes: hourIntervals[19] },
-        { time: "8PM", minutes: hourIntervals[20] },
-        { time: "9PM", minutes: hourIntervals[21] },
-        { time: "10PM", minutes: hourIntervals[22] },
-        { time: "11PM", minutes: hourIntervals[23] }
-    ];
+  if (!hourIntervals) return (
+    <div className="h-full bg-app-fg">
+    </div>
+  )
+  const chartData = [
+    { time: "12AM", minutes: hourIntervals[0] },
+    { time: "1AM", minutes: hourIntervals[1] },
+    { time: "2AM", minutes: hourIntervals[2] },
+    { time: "3AM", minutes: hourIntervals[3] },
+    { time: "4AM", minutes: hourIntervals[4] },
+    { time: "5AM", minutes: hourIntervals[5] },
+    { time: "6AM", minutes: hourIntervals[6] },
+    { time: "7AM", minutes: hourIntervals[7] },
+    { time: "8AM", minutes: hourIntervals[8] },
+    { time: "9AM", minutes: hourIntervals[9] },
+    { time: "10AM", minutes: hourIntervals[10] },
+    { time: "11AM", minutes: hourIntervals[11] },
+    { time: "12PM", minutes: hourIntervals[12] },
+    { time: "1PM", minutes: hourIntervals[13] },
+    { time: "2PM", minutes: hourIntervals[14] },
+    { time: "3PM", minutes: hourIntervals[15] },
+    { time: "4PM", minutes: hourIntervals[16] },
+    { time: "5PM", minutes: hourIntervals[17] },
+    { time: "6PM", minutes: hourIntervals[18] },
+    { time: "7PM", minutes: hourIntervals[19] },
+    { time: "8PM", minutes: hourIntervals[20] },
+    { time: "9PM", minutes: hourIntervals[21] },
+    { time: "10PM", minutes: hourIntervals[22] },
+    { time: "11PM", minutes: hourIntervals[23] }
+  ];
 
-    const chartConfig = {
+  const appHighlightColor = getComputedStyle(document.documentElement)
+    .getPropertyValue("--color-app-highlight")
+    .trim();
+
+  const chartConfig = {
     minutes: {
-        label: "Minutes",
-        color: "#10b981",
+      label: "Minutes",
+      color: appHighlightColor || "#10b981",
     },
-    } satisfies ChartConfig
+  } satisfies ChartConfig
 
-    return(
-        <div className="h-full">
-        <ChartContainer config={chartConfig} className="min-h-[100px] w-full pr-4">
+  return (
+    <div className="h-full">
+      <ChartContainer config={chartConfig} className="min-h-[100px] w-full pr-4">
         <BarChart data={chartData}>
-            <CartesianGrid vertical={false} strokeDasharray={"3 3"} strokeWidth={3} stroke="#d7dde1"/>
-            <XAxis
+          <CartesianGrid vertical={false} strokeDasharray={"3 3"} strokeWidth={3} stroke="#d7dde1" />
+          <XAxis
             dataKey="time"
             tickLine={true}
             interval={4}
             tickSize={5}
             tickMargin={10}
             axisLine={false}
-            padding={{left:0,right:30}}
-            />
-            <YAxis allowDataOverflow={false} tickCount={3} axisLine={false} unit={"m"} domain={[0,60]} dx={-8}> 
-            </YAxis> 
-            <ChartTooltip content={<ChartTooltipContent />} />
-            <Bar dataKey="minutes" fill="var(--color-minutes)" radius={3} barSize={100} />
+            padding={{ left: 0, right: 30 }}
+          />
+          <YAxis allowDataOverflow={false} tickCount={3} axisLine={false} unit={"m"} domain={[0, 60]} dx={-8}>
+          </YAxis>
+          <ChartTooltip content={<ChartTooltipContent />} />
+          <Bar dataKey="minutes" fill="var(--color-minutes)" radius={3} barSize={100} />
         </BarChart>
-        </ChartContainer>
-        <p className="text-l text-gray-600 pl-6 text-center">{timeDisplay}</p>
-        </div>
-    )
+      </ChartContainer>
+      <p className="text-l text-gray-600 pl-6 text-center">{timeDisplay}</p>
+    </div>
+  )
 }
 
 export default BarGraph;

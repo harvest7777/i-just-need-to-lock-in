@@ -7,7 +7,7 @@ interface HeaderCardProps {
 const HeaderCard:React.FC<HeaderCardProps> = ({title, className}) => {
     return (
         <>
-        <h1 className={`text-center text-emerald-600 font-bold text-3xl mt-5 bg-appFg p-2 px-4 card-outline ${className}`}>{title}</h1>
+        <h1 className={`text-center text-app-highlight font-bold text-3xl mt-5 bg-app-fg p-2 px-4 card-outline ${className}`}>{title}</h1>
         </>
     )
 }

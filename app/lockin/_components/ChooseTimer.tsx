@@ -21,10 +21,10 @@ const ChooseDisplay:React.FC<ChooseDisplayInterface> = ({timerDisplay,setTimerDi
     return (
         <div className="relative z-10 ">
             <DropdownMenu modal={false}>
-            <DropdownMenuTrigger className="ring-0 focus:ring-0 focus:outline-none">
-                <WordBlock className="!justify-between" text={timerDisplay}><RiArrowDropDownLine/></WordBlock>
+            <DropdownMenuTrigger className="ring-0 focus:ring-0 focus:outline-hidden">
+                <WordBlock className="justify-between!" text={timerDisplay}><RiArrowDropDownLine/></WordBlock>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-[var(--radix-popper-anchor-width)] mt-3 bg-appFg">
+            <DropdownMenuContent className="w-[var(--radix-popper-anchor-width)] mt-3 bg-app-fg">
                 <DropdownMenuRadioGroup value={timerDisplay} onValueChange={setTimerDisplay}>
                 <DropdownMenuRadioItem value="session">session</DropdownMenuRadioItem>
                 <DropdownMenuRadioItem value="today">today</DropdownMenuRadioItem>

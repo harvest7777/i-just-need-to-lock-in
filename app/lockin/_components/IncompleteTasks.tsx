@@ -118,8 +118,8 @@ const IncompleteTasks: React.FC<IncompleteTasksProps> = ({
             {/* group managing contents */}
             <div className="relative group flex space-x-2">
               {shownGroups.includes(group.id) ?
-                (<FaFolderOpen className="flex-none text-2xl text-appBg btn-hover" onClick={() => handleToggleShowGroup(group.id)} />) : (
-                  <IoMdFolder className="flex-none text-2xl text-appBg btn-hover" onClick={() => handleToggleShowGroup(group.id)} />)}
+                (<FaFolderOpen className="flex-none text-2xl text-app-bg btn-hover" onClick={() => handleToggleShowGroup(group.id)} />) : (
+                  <IoMdFolder className="flex-none text-2xl text-app-bg btn-hover" onClick={() => handleToggleShowGroup(group.id)} />)}
 
               {editingGroupId == group.id ? (
                 <EditGroupName group={group} handleRenameGroup={handleRenameGroup} setEditingGroupId={setEditingGroupId} />
@@ -130,20 +130,20 @@ const IncompleteTasks: React.FC<IncompleteTasksProps> = ({
                     <span className=""> {!shownGroups.includes(group.id) && `(${countToDos(group.id)})`}</span>
                   </div>
                   <div className="flex flex-none">
-                    <RiDeleteBin6Line className="hidden group-hover:block text-2xl flex-none btn-hover text-appBg hover:text-red-600" onClick={() => setGroupToDelete(group)} />
-                    <MdOutlineDriveFileRenameOutline className="hidden group-hover:block text-2xl flex-none btn-hover text-appBg hover:text-blue-600" onClick={() => { setEditingGroupId(group.id); setEditingTaskId(null); }} />
+                    <RiDeleteBin6Line className="hidden group-hover:block text-2xl flex-none btn-hover text-app-bg hover:text-red-600" onClick={() => setGroupToDelete(group)} />
+                    <MdOutlineDriveFileRenameOutline className="hidden group-hover:block text-2xl flex-none btn-hover text-app-bg hover:text-blue-600" onClick={() => { setEditingGroupId(group.id); setEditingTaskId(null); }} />
                   </div>
                 </div>)}
             </div>
 
             {/* vertical line to seperate folders */}
             <div className="relative pl-4">
-              <div className="absolute left-1 top-0 h-full bg-red-500 border-l-2 border-appBg"></div>
+              <div className="absolute left-1 top-0 h-full bg-red-500 border-l-2 border-app-bg"></div>
 
               {/* all tasks part of this group */}
               {toDos.filter((task: Task) => task.group_id === group.id && !task.is_complete && shownGroups.includes(group.id))
                 .map((task: Task) => (
-                  <DraggableTask className=" group relative flex space-x-1 w-full rounded-xl my-1 bg-appFg touch-none" key={task.task_id} id={task.task_id}>
+                  <DraggableTask className=" group relative flex space-x-1 w-full rounded-xl my-1 bg-app-fg touch-none" key={task.task_id} id={task.task_id}>
                     {/* if the task is being edited, show input box */}
                     {editingTaskId === task.task_id ? (
                       <EditTaskName handleRenameTask={handleRenameTask} task={task} setEditingTaskId={setEditingTaskId} />
@@ -151,9 +151,9 @@ const IncompleteTasks: React.FC<IncompleteTasksProps> = ({
                       <>
                         <p className="flex-1 rounded-lg">{task.name}</p>
                         <div className="flex space-x-1" onPointerDown={(e) => { e.stopPropagation() }} onTouchStart={(e) => { e.stopPropagation() }} onMouseDown={(e) => { e.stopPropagation() }}>
-                          <RiDeleteBin6Line className="hidden group-hover:block text-2xl flex-none btn-hover text-appBg hover:text-red-600" onClick={() => { setTaskToDelete(task) }} />
-                          <MdOutlineDriveFileRenameOutline className="hidden group-hover:block text-2xl flex-none btn-hover text-appBg hover:text-blue-600" onClick={() => { setEditingTaskId(task.task_id); setEditingGroupId(null); }} />
-                          <FaRegStar className={`text-2xl flex-none btn-hover text-appBg ${focusedTask?.task_id == task.task_id && 'text-yellow-400'} hover:text-yellow-600`} onClick={() => lockIntoTask(task)} />
+                          <RiDeleteBin6Line className="hidden group-hover:block text-2xl flex-none btn-hover text-app-bg hover:text-red-600" onClick={() => { setTaskToDelete(task) }} />
+                          <MdOutlineDriveFileRenameOutline className="hidden group-hover:block text-2xl flex-none btn-hover text-app-bg hover:text-blue-600" onClick={() => { setEditingTaskId(task.task_id); setEditingGroupId(null); }} />
+                          <FaRegStar className={`text-2xl flex-none btn-hover text-app-bg ${focusedTask?.task_id == task.task_id && 'text-yellow-400'} hover:text-yellow-600`} onClick={() => lockIntoTask(task)} />
                         </div>
                       </>
                     )}
@@ -167,7 +167,7 @@ const IncompleteTasks: React.FC<IncompleteTasksProps> = ({
 
         {toDos?.map((task) => (!task.is_complete && !task.group_id) && (
           // list out incomplete tasks and corresponding buttons
-          <DraggableTask className=" group relative space-x-1 flex w-full rounded-xl my-1 bg-appFg touch-none" key={task.task_id} id={task.task_id}>
+          <DraggableTask className=" group relative space-x-1 flex w-full rounded-xl my-1 bg-app-fg touch-none" key={task.task_id} id={task.task_id}>
             {/* if the task is being edited, show input box */}
             {editingTaskId === task.task_id ? (
               <EditTaskName handleRenameTask={handleRenameTask} task={task} setEditingTaskId={setEditingTaskId} />
@@ -175,9 +175,9 @@ const IncompleteTasks: React.FC<IncompleteTasksProps> = ({
               <>
                 <p className="flex-1 rounded-lg ">{task.name}</p>
                 <div className="flex space-x-1" onPointerDown={(e) => { e.stopPropagation() }} onTouchStart={(e) => { e.stopPropagation() }} onMouseDown={(e) => { e.stopPropagation() }}>
-                  <RiDeleteBin6Line className="hidden group-hover:block text-2xl flex-none btn-hover text-appBg hover:text-red-600" onClick={() => { setTaskToDelete(task) }} />
-                  <MdOutlineDriveFileRenameOutline className="hidden group-hover:block text-2xl flex-none btn-hover text-appBg hover:text-blue-600" onClick={() => { setEditingTaskId(task.task_id); setEditingGroupId(null); }} />
-                  <FaRegStar className={`text-2xl flex-none btn-hover text-appBg ${focusedTask?.task_id == task.task_id && 'text-yellow-400'} hover:text-yellow-600`} onClick={() => lockIntoTask(task)} />
+                  <RiDeleteBin6Line className="hidden group-hover:block text-2xl flex-none btn-hover text-app-bg hover:text-red-600" onClick={() => { setTaskToDelete(task) }} />
+                  <MdOutlineDriveFileRenameOutline className="hidden group-hover:block text-2xl flex-none btn-hover text-app-bg hover:text-blue-600" onClick={() => { setEditingTaskId(task.task_id); setEditingGroupId(null); }} />
+                  <FaRegStar className={`text-2xl flex-none btn-hover text-app-bg ${focusedTask?.task_id == task.task_id && 'text-yellow-400'} hover:text-yellow-600`} onClick={() => lockIntoTask(task)} />
                 </div>
               </>
             )}

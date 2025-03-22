@@ -75,7 +75,7 @@ export default function Playground() {
     const { name, value } = payload[0]; // Extracting data
 
     return (
-      <div className="p-2 bg-appFg shadow-md rounded-md border" >
+      <div className="p-2 bg-app-fg shadow-md rounded-md border" >
         <p className="font-semibold">{name}</p>
         <p className="text-sm text-gray-600">
           {getTimeDisplayFromSeconds(value)}
@@ -85,7 +85,7 @@ export default function Playground() {
   };
 
   return (
-    <div className="w-full card-outline bg-appFg flex flex-col items-center justify-center align-middle">
+    <div className="w-full card-outline bg-app-fg flex flex-col items-center justify-center align-middle">
       <h1 className="text-2xl text-center font-bold py-3 pb-0">Your Day At A Glance</h1>
       <CardContent className="p-0 md:w-3/5 w-10/12">
         <ChartContainer
@@ -99,7 +99,7 @@ export default function Playground() {
             </Pie>
             <ChartLegend
               content={<ChartLegendContent nameKey="name" />}
-              className=" -translate-y-2 flex-wrap gap-1 [&>*]:basis-1/3 [&>*]:justify-center"
+              className=" -translate-y-2 flex-wrap gap-1 *:basis-1/3 *:justify-center"
             />
           </PieChart>
         </ChartContainer>

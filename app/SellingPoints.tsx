@@ -8,7 +8,7 @@ export default function SellingPoints() {
     <div className="flex flex-col items-center justify-center align-middle w-full">
       {/* header */}
       <h1 className="md:mt-32 mt-24 flex items-center justify-center align-middle">
-        <span className="text-center md:text-6xl text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-blue-500">
+        <span className="text-center md:text-6xl text-5xl font-bold bg-clip-text text-transparent bg-linear-to-r from-emerald-400 to-blue-500">
           Every second counts
         </span>
       </h1>

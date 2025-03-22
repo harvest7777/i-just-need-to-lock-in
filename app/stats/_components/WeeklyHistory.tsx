@@ -47,11 +47,11 @@ const WeeklyHistory = () => {
     const month = currentDate.toLocaleString('default', { month: 'long' });
     const day = currentDate.getDate();
     return (
-      <div className="bg-appFg card-outline w-full">
+      <div className="bg-app-fg card-outline w-full">
         <div className="w-full flex items-center px-5 py-3">
-          <MdArrowForwardIos onClick={() => setDayView(((dayView - 1) + 7) % 7)} className="rotate-180  btn-hover flex-none md:text-5xl text-3xl text-appBg" />
+          <MdArrowForwardIos onClick={() => setDayView(((dayView - 1) + 7) % 7)} className="rotate-180  btn-hover flex-none md:text-5xl text-3xl text-app-bg" />
           <h1 className="text-2xl text-center font-bold flex-1">Weekly History</h1>
-          <MdArrowForwardIos onClick={() => setDayView((dayView + 1) % 7)} className=" btn-hover flex-none md:text-5xl text-3xl text-appBg" />
+          <MdArrowForwardIos onClick={() => setDayView((dayView + 1) % 7)} className=" btn-hover flex-none md:text-5xl text-3xl text-app-bg" />
         </div>
         <div className="mb-3 mt-1 text-gray-600 w-full">
           <p className="text-xl pl-16 ml-2">{dayWord}, {month} {day} </p>

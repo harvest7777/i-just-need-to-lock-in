@@ -18,7 +18,7 @@ const FriendsList = React.memo(function FriendsList() {
 
         <Link className="relative" href="/manage-friends">
           {pendingFriends.length > 0 && <div className="absolute top-[-5px] right-[-5px] z-40 w-3 h-3 bg-red-600 rounded-full " />}
-          <MdOutlineManageAccounts className="text-2xl btn-hover hover:text-emerald-600" />
+          <MdOutlineManageAccounts className="text-2xl btn-hover hover:text-app-highlight" />
         </Link>
       </div>
 

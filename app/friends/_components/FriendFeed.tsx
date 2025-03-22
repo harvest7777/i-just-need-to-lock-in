@@ -41,7 +41,7 @@ export default function FriendFeed() {
         .slice()
         .sort((a,b) => b.totalSeconds - a.totalSeconds)
         .map((data)=> (
-            <div key={data.friend.user_id} className="p-2 bg-appFg mt-5 md:w-3/5 w-full card-outline ">
+            <div key={data.friend.user_id} className="p-2 bg-app-fg mt-5 md:w-3/5 w-full card-outline ">
                 <div className="flex justify-between text-gray-600 pt-1">
                 <p className="md:text-2xl text-xl ml-5">{data.friend.name}</p>
                 <p className="text-2xl italic mr-5">{friendActivity.get(data.friend.user_id)?.last_start_time && `🔒${friendActivity.get(data.friend.user_id)?.name}`}</p>

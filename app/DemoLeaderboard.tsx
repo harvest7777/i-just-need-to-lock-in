@@ -38,7 +38,7 @@ export default function DemoLeaderboard() {
 
 
   return (
-    <div className="w-full flex flex-col space-y-5 items-center justify-center align-middle bg-appFg">
+    <div className="w-full flex flex-col space-y-5 items-center justify-center align-middle bg-app-fg">
       <h1 className="text-2xl text-center font-bold py-3 pb-0">Today's Top Locked Inners 😎</h1>
       {/* option selection container */}
       {leaderboard.length > 0 ? (
@@ -78,7 +78,7 @@ export default function DemoLeaderboard() {
             </div>
           </div>
           {/* all the other people */}
-          <div className="mt-5 w-full divide-y divide-appBg px-2 rounded-xl">
+          <div className="mt-5 w-full divide-y divide-app-bg px-2 rounded-xl">
             {leaderboard.slice(3).map((data, index) => (
               <div key={index} className="flex justify-between p-2">
                 <p>{index + 4}. {data.friend_name}</p>

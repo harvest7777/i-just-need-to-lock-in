@@ -11,7 +11,7 @@ const NewGroupButton:React.FC<NewGroupButtonProps> = ({setGroups, handleMakeGrou
     return (
     <div className="flex">
         {visible && <MakeGroupModal setGroups={setGroups} handleMakeGroup={handleMakeGroup} setVisible={setVisible}/>}
-        <FaFolderPlus onClick={()=>setVisible(true)} className="text-2xl btn-hover hover:text-green-600 text-appBg"/>
+        <FaFolderPlus onClick={()=>setVisible(true)} className="text-2xl btn-hover hover:text-green-600 text-app-bg"/>
         <p className="text-l">✨</p>
     </div>
     )
