@@ -14,8 +14,8 @@
 
   --color-app-bg: #d7dde1;
   --color-app-fg: #f9fbfc;
-  --color-app-secondary: #d1f4f4;
   --color-app-highlight: #009966;
+  --color-app-text: #242129;
 
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
@@ -32,7 +32,6 @@
   --color-secondary: hsl(var(--secondary));
   --color-secondary-foreground: hsl(var(--secondary-foreground));
 
-  --color-muted: hsl(var(--muted));
   --color-muted-foreground: hsl(var(--muted-foreground));
 
   --color-accent: hsl(var(--accent));
@@ -76,7 +75,7 @@
 }
 
 @utility btn-hover {
-  @apply transform transition-transform duration-75 hover:cursor-pointer active:scale-90;
+  @apply transform transition-transform duration-75 hover:cursor-pointer active:scale-98;
 }
 
 @utility card-outline {
@@ -156,10 +155,12 @@
 
   ::-webkit-scrollbar {
     width: 8px;
+    display: none;
   }
 
   /* Track */
   ::-webkit-scrollbar-track {
+    display: none;
     background: #ededed;
     border-radius: 5px;
   }

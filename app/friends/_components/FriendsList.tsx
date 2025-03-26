@@ -40,7 +40,7 @@ const FriendsList = React.memo(function FriendsList() {
               {friendActivity.get(friend.user_id)?.last_start_time == null && (
                 <div>
                   <p className="font-semibold">{friend.name}</p>
-                  <p className="italic text-neutral-400">Unlocked</p>
+                  <p className="italic text-app-bg">Unlocked</p>
                 </div>
               )}
             </div>

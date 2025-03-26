@@ -2,12 +2,11 @@
 
 import { useState, useEffect } from "react";
 
-import { Bar, BarChart, CartesianGrid, Label, XAxis, YAxis } from "recharts"
+import { Bar, BarChart, CartesianGrid, Label, Tooltip, XAxis, YAxis } from "recharts"
 
 import {
   ChartConfig,
   ChartContainer,
-  ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
 
@@ -63,6 +62,9 @@ const BarGraph: React.FC<BarGraphProps> = ({ taskIntervals }) => {
   const appHighlightColor = getComputedStyle(document.documentElement)
     .getPropertyValue("--color-app-highlight")
     .trim();
+  const strokeColor = getComputedStyle(document.documentElement)
+    .getPropertyValue("--color-app-bg")
+    .trim();
 
   const chartConfig = {
     minutes: {
@@ -75,7 +77,7 @@ const BarGraph: React.FC<BarGraphProps> = ({ taskIntervals }) => {
     <div className="h-full">
       <ChartContainer config={chartConfig} className="min-h-[100px] w-full pr-4">
         <BarChart data={chartData}>
-          <CartesianGrid vertical={false} strokeDasharray={"3 3"} strokeWidth={3} stroke="#d7dde1" />
+          <CartesianGrid vertical={false} strokeDasharray={"3 3"} strokeWidth={3} stroke={strokeColor} />
           <XAxis
             dataKey="time"
             tickLine={true}
@@ -84,14 +86,14 @@ const BarGraph: React.FC<BarGraphProps> = ({ taskIntervals }) => {
             tickMargin={10}
             axisLine={false}
             padding={{ left: 0, right: 30 }}
+            tick={{ fontSize: 14 }}
           />
-          <YAxis allowDataOverflow={false} tickCount={3} axisLine={false} unit={"m"} domain={[0, 60]} dx={-8}>
-          </YAxis>
-          <ChartTooltip content={<ChartTooltipContent />} />
+          <YAxis tick={{ fontSize: 14 }} allowDataOverflow={false} tickCount={3} axisLine={false} unit={"m"} domain={[0, 60]} dx={-8} />
+          <Tooltip cursor={false} content={<ChartTooltipContent className="bg-app-fg" />} />
           <Bar dataKey="minutes" fill="var(--color-minutes)" radius={3} barSize={100} />
         </BarChart>
       </ChartContainer>
-      <p className="text-l text-gray-600 pl-6 text-center">{timeDisplay}</p>
+      <p className="text-l text-app-text pl-6 text-center">{timeDisplay}</p>
     </div>
   )
 }
