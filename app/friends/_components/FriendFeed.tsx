@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react";
 
 import BarGraph from "@/app/lockin/_components/BarGraph";
-import HeaderCard from "@/components/ui/header-card";
 
 import { useAcceptedFriends } from "../_hooks/useAcceptedFriends";
 import { getFriendTaskIntervals } from "@/app/(api)/friendServices";
@@ -34,7 +33,6 @@ export default function FriendFeed() {
 
   return (
     <div className="w-full flex flex-col items-center">
-      <HeaderCard title="Friend Feed" />
       {friendData.length > 0 ? (
         <>
           {friendData

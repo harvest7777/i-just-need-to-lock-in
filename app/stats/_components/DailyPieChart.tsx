@@ -5,6 +5,7 @@ import { getTimeDisplayFromSeconds } from "@/app/(helpers)/getTimeDisplay";
 import { useEffect, useState } from "react";
 
 import { Pie, PieChart } from "recharts"
+import PreLoaderSmall from "@/app/lockin/_components/PreLoaderSmall";
 
 import {
   CardContent
@@ -33,6 +34,7 @@ const colors: string[] = [
 export default function Playground() {
   const [chartData, setChartData] = useState<GroupData[]>([]);
   const [chartConfig, setChartConfig] = useState<ChartConfig>({});
+  const [loading, setLoading] = useState<boolean>(true);
 
   const initialize = async () => {
     const userId = await getUserId();
@@ -64,12 +66,21 @@ export default function Playground() {
 
     setChartData(groupDataArray);
     setChartConfig(newChartConfig);
+    setLoading(false);
 
   }
   useEffect(() => {
     initialize();
   }, [])
 
+  if (loading) {
+    return (
+
+      <div className="w-full card-outline bg-app-fg flex flex-col items-center justify-center align-middle">
+        <PreLoaderSmall />
+      </div>
+    )
+  }
   const CustomTooltip = ({ active, payload }: any) => {
     if (!active) return null;
     const { name, value } = payload[0]; // Extracting data

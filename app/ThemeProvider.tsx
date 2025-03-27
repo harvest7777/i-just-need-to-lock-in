@@ -1,6 +1,7 @@
 "use client";
 import { PropsWithChildren } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
+import PreLoader from "./lockin/_components/PreLoader";
 
 export interface CustomColor {
   cssVariableName: string;
@@ -43,7 +44,9 @@ export const darkColors: CustomColor[] = [
     defaultValue: "#cdcfd1"
   }
 ]
+
 const ThemeProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
+  const [themeLoaded, setThemeLoaded] = useState<boolean>(false);
   useEffect(() => {
     //initialize array of default colors
     for (const colorData of defaultColors) {
@@ -53,7 +56,14 @@ const ThemeProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
     //weird bug with recharts, need to manually set muted
     const storedMuted = localStorage.getItem("app-text") || "#cdcfd1";
     document.documentElement.style.setProperty("--color-muted-foreground", storedMuted);
+    setThemeLoaded(true);
+    console.log('loaded thmee')
   }, [])
+  if (!themeLoaded) {
+    return (
+      <PreLoader />
+    )
+  }
   return <>{children}</>;
 };
 
