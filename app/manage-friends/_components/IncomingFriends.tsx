@@ -34,7 +34,7 @@ export default function IncomingFriends({setAcceptedFriends, pendingFriends, set
                 <div key={friend.user_id} className="flex space-x-1">
                     <p className="w-3/5">{friend.name}</p>
                     <IoCheckmarkOutline onClick={()=>handleAccept(friend.user_id)} className="w-1/5 text-2xl btn-hover hover:text-green-600"/>
-                    <IoMdClose onClick={() => handleDecline(friend.user_id)} className="text-2xl btn-hover hover:text-red-600 w-1/5"/>
+                    <IoMdClose onClick={() => handleDecline(friend.user_id)} className="text-2xl btn-hover hover:text-red-800 w-1/5"/>
                 </div>
             ))
         ) : (<p className="text-center">No pending friend requests</p>)}

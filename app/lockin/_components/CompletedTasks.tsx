@@ -17,35 +17,35 @@ const CompletedTasks: React.FC<CompletedTasksProps> = ({ completedTasks, taskInt
   // Pre-process intervals into a Map
   const intervalMap = processIntervals(taskIntervals);
   const [timeSpentDisplay, setTimeSpentDisplay] = useState<string>("today");
-  
+
   const handleMarkTaskIncomplete = async (task: Task) => {
     const updatedTask = await markTaskIncomplete(task);
     setToDos((prev) => {
       const filtered = prev.filter((t) => t.task_id !== updatedTask.task_id);
-      return [...filtered, updatedTask]; 
+      return [...filtered, updatedTask];
     });
-    setCompletedTasks((prev)=>prev.filter((t)=>t.task_id!=updatedTask.task_id));
+    setCompletedTasks((prev) => prev.filter((t) => t.task_id != updatedTask.task_id));
   }
   return (
     <div className="flex flex-col items-center w-full p-2">
       <h1 className="font-bold text-xl pl-2 w-full">Completed Today</h1>
       {completedTasks?.map((task) => {
         const dailySeconds = intervalMap.get(task.task_id) || 0;
-        const dailyMinutes = Math.round(dailySeconds/ 60);
-        const totalMinutes = Math.round(task.seconds_spent/60)
+        const dailyMinutes = Math.round(dailySeconds / 60);
+        const totalMinutes = Math.round(task.seconds_spent / 60)
         return (
           <div className="flex w-full my-1 space-x-2" key={task.task_id}>
-            <RiArrowGoBackFill onClick={()=>handleMarkTaskIncomplete(task)} className="text-appBg text-2xl btn-hover flex-none hover:text-orange-400"/>
-            <p className="italic line-through flex-1 text-neutral-400">
+            <RiArrowGoBackFill onClick={() => handleMarkTaskIncomplete(task)} className="text-app-bg text-2xl btn-hover flex-none hover:text-orange-400" />
+            <p className="italic line-through flex-1 text-app-bg">
               {task.name}
             </p>
-            {timeSpentDisplay=="today" && (<p className="flex-none italic text-neutral-400 rounded-r-md rounded-tr-md text-right pr-2">{dailyMinutes}m</p>)}
-            {timeSpentDisplay=="total" && (<p className="flex-none italic text-neutral-400 rounded-r-md rounded-tr-md text-right pr-2">{totalMinutes}m</p>)}
+            {timeSpentDisplay == "today" && (<p className="flex-none italic text-app-bg rounded-r-md rounded-tr-md text-right pr-2">{dailyMinutes}m</p>)}
+            {timeSpentDisplay == "total" && (<p className="flex-none italic text-app-bg rounded-r-md rounded-tr-md text-right pr-2">{totalMinutes}m</p>)}
 
           </div>
         );
       })}
-      <ChooseCompleted timeSpentDisplay={timeSpentDisplay} setTimeSpentDisplay={setTimeSpentDisplay}/>
+      <ChooseCompleted timeSpentDisplay={timeSpentDisplay} setTimeSpentDisplay={setTimeSpentDisplay} />
     </div>
   );
 };

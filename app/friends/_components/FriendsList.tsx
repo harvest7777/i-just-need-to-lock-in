@@ -17,8 +17,8 @@ const FriendsList = React.memo(function FriendsList() {
         <h1 className="font-bold text-xl pl-2">Friends</h1>
 
         <Link className="relative" href="/manage-friends">
-          {pendingFriends.length > 0 && <div className="absolute top-[-5px] right-[-5px] z-40 w-3 h-3 bg-red-600 rounded-full " />}
-          <MdOutlineManageAccounts className="text-2xl btn-hover hover:text-emerald-600" />
+          {pendingFriends.length > 0 && <div className="absolute top-[-5px] right-[-5px] z-40 w-3 h-3 bg-red-800 rounded-full " />}
+          <MdOutlineManageAccounts className="text-2xl btn-hover hover:text-app-highlight" />
         </Link>
       </div>
 
@@ -40,7 +40,7 @@ const FriendsList = React.memo(function FriendsList() {
               {friendActivity.get(friend.user_id)?.last_start_time == null && (
                 <div>
                   <p className="font-semibold">{friend.name}</p>
-                  <p className="italic text-neutral-400">Unlocked</p>
+                  <p className="italic text-app-bg">Unlocked</p>
                 </div>
               )}
             </div>

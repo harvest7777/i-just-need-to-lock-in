@@ -26,7 +26,7 @@ export default function Signup(props: {
 
   return (
     <div className="w-full mt-20 flex justify-center items-center">
-      <form className="flex flex-col mx-auto bg-appFg p-5 rounded-2xl lg:w-2/5 w-full">
+      <form className="flex flex-col mx-auto bg-app-fg p-5 rounded-2xl lg:w-2/5 w-full">
         <h1 className="text-2xl font-medium">Confirm Login</h1>
         <div className="flex flex-col gap-2 [&>input]:mb-3 mt-8">
           <Label htmlFor="code">Please check your email for the verification code!</Label>
@@ -38,7 +38,7 @@ export default function Signup(props: {
             maxLength={6}
             required
           />
-          <SubmitButton className="bg-emerald-600 rounded-lg text-appFg btn-hover" formAction={(formData) => confirmOTP(formData, email)} pendingText="Signing up...">
+          <SubmitButton className="bg-app-highlight rounded-lg text-app-fg btn-hover" formAction={(formData) => confirmOTP(formData, email)} pendingText="Signing up...">
             Verify
           </SubmitButton>
           <p onClick={() => tryAgainOTP(email)} className="text-xs border-2 p-2 rounded-xl text-center btn-hover">No code in your inbox, junk, or spam? Click here to try again.</p>

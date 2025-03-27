@@ -5,7 +5,7 @@ import Statistics from "./Statistics"
 
 export default function Landing() {
   return (
-    <div className="min-h-screen h-max w-full bg-appFg absolute top-0 left-0">
+    <div className="min-h-screen h-max w-full bg-[#f9fbfc] absolute top-0 left-0">
       <HeaderSection />
       <SellingPoints />
       <Features />

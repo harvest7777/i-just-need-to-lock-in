@@ -36,7 +36,7 @@ export default function Dashboard() {
       <div className="flex md:flex-row md:gap-x-2 flex-col md:space-y-0 space-y-3">
         {/* graph and changelog container */}
         <div className="md:order-2 order-1 md:w-3/5 w-full flex flex-col">
-          <div className="w-full flex flex-col bg-appFg card-outline justify-center items-center p-3 h-fit">
+          <div className="w-full flex flex-col bg-app-fg card-outline justify-center items-center p-3 h-fit">
             {/* locked in task and graph */}
             {focusedTask ? (
               <>
@@ -63,13 +63,10 @@ export default function Dashboard() {
               <BarGraph taskIntervals={taskIntervals} />
             </div>
           </div>
-          <div className="card-outline mt-3">
-            <Changelog />
-          </div>
         </div>
         {/* container for task lists */}
         <div className="md:order-1 order-2 flex flex-col md:w-1/5 w-full space-y-3">
-          <div className="bg-appFg card-outline">
+          <div className="bg-app-fg card-outline">
             <div className="flex justify-between w-full p-2 pb-0">
               <h1 className="font-bold text-xl pl-2 flex-1">To Do</h1>
               <NewGroupButton handleMakeGroup={handleMakeGroup} setGroups={setGroups} />
@@ -77,13 +74,13 @@ export default function Dashboard() {
             <IncompleteTasks toDos={toDos} focusedTask={focusedTask} setToDos={setToDos} groups={groups} lockIntoTask={lockIntoTask} handleRenameTask={handleRenameTask} handleDeleteTask={handleDeleteTask} handleRenameGroup={handleRenameGroup} handleDeleteGroup={handleDeleteGroup} />
             <NewTaskForm addNewTask={addNewTask} />
           </div>
-          <div className="bg-appFg card-outline">
+          <div className="bg-app-fg card-outline">
             <CompletedTasks completedTasks={completedTasks} taskIntervals={taskIntervals} setToDos={setToDos} setCompletedTasks={setCompletedTasks} />
           </div>
         </div>
         {/* container for friends */}
         <div className="flex flex-col md:w-1/5 order-3 w-full space-y-3">
-          <div className="bg-appFg card-outline">
+          <div className="bg-app-fg card-outline">
             <FriendsList />
           </div>
         </div>

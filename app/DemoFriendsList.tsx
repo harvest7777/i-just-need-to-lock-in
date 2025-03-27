@@ -2,7 +2,7 @@ import { MdOutlineManageAccounts } from "react-icons/md";
 
 export default function DemoFriendsList() {
   return (
-    <div className="flex gap-y-2  flex-col">
+    <div className="text-[#242129] flex gap-y-2  flex-col">
 
       <div className="flex justify-between text-3xl">
         <h1 className="font-bold">Friends</h1>

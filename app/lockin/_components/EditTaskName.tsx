@@ -33,10 +33,10 @@ const EditTaskName: React.FC<EditTaskNameProps> = ({handleRenameTask, setEditing
             type="text"
             placeholder={task.name}
             {...register("newTaskName")}
-            className="w-full rounded-lg bg-appBg pl-2"
+            className="w-full rounded-lg bg-app-bg pl-2"
         />
         </form>
-        <IoCheckmarkOutline className="text-2xl flex-none btn-hover text-appBg hover:text-green-600"  onClick={handleSubmit((data)=>onSubmit(data,task))} />
+        <IoCheckmarkOutline className="text-2xl flex-none btn-hover text-app-bg hover:text-green-600"  onClick={handleSubmit((data)=>onSubmit(data,task))} />
         </div>
     )
 }

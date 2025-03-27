@@ -21,7 +21,7 @@ export default async function Signup(props: {
 
   return (
     <div className="w-full mt-20 flex justify-center items-center">
-      <form className="flex flex-col mx-auto bg-appFg p-5 rounded-2xl lg:w-2/5 w-full">
+      <form className="flex flex-col mx-auto bg-app-fg p-5 rounded-2xl lg:w-2/5 w-full">
         <h1 className="text-2xl font-medium">Sign up</h1>
         <p className="text-sm text text-foreground">
           Already have an account?{" "}
@@ -34,7 +34,7 @@ export default async function Signup(props: {
           <Input name="name" placeholder="Silly Guy" required />
           <Label htmlFor="email">Email</Label>
           <Input name="email" placeholder="you@example.com" required />
-          <SubmitButton className="bg-emerald-600 rounded-lg text-appFg btn-hover" formAction={signUpAction} pendingText="Signing up...">
+          <SubmitButton className="bg-app-highlight rounded-lg text-app-fg btn-hover" formAction={signUpAction} pendingText="Signing up...">
             Sign up
           </SubmitButton>
           <SignInWithGoogleButton />

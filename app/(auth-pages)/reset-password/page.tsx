@@ -11,7 +11,7 @@ export default async function ResetPassword(props: {
   return (
 
     <div className="w-full mt-20 flex justify-center items-center">
-    <form className="flex flex-col w-full max-w-md p-4 gap-2 [&>input]:mb-4 bg-appFg rounded-xl">
+    <form className="flex flex-col w-full max-w-md p-4 gap-2 [&>input]:mb-4 bg-app-fg rounded-xl">
       <h1 className="text-2xl font-medium">Reset password</h1>
       <p className="text-sm text-foreground/60">
         Please enter your new password below.
@@ -30,8 +30,8 @@ export default async function ResetPassword(props: {
         placeholder="Confirm password"
         required
       />
-      <div className=" flex justify-center rounded-xl btn-hover bg-emerald-600">
-      <SubmitButton formAction={resetPasswordAction} className="text-appFg">
+      <div className=" flex justify-center rounded-xl btn-hover bg-app-highlight">
+      <SubmitButton formAction={resetPasswordAction} className="text-app-fg">
         Reset password
       </SubmitButton>
       </div>

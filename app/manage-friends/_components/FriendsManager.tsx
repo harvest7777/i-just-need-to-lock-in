@@ -22,7 +22,7 @@ export default function FriendsManager({ acceptedFriends, setAcceptedFriends }: 
         acceptedFriends.map((friend) => (
           <div key={friend.user_id} className="flex justify-between align-middle items-center py-3 px-2">
             <p className="flex-1">{friend.name}</p>
-            <IoMdClose onClick={() => setFriendToRemove(friend)} className="flex-none text-2xl btn-hover hover:text-red-600" />
+            <IoMdClose onClick={() => setFriendToRemove(friend)} className="flex-none text-2xl btn-hover hover:text-red-800" />
           </div>
         ))
       ) : (
