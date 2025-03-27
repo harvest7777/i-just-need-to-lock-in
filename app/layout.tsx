@@ -21,15 +21,15 @@ export default function RootLayout({
 }) {
 
   return (
-    <html lang="en" className={GeistSans.className} suppressHydrationWarning>
-      <body className="bg-app-bg text-app-text md:p-2 p-2 rounded-lg">
-        {/* switch to serverside? */}
-        <ThemeProvider>
+    <ThemeProvider>
+      <html lang="en" className={GeistSans.className} suppressHydrationWarning>
+        <body className="bg-app-bg text-app-text md:p-2 p-2 rounded-lg">
+          {/* switch to serverside? */}
           <HeaderAuth />
           {children}
           <Analytics />
-        </ThemeProvider>
-      </body>
-    </html>
+        </body>
+      </html>
+    </ThemeProvider>
   );
 }

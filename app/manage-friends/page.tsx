@@ -33,7 +33,7 @@ export default function ManageFriendsPage() {
       <div className="flex justify-between space-x-2 md:w-2/5 w-full my-4">
         <p onClick={() => setWindow("all")} className={`p-2 w-1/3 text-center bg-app-fg rounded-xl btn-hover ${window === "all" && "font-bold"}`}>All</p>
         <div className="relative w-1/3 btn-hover" >
-          {pendingFriends.length > 0 && <div className="absolute top-[-5px] right-[-5px] z-40 w-3 h-3 bg-red-600 rounded-full " />}
+          {pendingFriends.length > 0 && <div className="absolute top-[-5px] right-[-5px] z-40 w-3 h-3 bg-red-800 rounded-full " />}
           <p onClick={() => setWindow("incoming")} className={`p-2 w-full text-center bg-app-fg rounded-xl ${window === "incoming" && "font-bold"}`}>Pending</p>
         </div>
         <p onClick={() => setWindow("add")} className={`p-2 w-1/3 text-center bg-app-fg rounded-xl btn-hover ${window === "add" && "font-bold"}`}>Add</p>

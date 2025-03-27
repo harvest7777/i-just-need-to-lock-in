@@ -24,7 +24,7 @@ export default function Statistics() {
 
       <div className="mt-10 flex flex-col items-center justify-center align-middle pb-56">
         <p className="text-xl text-neutral-600 px-10 mb-8">Ready to take control of your day? Just click here, and we'll handle the rest.</p>
-        <Link href="/sign-up" className="text-2xl p-4 rounded-xl text-center text-app-fg w-fit font-bold btn-hover bg-emerald-400 shadow-[0_0_20px_1px] shadow-emerald-400">I'M READY TO LOCK IN</Link>
+        <Link href="/sign-up" className="text-2xl p-4 rounded-xl text-center text-[#f9fbfc] w-fit font-bold btn-hover bg-emerald-400 shadow-[0_0_20px_1px] shadow-emerald-400">I'M READY TO LOCK IN</Link>
       </div>
     </div>
   )

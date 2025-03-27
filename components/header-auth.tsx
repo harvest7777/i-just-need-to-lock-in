@@ -1,7 +1,5 @@
-import { signOutAction } from "@/app/actions";
 import { createClient } from "@/utils/supabase/server";
 
-import { PiSignOut } from "react-icons/pi";
 import { LuSettings } from "react-icons/lu";
 import { FaHome } from "react-icons/fa";
 
@@ -45,12 +43,10 @@ export default async function AuthButton() {
           {/* <LiaUserFriendsSolid className="btn-hover text-3xl" /> */}
           <p className="text-lg btn-hover font-bold">feed</p>
         </Link>
-        <Link href="/profile" className="relative">
+        <Link href="/profile" className="relative flex">
           <LuSettings className="btn-hover text-3xl" />
+          <p className="text-xl">✨</p>
         </Link>
-        <div className="relative">
-          <PiSignOut className="btn-hover tetx-3xl" onClick={signOutAction} />
-        </div>
       </div>
       <Dropdown />
     </div>

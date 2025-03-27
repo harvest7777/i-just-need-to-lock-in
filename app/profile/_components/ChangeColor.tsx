@@ -60,21 +60,21 @@ const ChangeColor: React.FC<ChangeColorProps> = ({ cssVariable, displayName, def
             <HexColorPicker color={color} onChange={setColor} />
             <form onSubmit={handleSubmit(onSubmit)} className="w-full flex space-x-2">
               <input
-                className="flex-1 w-1/2 bg-app-bg rounded-lg"
+                className="px-2 flex-1 w-1/2 bg-app-bg rounded-lg"
                 {...register("hex", {
                   pattern: {
                     value: /^#([0-9A-Fa-f]{3}){1,2}$/,
-                    message: "Invalid hex color (e.g. #fff or #aabbcc)",
+                    message: "Invalid hex color",
                   },
                 })}
                 placeholder={color}
               />
-              {errors.hex && <p style={{ color: "red" }}>{errors.hex.message}</p>}
 
-              <button className="flex-none btn-hover bg-app-highlight px-2 rounded-lg" type="submit">Select</button>
+              <button className="flex-none btn-hover bg-app-bg px-2 rounded-lg" type="submit">Select</button>
             </form>
-            <button className="w-full rounded-lg btn-hover bg-app-highlight" onClick={() => saveChanges()}>Save Changes</button>
-            {unsavedChanges && <p className="text-red-400 text-sm text-center">You have unsaved changes!</p>}
+            <button className="w-full rounded-lg btn-hover bg-app-bg" onClick={() => saveChanges()}>Save Changes</button>
+            {errors.hex && <p style={{ color: "red" }}>{errors.hex.message}</p>}
+            {unsavedChanges && <p className="text-red-800 text-sm text-center">You have unsaved changes!</p>}
           </div>
         )
       }

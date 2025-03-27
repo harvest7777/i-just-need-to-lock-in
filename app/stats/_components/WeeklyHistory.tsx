@@ -53,7 +53,7 @@ const WeeklyHistory = () => {
           <h1 className="text-2xl text-center font-bold flex-1">Weekly History</h1>
           <MdArrowForwardIos onClick={() => setDayView((dayView + 1) % 7)} className=" btn-hover flex-none md:text-5xl text-3xl text-app-bg" />
         </div>
-        <div className="mb-3 mt-1 text-gray-600 w-full">
+        <div className="mb-3 mt-1 text-app-text w-full">
           <p className="text-xl pl-16 ml-2">{dayWord}, {month} {day} </p>
         </div>
         <BarGraph taskIntervals={intervals?.get(dayNumber) || []} />

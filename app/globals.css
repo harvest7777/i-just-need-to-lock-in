@@ -16,6 +16,7 @@
   --color-app-fg: #f9fbfc;
   --color-app-highlight: #009966;
   --color-app-text: #242129;
+  --color-muted-foreground: #242129;
 
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
@@ -32,7 +33,7 @@
   --color-secondary: hsl(var(--secondary));
   --color-secondary-foreground: hsl(var(--secondary-foreground));
 
-  --color-muted-foreground: hsl(var(--muted-foreground));
+  /*--color-muted-foreground: hsl(var(--muted-foreground));*/
 
   --color-accent: hsl(var(--accent));
   --color-accent-foreground: hsl(var(--accent-foreground));

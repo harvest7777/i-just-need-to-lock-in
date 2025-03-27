@@ -2,15 +2,15 @@ import Link from "next/link"
 
 export default function HeaderSection() {
   return (
-    <div className="h-screen min-h-fit bg-emerald-800 flex md:flex-row flex-col gap-x-2 gap-y-2 justify-center align-middle items-center text-app-fg">
+    <div className="h-screen min-h-fit bg-emerald-800 flex md:flex-row flex-col gap-x-2 gap-y-2 justify-center align-middle items-center text-[#f9fbfc]">
       {/* selling msg */}
       <div className="md:mt-0 mt-20 space-y-10 md:p-10 p-8 md:w-1/2 flex flex-col align-middle justify-center items-center md:items-start">
         <div className="gap-x-2 w-full md:text-left text-center">
           <h1 className="text-8xl font-bold text-emerald-400">LOCK IN</h1>
           <h1 className="text-4xl font-bold"> (for real this time)</h1>
         </div>
-        <h2 className="text-app-bg text-2xl w-full">Take back control of your time. Track your day, share your journey, visualize your growth.</h2>
-        <Link href="/sign-up" className="text-2xl p-4 rounded-xl bg-app-fg text-center text-emerald-800 w-fit font-bold btn-hover">I'M READY TO LOCK IN</Link>
+        <h2 className="text-[#d7dde1] text-2xl w-full">Take back control of your time. Track your day, share your journey, visualize your growth.</h2>
+        <Link href="/sign-up" className="text-2xl p-4 rounded-xl bg-[#f9fbfc] text-center text-emerald-800 w-fit font-bold btn-hover">I'M READY TO LOCK IN</Link>
       </div>
       {/* demo video */}
 

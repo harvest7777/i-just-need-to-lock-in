@@ -50,6 +50,9 @@ const ThemeProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
       const storedColor = localStorage.getItem(`${colorData.cssVariableName}`) || colorData.defaultValue;
       document.documentElement.style.setProperty(`--color-${colorData.cssVariableName}`, storedColor);
     }
+    //weird bug with recharts, need to manually set muted
+    const storedMuted = localStorage.getItem("app-text") || "#cdcfd1";
+    document.documentElement.style.setProperty("--color-muted-foreground", storedMuted);
   }, [])
   return <>{children}</>;
 };

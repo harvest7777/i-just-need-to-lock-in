@@ -1,6 +1,7 @@
 "use client";
 
 import { supabase } from "@/utils/supabase/supabase";
+import { signOutAction } from "@/app/actions";
 import { useState, useEffect } from "react";
 import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
 import { IoCheckmarkOutline } from "react-icons/io5";
@@ -55,9 +56,9 @@ export default function ManageProfile() {
     <div className="bg-app-fg rounded-2xl p-2 md:w-2/3 w-full flex flex-col space-y-4 pb-10 mt-5">
       <h1 className="text-center text-app-highlight font-bold text-3xl">Profile</h1>
       {/* username container */}
-      <div className="flex">
+      <div className="flex gap-x-2 px-2">
         <p className="w-1/3">username</p>
-        <div className="flex w-1/2 bg-app-bg rounded-xl justify-between">
+        <div className="flex flex-1 bg-app-bg rounded-xl justify-between">
           {editingUsername ? (
             <form onSubmit={handleSubmit((data) => onSubmit(data))} className="w-full">
               <input
@@ -72,16 +73,17 @@ export default function ManageProfile() {
           )}
         </div>
         {editingUsername ? (
-          <IoCheckmarkOutline onClick={handleSubmit((data) => onSubmit(data))} className="text-2xl btn-hover w-1/6" />
+          <IoCheckmarkOutline onClick={handleSubmit((data) => onSubmit(data))} className="text-2xl btn-hover flex-none" />
         ) : (
-          <MdOutlineDriveFileRenameOutline onClick={() => { setEditingUsername(true) }} className="text-2xl btn-hover w-1/6" />
+          <MdOutlineDriveFileRenameOutline onClick={() => { setEditingUsername(true) }} className="text-2xl btn-hover flex-none" />
         )}
       </div>
       {/* email container */}
-      <div className="flex">
+      <div className="flex gap-x-2 px-2">
         <p className="w-1/3">email</p>
         <p className="w-2/3 bg-app-bg rounded-xl pl-2">{userData.email}</p>
       </div>
+      <button onClick={() => signOutAction()} className="bg-app-bg w-fit px-2 btn-hover rounded-xl">Sign out</button>
     </div>
   )
 }

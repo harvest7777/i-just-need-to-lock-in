@@ -63,9 +63,6 @@ export default function Dashboard() {
               <BarGraph taskIntervals={taskIntervals} />
             </div>
           </div>
-          <div className="card-outline mt-3">
-            <Changelog />
-          </div>
         </div>
         {/* container for task lists */}
         <div className="md:order-1 order-2 flex flex-col md:w-1/5 w-full space-y-3">

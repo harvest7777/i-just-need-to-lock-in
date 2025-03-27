@@ -24,7 +24,7 @@ const ChooseCompleted: React.FC<ChooseDisplayInterface> = ({ timeSpentDisplay, s
         <DropdownMenuTrigger className="w-full ring-0 focus:ring-0 focus:outline-hidden">
           <WordBlock text={"time spent " + timeSpentDisplay} className="w-full text-base! justify-between!"><RiArrowDropDownLine /></WordBlock>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-[var(--radix-popper-anchor-width)] mt-3 bg-app-fg">
+        <DropdownMenuContent className="w-[var(--radix-popper-anchor-width)] mt-3 bg-app-fg border-none">
           <DropdownMenuRadioGroup value={timeSpentDisplay} onValueChange={setTimeSpentDisplay}>
             <DropdownMenuRadioItem className="focus:bg-app-highlight" value="total">total</DropdownMenuRadioItem>
             <DropdownMenuRadioItem className="focus:bg-app-highlight" value="today">today</DropdownMenuRadioItem>

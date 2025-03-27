@@ -89,7 +89,7 @@ const BarGraph: React.FC<BarGraphProps> = ({ taskIntervals }) => {
             tick={{ fontSize: 14 }}
           />
           <YAxis tick={{ fontSize: 14 }} allowDataOverflow={false} tickCount={3} axisLine={false} unit={"m"} domain={[0, 60]} dx={-8} />
-          <Tooltip cursor={false} content={<ChartTooltipContent className="bg-app-fg" />} />
+          <Tooltip cursor={false} content={<ChartTooltipContent className="bg-app-fg border-none" />} />
           <Bar dataKey="minutes" fill="var(--color-minutes)" radius={3} barSize={100} />
         </BarChart>
       </ChartContainer>

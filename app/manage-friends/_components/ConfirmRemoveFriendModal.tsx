@@ -38,7 +38,7 @@ const  ConfirmRemoveFriendModal: React.FC<ConfirmRemoveFriendModalProps> = ({fri
                     <span>You will lose access to their task status unless they accept you as friend again. This action can not be undone.</span>
                 </div>
                 <div className="flex justify-center items-center align-middle space-x-8">
-                    <p onClick={()=>handleConfirmDelete()} className="mt-3 p-2 text-center text-app-fg rounded-xl font-bold bg-red-600 w-fit btn-hover">Delete</p>
+                    <p onClick={()=>handleConfirmDelete()} className="mt-3 p-2 text-center text-app-fg rounded-xl font-bold bg-red-800 w-fit btn-hover">Delete</p>
                     <p onClick={()=>handleCancel()} className="mt-3 p-2 text-center text-app-fg rounded-xl font-bold bg-neutral-400 w-fit btn-hover">Cancel</p>
                 </div>
             </div>

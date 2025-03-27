@@ -25,7 +25,7 @@ export default function Leaderboard() {
       <HeaderCard title="Top Locked Inners 😎" />
       <div className="md:w-1/2 w-full mt-5 py-5 flex flex-col space-y-5 items-center justify-center align-middle bg-app-fg card-outline">
         {/* option selection container */}
-        <div className="flex text-2xl p-2 w-1/2 justify-between text-neutral-400">
+        <div className="flex text-2xl p-2 w-1/2 justify-between text-app-text">
           <p onClick={() => { setShow("Day"); setLeaderboard(leaderboardDay) }} className={`${show === "Day" ? "text-app-highlight font-bold" : ""} btn-hover w-1/2 text-center`}>Day</p>
           <p onClick={() => { setShow("Week"); setLeaderboard(leaderboardWeek) }} className={`${show === "Week" ? "text-app-highlight font-bold" : ""} btn-hover w-1/2 text-center`}>Week</p>
         </div>
