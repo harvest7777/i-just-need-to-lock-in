@@ -5,6 +5,7 @@ import { getTimeDisplayFromSeconds } from "@/app/(helpers)/getTimeDisplay";
 import { useEffect, useState } from "react";
 
 import { Pie, PieChart } from "recharts"
+import PreLoaderSmall from "@/app/lockin/_components/PreLoaderSmall";
 
 import {
   CardContent
@@ -33,6 +34,7 @@ const colors: string[] = [
 export default function Playground() {
   const [chartData, setChartData] = useState<GroupData[]>([]);
   const [chartConfig, setChartConfig] = useState<ChartConfig>({});
+  const [loading, setLoading] = useState<boolean>(true);
 
   const initialize = async () => {
     const userId = await getUserId();
@@ -64,12 +66,21 @@ export default function Playground() {
 
     setChartData(groupDataArray);
     setChartConfig(newChartConfig);
+    setLoading(false);
 
   }
   useEffect(() => {
     initialize();
   }, [])
 
+  if (loading) {
+    return (
+
+      <div className="w-full card-outline bg-app-fg flex flex-col items-center justify-center align-middle">
+        <PreLoaderSmall />
+      </div>
+    )
+  }
   const CustomTooltip = ({ active, payload }: any) => {
     if (!active) return null;
     const { name, value } = payload[0]; // Extracting data
@@ -87,23 +98,28 @@ export default function Playground() {
   return (
     <div className="w-full card-outline bg-app-fg flex flex-col items-center justify-center align-middle">
       <h1 className="text-2xl text-center font-bold py-3 pb-0">Your Day At A Glance</h1>
-      <CardContent className="p-0 md:w-3/5 w-10/12">
-        <ChartContainer
-          config={chartConfig}
-          className=" aspect-square min-h-[100px]"
-        >
-          <PieChart margin={{ top: 0, left: 0, right: 0, bottom: 0 }}>
-            <ChartTooltip content={<CustomTooltip />} />
-            {/* this is the actual data of the chart */}
-            <Pie data={chartData} dataKey="secondsSpent">
-            </Pie>
-            <ChartLegend
-              content={<ChartLegendContent nameKey="name" />}
-              className=" -translate-y-2 flex-wrap gap-1 *:basis-1/3 *:justify-center"
-            />
-          </PieChart>
-        </ChartContainer>
-      </CardContent>
+      {chartData.length === 0 ? (
+        <p className="py-5">You have no hours logged today, nothing to show here :(</p>
+      ) : (
+
+        <CardContent className="p-0 md:w-3/5 w-10/12">
+          <ChartContainer
+            config={chartConfig}
+            className=" aspect-square min-h-[100px]"
+          >
+            <PieChart margin={{ top: 0, left: 0, right: 0, bottom: 0 }}>
+              <ChartTooltip content={<CustomTooltip />} />
+              {/* this is the actual data of the chart */}
+              <Pie data={chartData} dataKey="secondsSpent">
+              </Pie>
+              <ChartLegend
+                content={<ChartLegendContent nameKey="name" />}
+                className=" -translate-y-2 flex-wrap gap-1 *:basis-1/3 *:justify-center"
+              />
+            </PieChart>
+          </ChartContainer>
+        </CardContent>
+      )}
     </div>
   )
 }

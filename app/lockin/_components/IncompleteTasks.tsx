@@ -18,6 +18,7 @@ import DroppableTask from "./DroppableTask";
 import EditTaskName from "./EditTaskName";
 import EditGroupName from "./EditGroupName";
 import ConfirmDeleteGroupModal from "./ConfirmDeleteGroupModal";
+import PreLoaderSmall from "./PreLoaderSmall";
 
 interface IncompleteTasksProps {
   toDos: Task[];
@@ -49,6 +50,7 @@ const IncompleteTasks: React.FC<IncompleteTasksProps> = ({
   const [groupToDelete, setGroupToDelete] = useState<Group | null>(null);
 
   const [shownGroups, setShownGroups] = useState<number[]>([]);
+
 
   const handleToggleShowGroup = (id: number) => {
     // if not in group

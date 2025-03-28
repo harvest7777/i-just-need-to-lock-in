@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
 import { IoCheckmarkOutline } from "react-icons/io5";
 import { useForm } from "react-hook-form";
+import PreLoaderSmall from "@/app/lockin/_components/PreLoaderSmall";
 interface FormData {
   newName: string;
 }
@@ -15,6 +16,7 @@ export default function ManageProfile() {
     email: ""
   })
   const [editingUsername, setEditingUsername] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const { register, reset, handleSubmit } = useForm<FormData>();
 
   const initialize = async () => {
@@ -28,6 +30,7 @@ export default function ManageProfile() {
     if (error) console.log(error);
     const userEmail = (await supabase.auth.getUser()).data.user?.email;
     if (data && userEmail) setUserData({ ...userData, username: data[0].name, email: userEmail });
+    setLoading(false);
   }
 
   const onSubmit = async (data: FormData) => {
@@ -51,6 +54,15 @@ export default function ManageProfile() {
   useEffect(() => {
     initialize();
   }, [])
+
+  if (loading) {
+    return (
+
+      <div className="bg-app-fg rounded-2xl p-2 md:w-2/3 w-full">
+        <PreLoaderSmall />
+      </div>
+    )
+  }
 
   return (
     <div className="bg-app-fg rounded-2xl p-2 md:w-2/3 w-full flex flex-col space-y-4 pb-10 mt-5">

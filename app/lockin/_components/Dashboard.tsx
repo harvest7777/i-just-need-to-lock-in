@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import CompletedTasks from "./CompletedTasks";
 import IncompleteTasks from "./IncompleteTasks";
@@ -9,11 +9,11 @@ import NewTaskForm from "./NewTaskForm";
 import Stopwatch from "./TotalStopwatch";
 import BarGraph from "./BarGraph";
 import FriendsList from "@/app/friends/_components/FriendsList";
-import Changelog from "./Changelog";
 import StillWorkingModal from "./ConfirmCancelSessionModal";
 import DailyStopwatch from "./DailyStopwatch";
 import ChooseDisplay from "./ChooseTimer";
 import SessionStopWatch from "./SessionStopwatch";
+import PreLoader from "./PreLoader";
 
 import { useGetTasks } from "../_hooks/useGetTasks";
 import { useLockIntoTask } from "../_hooks/useLockIntoTask";
@@ -29,7 +29,16 @@ export default function Dashboard() {
 
   const [timerDisplay, setTimerDisplay] = useState<string>("session");
   const [cancelVisible, setCancelVisible] = useState<boolean>(false);
+  const [hydrated, setHydrated] = useState<boolean>(false);
+  useEffect(() => {
+    setHydrated(true);
+  }, [])
 
+  if (!hydrated) {
+    return (
+      <PreLoader />
+    )
+  }
   return (
     <>
       {cancelVisible && <StillWorkingModal focusedTask={focusedTask} setFocusedTask={setFocusedTask} setToDos={setToDos} setStartedFocusedTask={setStartedFocusedTask} setCancelVisible={setCancelVisible} />}
