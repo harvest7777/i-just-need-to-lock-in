@@ -14,6 +14,7 @@ import DailyStopwatch from "./DailyStopwatch";
 import ChooseDisplay from "./ChooseTimer";
 import SessionStopWatch from "./SessionStopwatch";
 import PreLoader from "./PreLoader";
+import PomodoroTimer from "./PomodoroTimer";
 
 import { useGetTasks } from "../_hooks/useGetTasks";
 import { useLockIntoTask } from "../_hooks/useLockIntoTask";
@@ -50,6 +51,7 @@ export default function Dashboard() {
             {focusedTask ? (
               <>
                 <div className="w-full space-y-5 p-5 rounded-2xl h-min">
+                  <PomodoroTimer />
                   <LockedInTask focusedTask={focusedTask} handleCompleteTask={handleCompleteTask} startedFocusedTask={startedFocusedTask} handleStartTask={handleStartTask} handlePauseTask={handlePauseTask} />
                   <div className="flex justify-center items-center align-middle space-x-2">
                     <ChooseDisplay timerDisplay={timerDisplay} setTimerDisplay={setTimerDisplay} />

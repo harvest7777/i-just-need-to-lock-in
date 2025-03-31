@@ -18,7 +18,6 @@ import DroppableTask from "./DroppableTask";
 import EditTaskName from "./EditTaskName";
 import EditGroupName from "./EditGroupName";
 import ConfirmDeleteGroupModal from "./ConfirmDeleteGroupModal";
-import PreLoaderSmall from "./PreLoaderSmall";
 
 interface IncompleteTasksProps {
   toDos: Task[];
