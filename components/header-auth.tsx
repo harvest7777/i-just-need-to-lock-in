@@ -5,6 +5,7 @@ import { FaHome } from "react-icons/fa";
 
 import Dropdown from "./ui/dropdown";
 import Link from "next/link";
+import EnterPomodoroButton from "@/app/lockin/_components/EnterPomodoroButton";
 
 export default async function AuthButton() {
   const supabase = await createClient();
@@ -22,25 +23,18 @@ export default async function AuthButton() {
           {/* <p className="text-emerald-800">beta 1.0</p> */}
         </div>
       </Link>
+      <EnterPomodoroButton />
       <div className="md:flex hidden space-x-10 text-3xl">
         <Link href="/lockin" className="relative group">
-          {/* <p className="absolute bottom-full left-1/2 transform -translate-x-1/2 p-1 pb-0 text-sm bg-app-bg hidden group-hover:block text-nowrap">stats</p>
-          <MdOutlineAutoGraph className="btn-hover tex-3xl"/> */}
           <p className="text-lg btn-hover font-bold">home</p>
         </Link>
         <Link href="/leaderboard" className="relative group">
-          {/* <p className="absolute bottom-full left-1/2 transform -translate-x-1/2 p-1 pb-0 text-sm bg-app-bg hidden group-hover:block text-nowrap">stats</p>
-          <MdOutlineAutoGraph className="btn-hover tex-3xl"/> */}
           <p className="text-lg btn-hover font-bold">leaderboard</p>
         </Link>
         <Link href="/stats" className="relative group">
-          {/* <p className="absolute bottom-full left-1/2 transform -translate-x-1/2 p-1 pb-0 text-sm bg-app-bg hidden group-hover:block text-nowrap">stats</p>
-          <MdOutlineAutoGraph className="btn-hover tex-3xl"/> */}
           <p className="text-lg btn-hover font-bold">stats</p>
         </Link>
         <Link href="/friends" className="relative group text-l">
-          {/* <p className="text-nowrap absolute bottom-full left-1/2 transform -translate-x-1/2 p-1 pb-0 text-sm bg-app-bg hidden group-hover:block">friends</p> */}
-          {/* <LiaUserFriendsSolid className="btn-hover text-3xl" /> */}
           <p className="text-lg btn-hover font-bold">feed</p>
         </Link>
         <Link href="/profile" className="relative flex">

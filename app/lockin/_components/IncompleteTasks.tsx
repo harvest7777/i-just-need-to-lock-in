@@ -1,6 +1,6 @@
 "use client";
 
-import React, { SetStateAction, useState, Dispatch } from "react";
+import React, { SetStateAction, useState, Dispatch, useEffect } from "react";
 
 import { DndContext, DragEndEvent, MouseSensor, PointerSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
 
@@ -19,29 +19,16 @@ import EditTaskName from "./EditTaskName";
 import EditGroupName from "./EditGroupName";
 import ConfirmDeleteGroupModal from "./ConfirmDeleteGroupModal";
 
-interface IncompleteTasksProps {
-  toDos: Task[];
-  setToDos: Dispatch<SetStateAction<Task[]>>
-  groups: Group[];
-  focusedTask: Task | null;
-  lockIntoTask: (task: Task) => void;
-  handleRenameTask: (task: Task, taskName: string) => void;
-  handleDeleteTask: (task: Task) => void;
-  handleRenameGroup: (group: Group, newGroupName: string) => void;
-  handleDeleteGroup: (group: Group) => void;
-}
+import { useTaskStore } from "../_hooks/useTaskStore";
+import PreLoaderSmall from "./PreLoaderSmall";
 
-const IncompleteTasks: React.FC<IncompleteTasksProps> = ({
-  toDos,
-  setToDos,
-  groups,
-  lockIntoTask,
-  focusedTask,
-  handleRenameTask,
-  handleDeleteTask,
-  handleRenameGroup,
-  handleDeleteGroup
-}) => {
+const IncompleteTasks = () => {
+  const toDos = useTaskStore((state) => state.toDos);
+  const groups = useTaskStore((state) => state.groups);
+  const focusedTask = useTaskStore((state) => state.focusedTask);
+
+  // Actions (don’t trigger re-renders)
+  const { lockIntoTask, handleRenameTask, handleDeleteTask, handleRenameGroup, handleDeleteGroup, setToDos } = useTaskStore();
   const [editingTaskId, setEditingTaskId] = useState<number | null>(null);
   const [editingGroupId, setEditingGroupId] = useState<number | null>(null);
 
@@ -63,7 +50,7 @@ const IncompleteTasks: React.FC<IncompleteTasksProps> = ({
 
   const countToDos = (id: number): number => {
     let count = 0;
-    toDos.forEach((task) => {
+    toDos!.forEach((task) => {
       if (task.group_id === id && !task.is_complete) count++;
     })
     return count;
@@ -98,15 +85,17 @@ const IncompleteTasks: React.FC<IncompleteTasksProps> = ({
     if (event.over) overId = Number(event.over.id);
 
     const activeId: number = Number(event.active.id);
-    const taskToUpdate: Task = toDos.find((task: Task) => task.task_id == activeId)!;
-
-    setToDos((prevToDos) =>
-      prevToDos.map((task: Task) =>
-        task.task_id === activeId ? { ...task, group_id: overId } : task
-      )
-    );
+    const taskToUpdate: Task = toDos!.find((task: Task) => task.task_id == activeId)!;
+    let updatedToDos: Task[] = toDos!.map((task: Task) => task.task_id === activeId ? { ...task, group_id: overId } : task)
+    setToDos(updatedToDos);
     await updateTaskGroup(taskToUpdate, overId);
 
+  }
+
+  if (toDos === null || groups === null) {
+    return (
+      <PreLoaderSmall />
+    )
   }
 
   return (
