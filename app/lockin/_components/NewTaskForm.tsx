@@ -1,16 +1,19 @@
 import { useForm } from "react-hook-form";
 
 import { FaPlus } from "react-icons/fa";
+import { useTaskStore } from "../_hooks/useTaskStore";
 
 interface FormData {
   taskName: string;
 }
-interface NewTaskFormProps {
-  addNewTask: (taskName: string) => Promise<void>;
-}
+// interface NewTaskFormProps {
+//   addNewTask: (taskName: string) => Promise<void>;
+// }
+//
+// const NewTaskForm: React.FC<NewTaskFormProps> = ({ addNewTask }) => {
 
-const NewTaskForm: React.FC<NewTaskFormProps> = ({ addNewTask }) => {
-
+const NewTaskForm = () => {
+  const { addNewTask } = useTaskStore();
   const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>();
 
   const onSubmit = (data: FormData) => {

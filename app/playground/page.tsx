@@ -1,9 +1,9 @@
 "use client";
 
-import PreLoaderSmall from "../lockin/_components/PreLoaderSmall";
+import TestZustand from "../lockin/_components/TESTINGONLY";
 
 export default function PlaygroundPage() {
   return (
-    <PreLoaderSmall />
+    <TestZustand />
   )
 }

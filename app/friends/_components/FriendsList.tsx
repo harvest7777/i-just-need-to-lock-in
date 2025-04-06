@@ -4,21 +4,53 @@ import React from "react";
 import Link from "next/link";
 
 import { MdOutlineManageAccounts } from "react-icons/md";
+import PreLoaderSmall from "@/app/lockin/_components/PreLoaderSmall";
 
 import { useAcceptedFriends } from "../_hooks/useAcceptedFriends";
 import { usePendingFriends } from "../_hooks/usePendingFriends";
+import { useTaskStore } from "@/app/lockin/_hooks/useTaskStore";
 
 const FriendsList = React.memo(function FriendsList() {
   const { acceptedFriends, friendActivity } = useAcceptedFriends();
   const { pendingFriends } = usePendingFriends();
+  const pomodoroEnabled = useTaskStore((state) => state.pomodoroEnabled);
+  if (acceptedFriends === null) {
+    return (
+
+      <div className="w-full p-2 flex flex-col items-center">
+        <div className="flex justify-between items-center w-full">
+          <h1 className="font-bold text-xl pl-2">Friends</h1>
+
+          <Link
+            onClick={(e) => {
+              if (pomodoroEnabled) {
+                e.preventDefault();
+              }
+            }}
+            className={`relative text-2xl btn-hover hover:text-app-highlight ${pomodoroEnabled && 'hover:cursor-not-allowed'}`}
+            href="/manage-friends">
+            {pendingFriends.length > 0 && <div className="absolute top-[-5px] right-[-5px] z-40 w-3 h-3 bg-red-800 rounded-full " />}
+            <MdOutlineManageAccounts />
+          </Link>
+        </div>
+        <PreLoaderSmall />
+      </div>
+    )
+  }
   return (
     <div className="w-full p-2 flex flex-col items-center max-h-[calc(100vh-100px)] overflow-auto">
       <div className="flex justify-between items-center w-full">
         <h1 className="font-bold text-xl pl-2">Friends</h1>
 
-        <Link className="relative" href="/manage-friends">
+        <Link onClick={(e) => {
+          if (pomodoroEnabled) {
+            e.preventDefault();
+          }
+        }}
+          className={`relative text-2xl btn-hover hover:text-app-highlight ${pomodoroEnabled && 'hover:cursor-not-allowed'}`}
+          href="/manage-friends">
           {pendingFriends.length > 0 && <div className="absolute top-[-5px] right-[-5px] z-40 w-3 h-3 bg-red-800 rounded-full " />}
-          <MdOutlineManageAccounts className="text-2xl btn-hover hover:text-app-highlight" />
+          <MdOutlineManageAccounts />
         </Link>
       </div>
 

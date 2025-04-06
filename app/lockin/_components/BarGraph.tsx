@@ -12,9 +12,10 @@ import {
 
 import { calculateHourlyIntervals } from "@/app/(helpers)/calculateHourlyIntervals";
 import { getTimeDisplayFromIntervals } from "@/app/(helpers)/getTimeDisplay";
+import PreLoaderSmall from "./PreLoaderSmall";
 
 interface BarGraphProps {
-  taskIntervals: TaskInterval[];
+  taskIntervals: TaskInterval[] | null;
 }
 
 const BarGraph: React.FC<BarGraphProps> = ({ taskIntervals }) => {
@@ -24,14 +25,17 @@ const BarGraph: React.FC<BarGraphProps> = ({ taskIntervals }) => {
   const [timeDisplay, setTimeDisplay] = useState<string>("0 min");
 
   useEffect(() => {
-    setHourIntervals(calculateHourlyIntervals(taskIntervals));
-    setTimeDisplay(getTimeDisplayFromIntervals(taskIntervals));
+    if (taskIntervals !== null) {
+      setHourIntervals(calculateHourlyIntervals(taskIntervals));
+      setTimeDisplay(getTimeDisplayFromIntervals(taskIntervals));
+    }
   }, [taskIntervals])
 
-  if (!hourIntervals) return (
-    <div className="h-full bg-app-fg">
-    </div>
-  )
+  if (hourIntervals === null) {
+    return (
+      <PreLoaderSmall />
+    )
+  }
   const chartData = [
     { time: "12AM", minutes: hourIntervals[0] },
     { time: "1AM", minutes: hourIntervals[1] },
@@ -75,7 +79,7 @@ const BarGraph: React.FC<BarGraphProps> = ({ taskIntervals }) => {
 
   return (
     <div className="h-full">
-      <ChartContainer config={chartConfig} className="min-h-[100px] w-full pr-4">
+      <ChartContainer config={chartConfig} className="min-h-[100px] max-h-[250px] w-full pr-4">
         <BarChart data={chartData}>
           <CartesianGrid vertical={false} strokeDasharray={"3 3"} strokeWidth={3} stroke={strokeColor} />
           <XAxis

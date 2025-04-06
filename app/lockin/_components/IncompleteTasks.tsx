@@ -1,8 +1,8 @@
 "use client";
 
-import React, { SetStateAction, useState, Dispatch } from "react";
+import React, { useState, } from "react";
 
-import { DndContext, DragEndEvent, MouseSensor, PointerSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
+import { DndContext, DragEndEvent, PointerSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
 
 import { updateTaskGroup } from "@/app/(api)/taskServices";
 
@@ -18,31 +18,18 @@ import DroppableTask from "./DroppableTask";
 import EditTaskName from "./EditTaskName";
 import EditGroupName from "./EditGroupName";
 import ConfirmDeleteGroupModal from "./ConfirmDeleteGroupModal";
+
+import { useTaskStore } from "../_hooks/useTaskStore";
 import PreLoaderSmall from "./PreLoaderSmall";
 
-interface IncompleteTasksProps {
-  toDos: Task[];
-  setToDos: Dispatch<SetStateAction<Task[]>>
-  groups: Group[];
-  focusedTask: Task | null;
-  lockIntoTask: (task: Task) => void;
-  handleRenameTask: (task: Task, taskName: string) => void;
-  handleDeleteTask: (task: Task) => void;
-  handleRenameGroup: (group: Group, newGroupName: string) => void;
-  handleDeleteGroup: (group: Group) => void;
-}
+const IncompleteTasks = () => {
+  const toDos = useTaskStore((state) => state.toDos);
+  const groups = useTaskStore((state) => state.groups);
+  const focusedTask = useTaskStore((state) => state.focusedTask);
+  const breakMode = useTaskStore((state) => state.breakMode)
 
-const IncompleteTasks: React.FC<IncompleteTasksProps> = ({
-  toDos,
-  setToDos,
-  groups,
-  lockIntoTask,
-  focusedTask,
-  handleRenameTask,
-  handleDeleteTask,
-  handleRenameGroup,
-  handleDeleteGroup
-}) => {
+  // Actions (don’t trigger re-renders)
+  const { lockIntoTask, handleRenameTask, handleDeleteTask, handleRenameGroup, handleDeleteGroup, setToDos } = useTaskStore();
   const [editingTaskId, setEditingTaskId] = useState<number | null>(null);
   const [editingGroupId, setEditingGroupId] = useState<number | null>(null);
 
@@ -64,7 +51,7 @@ const IncompleteTasks: React.FC<IncompleteTasksProps> = ({
 
   const countToDos = (id: number): number => {
     let count = 0;
-    toDos.forEach((task) => {
+    toDos!.forEach((task) => {
       if (task.group_id === id && !task.is_complete) count++;
     })
     return count;
@@ -99,15 +86,17 @@ const IncompleteTasks: React.FC<IncompleteTasksProps> = ({
     if (event.over) overId = Number(event.over.id);
 
     const activeId: number = Number(event.active.id);
-    const taskToUpdate: Task = toDos.find((task: Task) => task.task_id == activeId)!;
-
-    setToDos((prevToDos) =>
-      prevToDos.map((task: Task) =>
-        task.task_id === activeId ? { ...task, group_id: overId } : task
-      )
-    );
+    const taskToUpdate: Task = toDos!.find((task: Task) => task.task_id == activeId)!;
+    let updatedToDos: Task[] = toDos!.map((task: Task) => task.task_id === activeId ? { ...task, group_id: overId } : task)
+    setToDos(updatedToDos);
     await updateTaskGroup(taskToUpdate, overId);
 
+  }
+
+  if (toDos === null || groups === null) {
+    return (
+      <PreLoaderSmall />
+    )
   }
 
   return (
@@ -155,7 +144,7 @@ const IncompleteTasks: React.FC<IncompleteTasksProps> = ({
                         <div className="flex space-x-1" onPointerDown={(e) => { e.stopPropagation() }} onTouchStart={(e) => { e.stopPropagation() }} onMouseDown={(e) => { e.stopPropagation() }}>
                           <RiDeleteBin6Line className="hidden group-hover:block text-2xl flex-none btn-hover text-app-bg hover:text-red-800" onClick={() => { setTaskToDelete(task) }} />
                           <MdOutlineDriveFileRenameOutline className="hidden group-hover:block text-2xl flex-none btn-hover text-app-bg hover:text-blue-600" onClick={() => { setEditingTaskId(task.task_id); setEditingGroupId(null); }} />
-                          <FaRegStar className={`text-2xl flex-none btn-hover text-app-bg ${focusedTask?.task_id == task.task_id && 'text-yellow-400'} hover:text-yellow-600`} onClick={() => lockIntoTask(task)} />
+                          <FaRegStar className={`text-2xl flex-none btn-hover text-app-bg ${focusedTask?.task_id == task.task_id && 'text-yellow-400'} hover:text-yellow-600 ${breakMode && 'hover:cursor-not-allowed'}`} onClick={() => { if (!breakMode) lockIntoTask(task) }} />
                         </div>
                       </>
                     )}
@@ -179,7 +168,7 @@ const IncompleteTasks: React.FC<IncompleteTasksProps> = ({
                 <div className="flex space-x-1" onPointerDown={(e) => { e.stopPropagation() }} onTouchStart={(e) => { e.stopPropagation() }} onMouseDown={(e) => { e.stopPropagation() }}>
                   <RiDeleteBin6Line className="hidden group-hover:block text-2xl flex-none btn-hover text-app-bg hover:text-red-800" onClick={() => { setTaskToDelete(task) }} />
                   <MdOutlineDriveFileRenameOutline className="hidden group-hover:block text-2xl flex-none btn-hover text-app-bg hover:text-blue-600" onClick={() => { setEditingTaskId(task.task_id); setEditingGroupId(null); }} />
-                  <FaRegStar className={`text-2xl flex-none btn-hover text-app-bg ${focusedTask?.task_id == task.task_id && 'text-yellow-400'} hover:text-yellow-600`} onClick={() => lockIntoTask(task)} />
+                  <FaRegStar className={`text-2xl flex-none btn-hover text-app-bg ${focusedTask?.task_id == task.task_id && 'text-yellow-400'} hover:text-yellow-600 ${breakMode && 'hover:cursor-not-allowed'}`} onClick={() => { if (!breakMode) lockIntoTask(task) }} />
                 </div>
               </>
             )}

@@ -24,7 +24,7 @@ export const useGroups = ({ setToDos }: useGroupsProps) => {
 
     } catch (err: any) {
       if (err.code == "23505") {
-        console.log("No duplicate tasks!")
+        console.log("No duplicate groups!")
       }
     }
   }

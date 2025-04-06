@@ -3,17 +3,23 @@
 import { Dispatch, SetStateAction, useState } from "react";
 
 import { IoMdClose } from "react-icons/io";
+import PreLoaderSmall from "@/app/lockin/_components/PreLoaderSmall";
 
 import ConfirmRemoveFriendModal from "./ConfirmRemoveFriendModal";
 
 // List all friends with option to remove them
 interface FriendsManagerProps {
-  acceptedFriends: Friend[];
-  setAcceptedFriends: Dispatch<SetStateAction<Friend[]>>;
+  acceptedFriends: Friend[] | null;
+  setAcceptedFriends: Dispatch<SetStateAction<Friend[] | null>>;
 }
 export default function FriendsManager({ acceptedFriends, setAcceptedFriends }: FriendsManagerProps) {
   const [friendToRemove, setFriendToRemove] = useState<Friend | null>(null);
 
+  if (acceptedFriends === null) {
+    return (
+      <PreLoaderSmall />
+    )
+  }
   return (
 
     <div className="w-full flex flex-col divide-y divide-gray-700 ">

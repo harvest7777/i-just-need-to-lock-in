@@ -3,14 +3,16 @@ import React, { useState, useEffect, useRef, Dispatch, SetStateAction } from "re
 import WordBlock from "@/components/ui/word-block";
 
 import { getTaskSeconds } from "@/app/(api)/taskTimeServices";
+import { useTaskStore } from "../_hooks/useTaskStore";
 
 interface StopWatchProps {
-  focusedTask: Task | null;
-  startedFocusedTask: boolean;
+  // focusedTask: Task | null;
+  // startedFocusedTask: boolean;
   setCancelVisible: Dispatch<SetStateAction<boolean>>;
 }
 
-const StopwatchComponent: React.FC<StopWatchProps> = ({ startedFocusedTask, focusedTask, setCancelVisible }) => {
+const StopwatchComponent: React.FC<StopWatchProps> = ({ setCancelVisible }) => {
+  const { focusedTask, startedFocusedTask } = useTaskStore();
   const [startTime, setStartTime] = useState<number | null>(null);
   const [now, setNow] = useState<number | null>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -57,7 +59,7 @@ const StopwatchComponent: React.FC<StopWatchProps> = ({ startedFocusedTask, focu
     return () => {
       handleStop();
     }
-  }, [focusedTask])
+  }, [focusedTask, startedFocusedTask])
 
   const formatTime = (time: number) => {
     if (time === -1) return "Loading...";

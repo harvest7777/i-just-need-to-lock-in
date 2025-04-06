@@ -3,26 +3,29 @@ import React, { useState, useEffect, useRef, Dispatch, SetStateAction } from "re
 import WordBlock from "@/components/ui/word-block";
 
 import { getTodaysWorkingTime } from "@/app/(api)/taskTimeServices";
+import { useTaskStore } from "../_hooks/useTaskStore";
 
 interface StopWatchProps {
-  focusedTask: Task | null;
-  startedFocusedTask: boolean;
-  taskIntervals: TaskInterval[];
+  // focusedTask: Task | null;
+  // startedFocusedTask: boolean;
+  // taskIntervals: TaskInterval[];
   setCancelVisible: Dispatch<SetStateAction<boolean>>;
 }
 
-const DailyStopwatch: React.FC<StopWatchProps> = ({ startedFocusedTask, focusedTask, taskIntervals, setCancelVisible }) => {
-  useEffect(() => {
-    if (taskIntervals.length == 0) {
-      setStartTime(Date.now());
-    }
-  }, [taskIntervals])
+const DailyStopwatch: React.FC<StopWatchProps> = ({ setCancelVisible }) => {
+  const { focusedTask, startedFocusedTask, taskIntervals } = useTaskStore();
   const [startTime, setStartTime] = useState<number | null>(null);
   const [now, setNow] = useState<number | null>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const initialSecondsRef = useRef<number>(0);
 
+  // useEffect(() => {
+  //   if (taskIntervals.length == 0) {
+  //     setStartTime(Date.now());
+  //   }
+  // }, [taskIntervals])
   const handleUpdate = async () => {
+    if (taskIntervals === null) return;
     // If there is a focused task, get its initial seconds
     if (focusedTask) {
       initialSecondsRef.current = await getTodaysWorkingTime(focusedTask, taskIntervals);
@@ -63,7 +66,7 @@ const DailyStopwatch: React.FC<StopWatchProps> = ({ startedFocusedTask, focusedT
     return () => {
       handleStop();
     }
-  }, [focusedTask])
+  }, [focusedTask, startedFocusedTask])
 
   const formatTime = (time: number) => {
     if (time === -1) return "Loading...";

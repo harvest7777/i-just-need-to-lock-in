@@ -1,18 +1,19 @@
-import { createClient } from "@/utils/supabase/server";
+"use client";
 
 import { LuSettings } from "react-icons/lu";
 import { FaHome } from "react-icons/fa";
+import { RiTrophyLine } from "react-icons/ri";
+import { IoIosStats } from "react-icons/io";
+import { FaUserFriends } from "react-icons/fa";
 
 import Dropdown from "./ui/dropdown";
 import Link from "next/link";
+import EnterPomodoroButton from "@/app/lockin/_components/EnterPomodoroButton";
+import { useTaskStore } from "@/app/lockin/_hooks/useTaskStore";
 
-export default async function AuthButton() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  return user && (
+export default function AuthButton() {
+  const pomodoroEnabled = useTaskStore((state) => state.pomodoroEnabled)
+  return (
     // Nav container
     <div className="p-2 my-2 mb-3 rounded-2xl h-10 w-full flex items-center gap-4 justify-between ">
       <Link href="/lockin" className="flex sm:space-x-3 space-x-2 btn-hover" >
@@ -22,33 +23,27 @@ export default async function AuthButton() {
           {/* <p className="text-emerald-800">beta 1.0</p> */}
         </div>
       </Link>
-      <div className="md:flex hidden space-x-10 text-3xl">
-        <Link href="/lockin" className="relative group">
-          {/* <p className="absolute bottom-full left-1/2 transform -translate-x-1/2 p-1 pb-0 text-sm bg-app-bg hidden group-hover:block text-nowrap">stats</p>
-          <MdOutlineAutoGraph className="btn-hover tex-3xl"/> */}
-          <p className="text-lg btn-hover font-bold">home</p>
-        </Link>
-        <Link href="/leaderboard" className="relative group">
-          {/* <p className="absolute bottom-full left-1/2 transform -translate-x-1/2 p-1 pb-0 text-sm bg-app-bg hidden group-hover:block text-nowrap">stats</p>
-          <MdOutlineAutoGraph className="btn-hover tex-3xl"/> */}
-          <p className="text-lg btn-hover font-bold">leaderboard</p>
-        </Link>
-        <Link href="/stats" className="relative group">
-          {/* <p className="absolute bottom-full left-1/2 transform -translate-x-1/2 p-1 pb-0 text-sm bg-app-bg hidden group-hover:block text-nowrap">stats</p>
-          <MdOutlineAutoGraph className="btn-hover tex-3xl"/> */}
-          <p className="text-lg btn-hover font-bold">stats</p>
-        </Link>
-        <Link href="/friends" className="relative group text-l">
-          {/* <p className="text-nowrap absolute bottom-full left-1/2 transform -translate-x-1/2 p-1 pb-0 text-sm bg-app-bg hidden group-hover:block">friends</p> */}
-          {/* <LiaUserFriendsSolid className="btn-hover text-3xl" /> */}
-          <p className="text-lg btn-hover font-bold">feed</p>
-        </Link>
-        <Link href="/profile" className="relative flex">
-          <LuSettings className="btn-hover text-3xl" />
-          <p className="text-xl">✨</p>
-        </Link>
+      <div className={`flex gap-x-10 ${pomodoroEnabled && '!gap-x-0'}`}>
+        <EnterPomodoroButton />
+        <div className="md:flex hidden gap-x-10 text-3xl">
+          {/* <Link href="/lockin" className={`relative ${pomodoroEnabled && 'hidden'}`}> */}
+          {/*   <p className="text-lg btn-hover font-bold">home</p> */}
+          {/* </Link> */}
+          <Link href="/leaderboard" className={`relative ${pomodoroEnabled && 'hidden'}`}>
+            <RiTrophyLine className="btn-hover text-3xl" />
+          </Link>
+          <Link href="/stats" className={`relative ${pomodoroEnabled && 'hidden'}`}>
+            <IoIosStats className="btn-hover text-3xl" />
+          </Link>
+          <Link href="/friends" className={`relative ${pomodoroEnabled && 'hidden'}`}>
+            <FaUserFriends className="btn-hover text-3xl" />
+          </Link>
+          <Link href="/profile" className={`relative flex gap-x-2 ${pomodoroEnabled && 'hidden'}`}>
+            <LuSettings className="btn-hover text-3xl" />
+          </Link>
+        </div>
+        <Dropdown />
       </div>
-      <Dropdown />
     </div>
   );
 }

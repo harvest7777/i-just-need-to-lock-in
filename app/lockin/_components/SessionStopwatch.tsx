@@ -3,14 +3,18 @@ import React, { useState, useEffect, useRef, SetStateAction, Dispatch } from "re
 import WordBlock from "@/components/ui/word-block";
 
 import { getSecondsSinceLastStart } from "@/app/(api)/taskTimeServices";
+import { useTaskStore } from "../_hooks/useTaskStore";
 
 interface StopWatchProps {
-  focusedTask: Task | null;
-  startedFocusedTask: boolean;
+  // focusedTask: Task | null;
+  // startedFocusedTask: boolean;
   setCancelVisible: Dispatch<SetStateAction<boolean>>;
 }
 
-const SessionStopWatch: React.FC<StopWatchProps> = ({ startedFocusedTask, focusedTask, setCancelVisible }) => {
+const SessionStopWatch: React.FC<StopWatchProps> = ({ setCancelVisible }) => {
+  const focusedTask = useTaskStore((state) => state.focusedTask);
+  const startedFocusedTask = useTaskStore((state) => state.startedFocusedTask);
+
   const [startTime, setStartTime] = useState<number | null>(null);
   const [now, setNow] = useState<number | null>(null);
   const focusRef = useRef<number | null>(null);
@@ -65,12 +69,13 @@ const SessionStopWatch: React.FC<StopWatchProps> = ({ startedFocusedTask, focuse
     else {
       handleStop();
     }
-    if (focusedTask) focusRef.current = focusedTask.task_id;
+    if (focusedTask !== null) focusRef.current = focusedTask.task_id;
     else focusRef.current = null;
+
     return () => {
       handleStop();
     }
-  }, [focusedTask])
+  }, [focusedTask, startedFocusedTask])
 
   const formatTime = (time: number) => {
     if (time === -1) return "Loading...";
