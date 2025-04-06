@@ -79,7 +79,7 @@ const BarGraph: React.FC<BarGraphProps> = ({ taskIntervals }) => {
 
   return (
     <div className="h-full">
-      <ChartContainer config={chartConfig} className="min-h-[100px] w-full pr-4">
+      <ChartContainer config={chartConfig} className="min-h-[100px] max-h-[250px] w-full pr-4">
         <BarChart data={chartData}>
           <CartesianGrid vertical={false} strokeDasharray={"3 3"} strokeWidth={3} stroke={strokeColor} />
           <XAxis

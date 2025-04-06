@@ -4,8 +4,8 @@ import { startTask, pauseTask, completeTask } from "@/app/(api)/taskTimeServices
 
 export interface TimerState {
   pomodoroEnabled: boolean;
-  pomodoroStarted: boolean;
   breakMode: boolean;
+  forceUpdate: boolean;
 
 }
 export interface TimerAction {
@@ -15,8 +15,8 @@ export interface TimerAction {
   handlePauseTask: (task: Task) => void;
   updateTaskAndStates: (task: Task, updatedTask: Task) => void;
   setPomodoroEnabled: (status: boolean) => void;
-  setPomodoroStarted: (status: boolean) => void;
   setBreakMode: (status: boolean) => void;
+  setForceUpdate: (status: boolean) => void;
 }
 
 
@@ -27,17 +27,17 @@ export const createTimerSlice: StateCreator<
   TimerAction & TimerState
 > = (set, get) => ({
   pomodoroEnabled: false,
-  pomodoroStarted: false,
   breakMode: false,
+  forceUpdate: false,
+  setForceUpdate: (status: boolean) => set({ forceUpdate: status }),
   setBreakMode: (status: boolean) => set({ breakMode: status }),
   setPomodoroEnabled: (status: boolean) => set({ pomodoroEnabled: status }),
-  setPomodoroStarted: (status: boolean) => set({ pomodoroStarted: status }),
   lockIntoTask: (task: Task) => {
     if (task === null) {
       set({ focusedTask: null });
       return;
     }
-    if (get().focusedTask) {
+    if (get().focusedTask && get().startedFocusedTask) {
       if (task.task_id == get().focusedTask?.task_id) return;
       get().handlePauseTask(get().focusedTask!);
     }
@@ -49,6 +49,7 @@ export const createTimerSlice: StateCreator<
     set({ focusedTask: null })
     set({ startedFocusedTask: false })
     const completedTask = await completeTask(task);
+    if (get().pomodoroEnabled) localStorage.setItem("lastPauseTime", String(Date.now()));
     get().updateTaskAndStates(task, completedTask);
     set((state) => ({
       completedTasks: [...state.completedTasks!, completedTask]
@@ -75,6 +76,7 @@ export const createTimerSlice: StateCreator<
 
     // Immediately update on ui
     set({ startedFocusedTask: false });
+    localStorage.setItem("lastPauseTime", String(Date.now()));
     // Pause the task and update it on the UI with the new total seconds spent
     const updatedTask: Task = await pauseTask(task);
     get().updateTaskAndStates(task, updatedTask);

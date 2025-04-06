@@ -12,7 +12,7 @@ export default function FriendFeed() {
     { totalSeconds: number; friend: Friend; intervals: TaskInterval[] }[]
   >([]);
   const initialize = async () => {
-    const data = await Promise.all(acceptedFriends.map(async (friend) => {
+    const data = await Promise.all(acceptedFriends!.map(async (friend) => {
       const intervals: TaskInterval[] = await getFriendTaskIntervals(friend);
       let totalSeconds = 0;
       intervals.forEach((interval) => {
@@ -28,7 +28,7 @@ export default function FriendFeed() {
     setFriendData(data);
   }
   useEffect(() => {
-    initialize();
+    if (acceptedFriends !== null) initialize();
   }, [acceptedFriends])
 
   return (

@@ -10,7 +10,7 @@ import ConfirmRemoveFriendModal from "./ConfirmRemoveFriendModal";
 // List all friends with option to remove them
 interface FriendsManagerProps {
   acceptedFriends: Friend[] | null;
-  setAcceptedFriends: Dispatch<SetStateAction<Friend[]>>;
+  setAcceptedFriends: Dispatch<SetStateAction<Friend[] | null>>;
 }
 export default function FriendsManager({ acceptedFriends, setAcceptedFriends }: FriendsManagerProps) {
   const [friendToRemove, setFriendToRemove] = useState<Friend | null>(null);

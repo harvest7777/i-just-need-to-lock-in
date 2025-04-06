@@ -14,7 +14,7 @@ const NewGroupButton = () => {
   return (
     <div className="flex">
       {visible && <MakeGroupModal setVisible={setVisible} />}
-      <FaFolderPlus onClick={() => setVisible(true)} className="text-2xl btn-hover hover:text-green-600 text-app-bg" />
+      <FaFolderPlus onClick={() => setVisible(true)} className="text-2xl btn-hover hover:text-app-highlight text-app-bg" />
     </div>
   )
 }

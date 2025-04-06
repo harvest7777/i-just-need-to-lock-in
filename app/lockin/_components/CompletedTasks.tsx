@@ -9,13 +9,6 @@ import { markTaskIncomplete } from "@/app/(api)/taskServices";
 import { useTaskStore } from "../_hooks/useTaskStore";
 import PreLoaderSmall from "./PreLoaderSmall";
 
-// interface CompletedTasksProps {
-//   completedTasks: Task[];
-//   taskIntervals: TaskInterval[];
-//   setToDos: Dispatch<SetStateAction<Task[]>>;
-//   setCompletedTasks: Dispatch<SetStateAction<Task[]>>;
-// }
-// const CompletedTasks: React.FC<CompletedTasksProps> = ({ completedTasks, taskIntervals, setToDos, setCompletedTasks }) => {
 const CompletedTasks = () => {
   // Pre-process intervals into a Map
   const { completedTasks, taskIntervals, setToDos, setCompletedTasks, toDos } = useTaskStore();
@@ -24,8 +17,8 @@ const CompletedTasks = () => {
 
   const handleMarkTaskIncomplete = async (task: Task) => {
     const updatedTask = await markTaskIncomplete(task);
-    const updatedToDos = toDos!.map((t) =>
-      t.task_id === updatedTask.task_id ? updatedTask : t
+    const updatedToDos = toDos!.map(todo =>
+      todo.task_id === updatedTask.task_id ? updatedTask : todo
     );
     setToDos(updatedToDos);
     const updatedCompleted = completedTasks!.filter((t) => t.task_id !== updatedTask.task_id);
@@ -50,11 +43,11 @@ const CompletedTasks = () => {
         return (
           <div className="flex w-full my-1 space-x-2" key={task.task_id}>
             <RiArrowGoBackFill onClick={() => handleMarkTaskIncomplete(task)} className="text-app-bg text-2xl btn-hover flex-none hover:text-orange-400" />
-            <p className="italic line-through flex-1 text-app-bg">
+            <p className="italic line-through flex-1 text-app-text">
               {task.name}
             </p>
-            {timeSpentDisplay == "today" && (<p className="flex-none italic text-app-bg rounded-r-md rounded-tr-md text-right pr-2">{dailyMinutes}m</p>)}
-            {timeSpentDisplay == "total" && (<p className="flex-none italic text-app-bg rounded-r-md rounded-tr-md text-right pr-2">{totalMinutes}m</p>)}
+            {timeSpentDisplay == "today" && (<p className="flex-none italic text-app-text rounded-r-md rounded-tr-md text-right pr-2">{dailyMinutes}m</p>)}
+            {timeSpentDisplay == "total" && (<p className="flex-none italic text-app-text rounded-r-md rounded-tr-md text-right pr-2">{totalMinutes}m</p>)}
 
           </div>
         );

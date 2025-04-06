@@ -25,6 +25,7 @@ export default function Dashboard() {
   const focusedTask = useTaskStore((state) => state.focusedTask);
   const taskIntervals = useTaskStore((state) => state.taskIntervals);
   const pomodoroEnabled = useTaskStore((state) => state.pomodoroEnabled);
+  const breakMode = useTaskStore((state) => state.breakMode);
   const setCompletedTasks = useTaskStore((state) => state.setCompletedTasks);
   const setTaskIntervals = useTaskStore((state => state.setTaskIntervals));
   const [timerDisplay, setTimerDisplay] = useState<string>("session");
@@ -67,17 +68,12 @@ export default function Dashboard() {
         <div className="md:order-2 order-1 md:w-3/5 w-full flex flex-col">
           <div className="w-full flex flex-col bg-app-fg card-outline justify-center items-center p-3 h-fit">
             {/* locked in task and graph */}
-            {focusedTask ? (
+            {focusedTask && !breakMode ? (
               <>
                 <div className="w-full space-y-5 p-5 rounded-2xl h-min">
-
                   <LockedInTask />
-                  {pomodoroEnabled ? (
-                    <div className="flex justify-center space-x-2">
-                      <PomodoroTimeDisplay />
-                      <BreakTimer />
-                    </div>
-                  ) : (
+                  {!pomodoroEnabled && (
+
                     <div className="flex justify-center items-center align-middle space-x-2">
                       <ChooseDisplay timerDisplay={timerDisplay} setTimerDisplay={setTimerDisplay} />
                       {timerDisplay == "today" && (
@@ -94,7 +90,21 @@ export default function Dashboard() {
                 </div>
               </>
             ) : (
-              <p className="text-center lg:text-2xl text-xl w-full mb-2">Click the ⭐ next to any task to lock in!</p>
+              !breakMode &&
+              <p className="text-center lg:text-2xl text-xl w-full mb-2 py-5">{pomodoroEnabled ? "You're in pomodoro mode, pick a task to start working!" : "Click the ⭐ next to any task to lock in!"}</p>
+            )}
+            {pomodoroEnabled && (
+
+              <div className="w-full space-y-5 pb-5 rounded-2xl h-min">
+                <div className="flex justify-center">
+                  <div className={breakMode ? "hidden" : "w-full"}>
+                    <PomodoroTimeDisplay />
+                  </div>
+                  <div className={breakMode ? "w-full" : "hidden"}>
+                    <BreakTimer />
+                  </div>
+                </div>
+              </div>
             )}
             <div className="w-full">
               <BarGraph taskIntervals={taskIntervals} />

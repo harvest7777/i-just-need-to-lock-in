@@ -1,8 +1,8 @@
 "use client";
 
-import React, { SetStateAction, useState, Dispatch, useEffect } from "react";
+import React, { useState, } from "react";
 
-import { DndContext, DragEndEvent, MouseSensor, PointerSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
+import { DndContext, DragEndEvent, PointerSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
 
 import { updateTaskGroup } from "@/app/(api)/taskServices";
 
@@ -26,6 +26,7 @@ const IncompleteTasks = () => {
   const toDos = useTaskStore((state) => state.toDos);
   const groups = useTaskStore((state) => state.groups);
   const focusedTask = useTaskStore((state) => state.focusedTask);
+  const breakMode = useTaskStore((state) => state.breakMode)
 
   // Actions (don’t trigger re-renders)
   const { lockIntoTask, handleRenameTask, handleDeleteTask, handleRenameGroup, handleDeleteGroup, setToDos } = useTaskStore();
@@ -143,7 +144,7 @@ const IncompleteTasks = () => {
                         <div className="flex space-x-1" onPointerDown={(e) => { e.stopPropagation() }} onTouchStart={(e) => { e.stopPropagation() }} onMouseDown={(e) => { e.stopPropagation() }}>
                           <RiDeleteBin6Line className="hidden group-hover:block text-2xl flex-none btn-hover text-app-bg hover:text-red-800" onClick={() => { setTaskToDelete(task) }} />
                           <MdOutlineDriveFileRenameOutline className="hidden group-hover:block text-2xl flex-none btn-hover text-app-bg hover:text-blue-600" onClick={() => { setEditingTaskId(task.task_id); setEditingGroupId(null); }} />
-                          <FaRegStar className={`text-2xl flex-none btn-hover text-app-bg ${focusedTask?.task_id == task.task_id && 'text-yellow-400'} hover:text-yellow-600`} onClick={() => lockIntoTask(task)} />
+                          <FaRegStar className={`text-2xl flex-none btn-hover text-app-bg ${focusedTask?.task_id == task.task_id && 'text-yellow-400'} hover:text-yellow-600 ${breakMode && 'hover:cursor-not-allowed'}`} onClick={() => { if (!breakMode) lockIntoTask(task) }} />
                         </div>
                       </>
                     )}
@@ -167,7 +168,7 @@ const IncompleteTasks = () => {
                 <div className="flex space-x-1" onPointerDown={(e) => { e.stopPropagation() }} onTouchStart={(e) => { e.stopPropagation() }} onMouseDown={(e) => { e.stopPropagation() }}>
                   <RiDeleteBin6Line className="hidden group-hover:block text-2xl flex-none btn-hover text-app-bg hover:text-red-800" onClick={() => { setTaskToDelete(task) }} />
                   <MdOutlineDriveFileRenameOutline className="hidden group-hover:block text-2xl flex-none btn-hover text-app-bg hover:text-blue-600" onClick={() => { setEditingTaskId(task.task_id); setEditingGroupId(null); }} />
-                  <FaRegStar className={`text-2xl flex-none btn-hover text-app-bg ${focusedTask?.task_id == task.task_id && 'text-yellow-400'} hover:text-yellow-600`} onClick={() => lockIntoTask(task)} />
+                  <FaRegStar className={`text-2xl flex-none btn-hover text-app-bg ${focusedTask?.task_id == task.task_id && 'text-yellow-400'} hover:text-yellow-600 ${breakMode && 'hover:cursor-not-allowed'}`} onClick={() => { if (!breakMode) lockIntoTask(task) }} />
                 </div>
               </>
             )}

@@ -5,6 +5,7 @@ import { useTaskStore } from "../_hooks/useTaskStore";
 export default function EnterPomodoroButton() {
   const enabled = useTaskStore((state) => state.pomodoroEnabled);
   const setEnabled = useTaskStore((state) => state.setPomodoroEnabled);
+  const setBreakMode = useTaskStore((state) => state.setBreakMode);
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const toggle = () => {
@@ -16,17 +17,19 @@ export default function EnterPomodoroButton() {
       localStorage.removeItem("lastPauseTime");
       localStorage.removeItem("breakStartTime");
       localStorage.removeItem("breakTimeMs");
+      setBreakMode(false);
+      setEnabled(false);
+      document.title = "LOCK IN";
     } else {
       //user wants to enter pomodoro mode
       setShowModal(true);
     }
-    setEnabled(!enabled);
   }
   return (
     <div>
       {showModal && <EnterPomodoroModal setShowModal={setShowModal} />}
       <p className="relative btn-hover text-lg font-bold text-app-highlight">
-        {enabled ? (<span onClick={() => toggle()}>enter normal</span>) : (<span onClick={() => setShowModal(true)}>enter pomodoro</span>)}
+        {enabled ? (<span onClick={() => toggle()}>normal mode</span>) : (<span onClick={() => setShowModal(true)}>pomodoro mode✨</span>)}
       </p>
     </div>
   )

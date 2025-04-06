@@ -9,14 +9,21 @@ export const initializeTaskStore = async () => {
   const fetchedCompletedTasks = await getCompletedTasks();
   const fetchedGroups: Group[] = await getGroups();
 
-  const { setToDos, setFocusedTask, setTaskIntervals, setCompletedTasks, setStartedFocusedTask, setGroups, setPomodoroEnabled, setPomodoroStarted } = useTaskStore.getState();
+  const { setToDos, setFocusedTask, setTaskIntervals, setCompletedTasks, setStartedFocusedTask, setGroups, setPomodoroEnabled } = useTaskStore.getState();
 
   setToDos(fetchedTasks);
   setTaskIntervals(fetchedTaskIntervals);
   setCompletedTasks(fetchedCompletedTasks);
   setGroups(fetchedGroups);
-  if (localStorage.getItem("pomodoroStart") !== null) setPomodoroEnabled(true);
-  if (localStorage.getItem("pomodoroStart") !== null && localStorage.getItem("lastPauseTime") !== null) setPomodoroStarted(true);
+  if (localStorage.getItem("pomodoroGoalMs") !== null) {
+    localStorage.removeItem("pomodoroStart");
+    localStorage.removeItem("pomodoroGoalMs");
+    localStorage.removeItem("totalPauseTimeMs");
+    localStorage.removeItem("lastPauseTime");
+    localStorage.removeItem("breakStartTime");
+    localStorage.removeItem("breakTimeMs");
+    setPomodoroEnabled(false);
+  }
 
   // check if the user was working on a task
   const inProgressTask: Task | null = await getInProgressTask();
