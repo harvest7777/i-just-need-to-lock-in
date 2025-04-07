@@ -1,5 +1,3 @@
-"use client";
-
 import { Dispatch, SetStateAction, useState } from "react";
 
 import { IoMdClose } from "react-icons/io";
@@ -32,7 +30,7 @@ export default function FriendsManager({ acceptedFriends, setAcceptedFriends }: 
           </div>
         ))
       ) : (
-        <p className="text-center">No friends</p>
+        <p className="text-center p-2">No friends</p>
       )}
     </div>
   )

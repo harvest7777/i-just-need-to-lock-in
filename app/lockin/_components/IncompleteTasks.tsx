@@ -190,6 +190,11 @@ const IncompleteTasks = () => {
             </DraggableTask>
           ))}
       </div>
+      {(groups.length === 0 && toDos.length === 0) && (
+        <div className="italic text-app-bg px-4 pb-2">
+          <span>Hmm... we couldn't find any tasks. Add some below!</span>
+        </div>
+      )}
     </DndContext>
   );
 };

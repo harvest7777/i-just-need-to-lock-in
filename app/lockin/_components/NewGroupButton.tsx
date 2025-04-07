@@ -1,15 +1,7 @@
-import { useState, Dispatch, SetStateAction } from "react";
+import { useState } from "react";
 import { FaFolderPlus } from "react-icons/fa";
 import MakeGroupModal from "./MakeGroupModal";
-import { useTaskStore } from "../_hooks/useTaskStore";
-
-// interface NewGroupButtonProps {
-//   setGroups: Dispatch<SetStateAction<Group[]>>;
-//   handleMakeGroup: (name: string) => void;
-// }
-// const NewGroupButton: React.FC<NewGroupButtonProps> = ({ setGroups, handleMakeGroup }) => {
 const NewGroupButton = () => {
-  const { setGroups, handleMakeGroup } = useTaskStore();
   const [visible, setVisible] = useState<boolean>(false);
   return (
     <div className="flex">

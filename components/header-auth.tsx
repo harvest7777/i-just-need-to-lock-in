@@ -10,9 +10,12 @@ import Dropdown from "./ui/dropdown";
 import Link from "next/link";
 import EnterPomodoroButton from "@/app/lockin/_components/EnterPomodoroButton";
 import { useTaskStore } from "@/app/lockin/_hooks/useTaskStore";
+import { usePathname } from "next/navigation";
 
 export default function AuthButton() {
   const pomodoroEnabled = useTaskStore((state) => state.pomodoroEnabled)
+  const pathname = usePathname();
+  const isDashboard = pathname.startsWith("/lockin");
   return (
     // Nav container
     <div className="p-2 my-2 mb-3 rounded-2xl h-10 w-full flex items-center gap-4 justify-between ">
@@ -24,7 +27,7 @@ export default function AuthButton() {
         </div>
       </Link>
       <div className={`flex md:gap-x-10 gap-x-2 ${pomodoroEnabled && '!gap-x-0'}`}>
-        <EnterPomodoroButton />
+        {isDashboard && <EnterPomodoroButton />}
         <div className="md:flex hidden gap-x-10 text-3xl">
           {/* <Link href="/lockin" className={`relative ${pomodoroEnabled && 'hidden'}`}> */}
           {/*   <p className="text-lg btn-hover font-bold">home</p> */}
