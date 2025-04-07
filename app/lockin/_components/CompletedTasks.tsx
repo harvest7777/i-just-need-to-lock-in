@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { useState } from "react";
 
 import ChooseCompleted from "./ChooseCompleted";
 import { RiArrowGoBackFill } from "react-icons/ri";
@@ -24,7 +24,11 @@ const CompletedTasks = () => {
     const updatedCompleted = completedTasks!.filter((t) => t.task_id !== updatedTask.task_id);
     setCompletedTasks(updatedCompleted);
   }
-
+  const formatMinutes = (minutes: number) => {
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    return `${hours > 0 ? `${hours}h ` : ''}${mins}m`;
+  }
   if (completedTasks === null || taskIntervals === null) {
     return (
       <div className="flex flex-col items-center w-full p-2">
@@ -36,8 +40,13 @@ const CompletedTasks = () => {
   return (
     <div className="flex flex-col items-center w-full p-2">
       <h1 className="font-bold text-xl pl-2 w-full">Completed Today</h1>
+      {completedTasks.length === 0 && (
+        <div className="italic text-app-bg p-2 w-full">
+          <span>No completed tasks today, lets get started 💪</span>
+        </div>
+      )}
       {completedTasks
-        ?.slice() // to avoid mutating original
+        .slice() // to avoid mutating original
         .sort((a, b) => (intervalMap.get(b.task_id) || 0) - (intervalMap.get(a.task_id) || 0))
         .map((task) => {
           const dailySeconds = intervalMap.get(task.task_id) || 0;
@@ -49,8 +58,8 @@ const CompletedTasks = () => {
               <p className="italic line-through flex-1 text-app-text">
                 {task.name}
               </p>
-              {timeSpentDisplay == "today" && (<p className="flex-none italic text-app-text rounded-r-md rounded-tr-md text-right pr-2">{dailyMinutes}m</p>)}
-              {timeSpentDisplay == "total" && (<p className="flex-none italic text-app-text rounded-r-md rounded-tr-md text-right pr-2">{totalMinutes}m</p>)}
+              {timeSpentDisplay == "today" && (<p className="flex-none italic text-app-text rounded-r-md rounded-tr-md text-right pr-2">{formatMinutes(dailyMinutes)}</p>)}
+              {timeSpentDisplay == "total" && (<p className="flex-none italic text-app-text rounded-r-md rounded-tr-md text-right pr-2">{formatMinutes(totalMinutes)}</p>)}
 
             </div>
           );

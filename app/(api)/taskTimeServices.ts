@@ -29,17 +29,18 @@ export const startTask = async (task: Task) => {
   return data[0] as Task;
 }
 
-export const pauseTask = async (task: Task): Promise<Task> => {
+export const pauseTask = async (curTask: Task): Promise<Task> => {
   // Pauses the unique task by updating its seconds and setting last start to null and returns it
 
-  const taskId = task.task_id;
-  const { data: curTask, error: errorFetch } = await supabase
-    .from("tasks")
-    .select("*")
-    .eq("task_id", taskId)
-    .single();
-
-  if (errorFetch) throw (errorFetch);
+  const taskId = curTask.task_id;
+  // const taskId = task.task_id;
+  // const { data: curTask, error: errorFetch } = await supabase
+  //   .from("tasks")
+  //   .select("*")
+  //   .eq("task_id", taskId)
+  //   .single();
+  //
+  // if (errorFetch) throw (errorFetch);
 
   // Allowed null values for unstarted tasks. Do not proceed if the task has not been started.
   if (curTask.last_start_time == null) return curTask as Task;

@@ -43,7 +43,7 @@ const DailyStopwatch: React.FC<StopWatchProps> = ({ setCancelVisible }) => {
       if (startedFocusedTask) {
         setNow(Date.now());
       }
-    }, 100);
+    }, 500);
   }
 
   const handleStop = () => {
