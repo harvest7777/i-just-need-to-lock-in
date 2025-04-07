@@ -30,7 +30,7 @@ export default async function RootLayout({
   } = await supabase.auth.getUser();
   return (
     <html lang="en" className={GeistSans.className} suppressHydrationWarning>
-      <body className="bg-app-bg text-app-text md:p-2 p-2 rounded-lg">
+      <body className="bg-app-bg text-app-text md:p-2 p-2 rounded-lg select-none">
         <PreventExit>
           <ThemeProvider>
             {/* switch to serverside? */}

@@ -24,7 +24,7 @@ export default function BreakTimer() {
     clearInterval(intervalRef.current!);
     intervalRef.current = setInterval(() => {
       setNow(Date.now());
-    }, 100)
+    }, 500)
 
   }
 
@@ -84,7 +84,7 @@ export default function BreakTimer() {
       clearInterval(intervalRef.current!);
       console.log(activeTime, breakTime)
       document.title = "LOCK IN";
-      if (Notification.permission === "granted") {
+      if (localStorage.getItem("notifications") === "yes") {
         const text = "Break time over!";
         new Notification("Pomodoro", {
           body: text,

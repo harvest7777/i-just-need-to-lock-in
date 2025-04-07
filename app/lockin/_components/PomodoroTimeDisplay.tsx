@@ -50,7 +50,7 @@ export default function PomodoroTimeDisplay() {
 
     intervalRef.current = setInterval(() => {
       setNow(Date.now());
-    }, 100)
+    }, 500)
   }
 
   const handlePause = () => {
@@ -103,7 +103,7 @@ export default function PomodoroTimeDisplay() {
       if (curActiveTime >= pomodoroGoalMs && !breakRef.current) {
         document.title = "LOCK IN";
         const text = "You've just finished your work session!";
-        if (Notification.permission === "granted") {
+        if (localStorage.getItem("notifications") === "yes") {
           new Notification("Pomodoro", {
             body: text,
             silent: true
