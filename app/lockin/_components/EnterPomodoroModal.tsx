@@ -15,21 +15,17 @@ interface TimeFormInput {
 
 export default function EnterPomodoroModal({ setShowModal }: EnterPomodoroModalProps) {
   const { handleSubmit, register, reset, setError, formState: { errors } } = useForm<TimeFormInput>();
-  const [notifications, setNotifications] = useState<boolean>(false);
   const setEnabled = useTaskStore((state) => state.setPomodoroEnabled);
-  useEffect(() => {
-    if (Notification.permission === "granted") {
-      setNotifications(true);
-    }
-  }, [])
 
   const onSubmit = async (data: TimeFormInput) => {
     let pomodoroGoalMs: number = Number(data.minutesWork * 60 * 1000);
     let pomodoroBreak: number = Number(data.minutesBreak * 60 * 1000);
-    // pomodoroGoalMs = 10000;
-    // pomodoroBreak = 10000;
+    pomodoroGoalMs = 10000;
+    pomodoroBreak = 10000;
 
+    console.log(data.notificationsEnabled)
     if (data.notificationsEnabled) {
+      localStorage.setItem("notifications", "yes");
       const result = await Notification.requestPermission();
       if (result === "denied") {
         setError("notificationsEnabled", {
@@ -38,7 +34,9 @@ export default function EnterPomodoroModal({ setShowModal }: EnterPomodoroModalP
         });
         return;
       }
-    };
+    } else {
+      localStorage.setItem("notifications", "no");
+    }
     localStorage.setItem("pomodoroGoalMs", String(pomodoroGoalMs));
     localStorage.setItem("breakTimeMs", String(pomodoroBreak));
     localStorage.removeItem("lastPauseTime");
@@ -89,7 +87,7 @@ export default function EnterPomodoroModal({ setShowModal }: EnterPomodoroModalP
             <input
               className="scale-150"
               type="checkbox"
-              defaultChecked={notifications}
+              defaultChecked={true}
               {...register("notificationsEnabled")}
             />
           </div>
