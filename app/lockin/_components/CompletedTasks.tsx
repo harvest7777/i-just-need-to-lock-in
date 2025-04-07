@@ -36,22 +36,25 @@ const CompletedTasks = () => {
   return (
     <div className="flex flex-col items-center w-full p-2">
       <h1 className="font-bold text-xl pl-2 w-full">Completed Today</h1>
-      {completedTasks?.map((task) => {
-        const dailySeconds = intervalMap.get(task.task_id) || 0;
-        const dailyMinutes = Math.round(dailySeconds / 60);
-        const totalMinutes = Math.round(task.seconds_spent / 60)
-        return (
-          <div className="flex w-full my-1 space-x-2" key={task.task_id}>
-            <RiArrowGoBackFill onClick={() => handleMarkTaskIncomplete(task)} className="text-app-bg text-2xl btn-hover flex-none hover:text-orange-400" />
-            <p className="italic line-through flex-1 text-app-text">
-              {task.name}
-            </p>
-            {timeSpentDisplay == "today" && (<p className="flex-none italic text-app-text rounded-r-md rounded-tr-md text-right pr-2">{dailyMinutes}m</p>)}
-            {timeSpentDisplay == "total" && (<p className="flex-none italic text-app-text rounded-r-md rounded-tr-md text-right pr-2">{totalMinutes}m</p>)}
+      {completedTasks
+        ?.slice() // to avoid mutating original
+        .sort((a, b) => (intervalMap.get(b.task_id) || 0) - (intervalMap.get(a.task_id) || 0))
+        .map((task) => {
+          const dailySeconds = intervalMap.get(task.task_id) || 0;
+          const dailyMinutes = Math.round(dailySeconds / 60);
+          const totalMinutes = Math.round(task.seconds_spent / 60)
+          return (
+            <div className="flex w-full my-1 space-x-2" key={task.task_id}>
+              <RiArrowGoBackFill onClick={() => handleMarkTaskIncomplete(task)} className="text-app-bg text-2xl btn-hover flex-none hover:text-orange-400" />
+              <p className="italic line-through flex-1 text-app-text">
+                {task.name}
+              </p>
+              {timeSpentDisplay == "today" && (<p className="flex-none italic text-app-text rounded-r-md rounded-tr-md text-right pr-2">{dailyMinutes}m</p>)}
+              {timeSpentDisplay == "total" && (<p className="flex-none italic text-app-text rounded-r-md rounded-tr-md text-right pr-2">{totalMinutes}m</p>)}
 
-          </div>
-        );
-      })}
+            </div>
+          );
+        })}
       <ChooseCompleted timeSpentDisplay={timeSpentDisplay} setTimeSpentDisplay={setTimeSpentDisplay} />
     </div>
   );
