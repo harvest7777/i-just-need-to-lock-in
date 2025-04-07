@@ -93,9 +93,9 @@ export default function EnterPomodoroModal({ setShowModal }: EnterPomodoroModalP
           </div>
           <p className="text-sm text-center">*Notifications must be enabled on your computer and for the browser you are using</p>
           {errors.notificationsEnabled && <p className="text-red-800 text-sm text-center">{errors.notificationsEnabled.message}</p>}
-          <div className="flex items-center ailgn-middle justify-center space-x-8">
-            <button className="mt-5 p-2 text-center text-app-text rounded-xl font-bold bg-app-highlight w-fit btn-hover" type="submit">Lets go!</button>
-            <button onClick={() => { setShowModal(false) }} className="mt-3 p-2 text-center text-app-text rounded-xl font-bold bg-app-bg w-fit btn-hover">Cancel</button>
+          <div className="mt-5 flex items-center ailgn-middle justify-center space-x-8">
+            <button className=" p-2 text-center text-app-text rounded-xl font-bold bg-app-highlight w-fit btn-hover" type="submit">Lets go!</button>
+            <button onClick={() => { setShowModal(false) }} className="p-2 text-center text-app-text rounded-xl font-bold bg-app-bg w-fit btn-hover">Cancel</button>
           </div>
         </form>
         <p className="text-sm text-center mt-3">ℹ️  Working on any task will count towards your work time. Your break will automatically start.</p>

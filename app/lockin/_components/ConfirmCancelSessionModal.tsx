@@ -67,8 +67,8 @@ export default function StillWorkingModal({ setCancelVisible }: StillWorkingModa
           <span> to your graph and total time?</span>
         </div>
         <div className="flex space-x-8">
-          <p onClick={() => handleCancelSession()} className="mt-3 p-2 text-center text-app-fg bg-red-800 rounded-xl font-bold w-fit btn-hover">Cancel Session</p>
-          <p onClick={() => setCancelVisible(false)} className="mt-3 p-2 text-center text-app-fg rounded-xl font-bold bg-neutral-400 w-fit btn-hover">Continue Session</p>
+          <p onClick={() => handleCancelSession()} className="mt-3 p-2 text-center  bg-red-800 rounded-xl font-bold w-fit btn-hover">Cancel Session</p>
+          <p onClick={() => setCancelVisible(false)} className="mt-3 p-2 text-center rounded-xl font-bold bg-app-bg w-fit btn-hover">Continue Session</p>
         </div>
       </div>
     </div>
