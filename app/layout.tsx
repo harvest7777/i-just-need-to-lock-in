@@ -7,6 +7,7 @@ import PreventExit from "./PreventExit";
 
 import "./globals.css";
 import { createClient } from "@/utils/supabase/server";
+import { getNameFromUUID, getProfilesByUsername } from "./(api)/profileServices";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -31,14 +32,12 @@ export default async function RootLayout({
   return (
     <html lang="en" className={GeistSans.className} suppressHydrationWarning>
       <body className="bg-app-bg text-app-text md:p-2 p-2 rounded-lg select-none">
-        <PreventExit>
-          <ThemeProvider>
-            {/* switch to serverside? */}
-            {user && <HeaderAuth />}
-            {children}
-            <Analytics />
-          </ThemeProvider>
-        </PreventExit>
+        <ThemeProvider>
+          {/* switch to serverside? */}
+          {user && <HeaderAuth />}
+          {children}
+          <Analytics />
+        </ThemeProvider>
       </body>
     </html>
   );

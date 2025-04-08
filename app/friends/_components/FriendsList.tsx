@@ -14,6 +14,20 @@ const FriendsList = React.memo(function FriendsList() {
   const { acceptedFriends, friendActivity } = useAcceptedFriends();
   const { pendingFriends } = usePendingFriends();
   const pomodoroEnabled = useTaskStore((state) => state.pomodoroEnabled);
+  const now = new Date();
+
+  const getLastActiveDisplay = (seconds: number): string => {
+    if (seconds < 60) return "just now"
+    const minutes: number = Math.round((seconds / 60));
+    if (minutes < 60) return minutes + " minutes ago";
+    const hours: number = Math.round((seconds / 60 / 60));
+    if (hours < 24) return hours + " hours ago"
+    const days: number = Math.round((seconds / 60 / 60 / 24));
+    if (days < 7) return days + " days ago"
+    const weeks: number = Math.round((seconds / 60 / 60 / 24 / 7));
+    if (weeks < 4) return weeks + " weeks ago"
+    return "a long time ago ):"
+  }
   if (acceptedFriends === null) {
     return (
 
@@ -74,17 +88,36 @@ const FriendsList = React.memo(function FriendsList() {
             </div>
 
           ))}
-          {acceptedFriends.map((friend) => (
-            <div className="pl-2 w-full rounded-md" key={friend.user_id}>
-              {friendActivity.get(friend.user_id)?.last_start_time == null && (
-                <div>
-                  <p className="font-semibold">{friend.name}</p>
-                  <p className="italic text-app-bg">Unlocked</p>
-                </div>
-              )}
-            </div>
+          {
+            acceptedFriends
+              .slice()
+              .sort((a, b) => {
+                if (a.last_active === null && b.last_active === null) return 0;
+                if (a.last_active === null) return 1;  // a is null → after b
+                if (b.last_active === null) return -1; // b is null → after a
 
-          ))}
+                const aTime = new Date(a.last_active!).getTime();
+                const bTime = new Date(b.last_active!).getTime();
+                return bTime - aTime; // most recent first
+              })
+              .filter(friend => friendActivity.get(friend.user_id)?.last_start_time == null)
+              .map((friend) => {
+                let lastActiveDisplay = null;
+                if (friend.last_active !== null) {
+                  const lastActive = new Date(friend.last_active!);
+                  let diffSeconds = Math.round((now.getTime() - lastActive.getTime()) / 1000);
+                  lastActiveDisplay = getLastActiveDisplay(diffSeconds);
+                }
+
+                return (
+                  <div className="pl-2 w-full rounded-md" key={friend.user_id}>
+                    <p className="font-semibold">{friend.name}</p>
+                    {lastActiveDisplay && <p className="italic text-app-bg">{lastActiveDisplay}</p>}
+                    {!lastActiveDisplay && <p className="italic text-app-bg">unlocked</p>}
+                  </div>
+                )
+              })
+          }
 
         </div>
       )}

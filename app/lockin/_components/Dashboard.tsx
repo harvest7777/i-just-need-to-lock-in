@@ -26,13 +26,23 @@ export default function Dashboard() {
   const taskIntervals = useTaskStore((state) => state.taskIntervals);
   const pomodoroEnabled = useTaskStore((state) => state.pomodoroEnabled);
   const breakMode = useTaskStore((state) => state.breakMode);
+  const startedFocusedTask = useTaskStore((state) => state.startedFocusedTask);
   const setCompletedTasks = useTaskStore((state) => state.setCompletedTasks);
   const setTaskIntervals = useTaskStore((state => state.setTaskIntervals));
   const [timerDisplay, setTimerDisplay] = useState<string>("session");
   const [cancelVisible, setCancelVisible] = useState<boolean>(false);
   const [hydrated, setHydrated] = useState<boolean>(false);
 
+  const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+    e.preventDefault();
+  }
 
+  useEffect(() => {
+    if (startedFocusedTask) window.addEventListener('beforeunload', handleBeforeUnload);
+    else window.removeEventListener('beforeunload', handleBeforeUnload)
+
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload)
+  }, [startedFocusedTask])
   // lazy load confetti
   useEffect(() => {
     setHydrated(true);

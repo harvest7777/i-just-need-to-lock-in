@@ -95,8 +95,8 @@ export const getAcceptedFriends = async () => {
     .from("friends")
     .select(`
       *,
-      recipient_profile:profiles!friends_recipient_fkey(name),
-      initiator_profile:profiles!friends_initiator_fkey(name)
+      recipient_profile:profiles!friends_recipient_fkey(name, last_active),
+      initiator_profile:profiles!friends_initiator_fkey(name, last_active)
       `)
     .eq("is_accepted", true)
     .or(`recipient.eq.${userId},initiator.eq.${userId}`);
@@ -112,7 +112,8 @@ export const getAcceptedFriends = async () => {
         user_id: row.recipient,
         name: row.recipient_profile.name,
         is_accepted: true,
-        created: row.created_at
+        created: row.created_at,
+        last_active: row.recipient_profile.last_active ? String(row.recipient_profile.last_active) : null
       }
     }
     else {
@@ -120,7 +121,8 @@ export const getAcceptedFriends = async () => {
         user_id: row.initiator,
         name: row.initiator_profile.name,
         is_accepted: true,
-        created: row.created_at
+        created: row.created_at,
+        last_active: row.initiator_profile.last_active ? String(row.initiator_profile.last_active) : null
       }
     }
   }))
@@ -135,13 +137,14 @@ export const getSentFriends = async () => {
     .select(`
     recipient,
     created_at,
-    profiles!friends_recipient_fkey(name)
+    profiles!friends_recipient_fkey(name, last_active)
   `)
     .eq("initiator", userId)
     .eq("is_accepted", false);
 
   interface Profile {
     name: string;
+    last_active: string | null;
   }
   interface dataReturned {
     recipient: string;
@@ -156,8 +159,8 @@ export const getSentFriends = async () => {
       user_id: fetch.recipient,
       name: fetch.profiles.name,
       created: fetch.created_at,
-      is_accepted: false
-
+      is_accepted: false,
+      last_active: fetch.profiles.last_active ? String(fetch.profiles.last_active) : null
     }
   })
   return friends;
