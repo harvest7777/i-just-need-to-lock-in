@@ -25,8 +25,8 @@ const FriendsList = React.memo(function FriendsList() {
     const days: number = Math.round((seconds / 60 / 60 / 24));
     if (days < 7) return days + " days ago"
     const weeks: number = Math.round((seconds / 60 / 60 / 24 / 7));
-    if (weeks < 4) return weeks + " weeks ago"
-    return "a long time ago ):"
+    if (weeks < 5) return weeks + " weeks ago"
+    return "unlocked"
   }
   if (acceptedFriends === null) {
     return (
