@@ -17,6 +17,7 @@ const CompletedTasks = () => {
 
   const handleMarkTaskIncomplete = async (task: Task) => {
     const updatedTask = await markTaskIncomplete(task);
+
     const taskExists = toDos!.some(todo => todo.task_id === updatedTask.task_id);
 
     const updatedToDos = taskExists
@@ -25,7 +26,6 @@ const CompletedTasks = () => {
       )
       : [...toDos!, updatedTask];
 
-    console.log(updatedToDos);
     setToDos(updatedToDos);
     const updatedCompleted = completedTasks!.filter((t) => t.task_id !== updatedTask.task_id);
     setCompletedTasks(updatedCompleted);
