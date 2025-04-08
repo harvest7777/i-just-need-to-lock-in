@@ -36,7 +36,7 @@ export const useAcceptedFriends = () => {
     const friendsSubscriptions = acceptedFriends.map((friend) => {
       const channel = supabase.channel(`status_${friend.user_id}`);
       channel.on("broadcast", { event: "status_update" }, (message) => {
-        // When friend's work status changes, update their activity
+        // When friend work status changes, update their activity
 
         const { task } = message.payload;
         const newTask = task as Task;

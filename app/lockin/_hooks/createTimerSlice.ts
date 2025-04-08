@@ -1,5 +1,6 @@
 import { StateCreator } from "zustand";
 import { TaskState } from "./createTaskSlice";
+import { updateLastActive } from "@/app/(api)/profileServices";
 import { startTask, pauseTask, completeTask } from "@/app/(api)/taskTimeServices";
 
 export interface TimerState {
@@ -54,6 +55,7 @@ export const createTimerSlice: StateCreator<
     set((state) => ({
       completedTasks: [...state.completedTasks!, completedTask]
     }))
+    await updateLastActive();
   },
   handleStartTask: async (task: Task) => {
     // This comes first to update immediately on ui
@@ -81,6 +83,7 @@ export const createTimerSlice: StateCreator<
     const updatedTask: Task = await pauseTask(task);
     get().updateTaskAndStates(task, updatedTask);
     // set({ focusedTask: updatedTask })
+    await updateLastActive();
   },
   updateTaskAndStates: (task: Task, updatedTask: Task) => {
     // Find the old task and replace it with new task. 
