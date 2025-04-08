@@ -199,15 +199,16 @@ export type Database = {
         }[]
       }
       get_leaderboards: {
-        Args: { user_uuid: string; timespan: string; user_timezone: string }
+        Args:
+          | { timespan: string; user_timezone: string }
+          | { user_uuid: string; timespan: string; user_timezone: string }
         Returns: {
           friend_uuid: string
           friend_name: string
           locked: unknown
-          formatted_locked: string
         }[]
       }
-      get_pie_chart: {
+      test: {
         Args: { user_timezone: string; cur_uuid: string }
         Returns: {
           group_id: number
