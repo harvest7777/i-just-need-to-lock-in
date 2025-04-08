@@ -1,6 +1,7 @@
 import { StateCreator } from "zustand";
 import { TaskState } from "./createTaskSlice";
 import { startTask, pauseTask, completeTask } from "@/app/(api)/taskTimeServices";
+import { updateLastActive } from "@/app/(api)/profileServices";
 
 export interface TimerState {
   pomodoroEnabled: boolean;
@@ -54,6 +55,7 @@ export const createTimerSlice: StateCreator<
     set((state) => ({
       completedTasks: [...state.completedTasks!, completedTask]
     }))
+    await updateLastActive();
   },
   handleStartTask: async (task: Task) => {
     // This comes first to update immediately on ui
@@ -80,6 +82,7 @@ export const createTimerSlice: StateCreator<
     // Pause the task and update it on the UI with the new total seconds spent
     const updatedTask: Task = await pauseTask(task);
     get().updateTaskAndStates(task, updatedTask);
+    await updateLastActive();
     // set({ focusedTask: updatedTask })
   },
   updateTaskAndStates: (task: Task, updatedTask: Task) => {
