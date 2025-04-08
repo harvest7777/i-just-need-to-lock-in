@@ -11,6 +11,7 @@ declare global {
     name: string;
     is_accepted: boolean;
     created: string;
+    last_active?: string | null;
   }
 
   interface Profile {

@@ -39,7 +39,7 @@ export default function Playground() {
   const initialize = async () => {
     const userId = await getUserId();
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const { data, error } = await supabase.rpc('test', { user_timezone: timezone, cur_uuid: userId });
+    const { data, error } = await supabase.rpc('get_pie_chart', { user_timezone: timezone, cur_uuid: userId });
     if (error) console.log(error);
 
     // making the chart data

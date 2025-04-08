@@ -101,7 +101,7 @@ const IncompleteTasks = () => {
 
   return (
     <DndContext onDragEnd={handleDropTask} sensors={sensors}>
-      <div className="flex flex-col items-center w-full p-2 pt-0 draggable select-none">
+      <div className="flex flex-col items-center w-full px-2 draggable select-none">
         <ConfirmDeleteModal taskToDelete={taskToDelete} setTaskToDelete={setTaskToDelete} handleDeleteTask={handleDeleteTask} />
         <ConfirmDeleteGroupModal groupToDelete={groupToDelete} setGroupToDelete={setGroupToDelete} handleDeleteGroup={handleDeleteGroup} />
         {groups
@@ -173,7 +173,7 @@ const IncompleteTasks = () => {
           .sort((a, b) => a.name.localeCompare(b.name))
           .map((task) => (
             // list out incomplete tasks and corresponding buttons
-            <DraggableTask className=" group relative space-x-1 flex w-full rounded-xl my-1 bg-app-fg touch-none" key={task.task_id} id={task.task_id}>
+            <DraggableTask className=" group relative space-x-1 pl-2 flex w-full rounded-xl my-1 bg-app-fg touch-none" key={task.task_id} id={task.task_id}>
               {/* if the task is being edited, show input box */}
               {editingTaskId === task.task_id ? (
                 <EditTaskName handleRenameTask={handleRenameTask} task={task} setEditingTaskId={setEditingTaskId} />
@@ -191,7 +191,7 @@ const IncompleteTasks = () => {
           ))}
       </div>
       {(groups.length === 0 && toDos.length === 0) && (
-        <div className="italic text-app-bg px-4 pb-2">
+        <div className="italic text-app-bg px-4 p-2">
           <span>Hmm... we couldn't find any tasks. Add some below!</span>
         </div>
       )}
