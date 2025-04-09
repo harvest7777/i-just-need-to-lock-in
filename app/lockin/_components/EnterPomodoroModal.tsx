@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { useTaskStore } from "../_hooks/useTaskStore";
 
 interface EnterPomodoroModalProps {
@@ -39,8 +39,6 @@ export default function EnterPomodoroModal({ setShowModal }: EnterPomodoroModalP
     }
     localStorage.setItem("pomodoroGoalMs", String(pomodoroGoalMs));
     localStorage.setItem("breakTimeMs", String(pomodoroBreak));
-    localStorage.removeItem("lastPauseTime");
-    localStorage.removeItem("totalPauseTimeMs");
     reset();
     setEnabled(true);
     setShowModal(false);
