@@ -52,7 +52,6 @@ const LockedInTask = () => {
     }, 100)
     return () => clearInterval(interval);
   })
-  useEffect(() => { console.log(clickAllowed) }, [clickAllowed])
 
 
   return (
