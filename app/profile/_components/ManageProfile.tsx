@@ -3,9 +3,10 @@
 import { supabase } from "@/utils/supabase/supabase";
 import { signOutAction } from "@/app/actions";
 import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import Link from "next/link";
 import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
 import { IoCheckmarkOutline } from "react-icons/io5";
-import { useForm } from "react-hook-form";
 import PreLoaderSmall from "@/app/lockin/_components/PreLoaderSmall";
 interface FormData {
   newName: string;
@@ -65,7 +66,7 @@ export default function ManageProfile() {
   }
 
   return (
-    <div className="bg-app-fg rounded-2xl p-2 md:w-2/3 w-full flex flex-col space-y-4 pb-10 mt-5">
+    <div className="bg-app-fg rounded-2xl p-2 md:w-2/3 w-full flex flex-col space-y-4 mt-5">
       <h1 className="text-center text-app-highlight font-bold text-3xl">Profile</h1>
       {/* username container */}
       <div className="flex gap-x-2 px-2">
@@ -95,7 +96,11 @@ export default function ManageProfile() {
         <p className="w-1/3">email</p>
         <p className="w-2/3 bg-app-bg rounded-xl pl-2">{userData.email}</p>
       </div>
-      <button onClick={() => signOutAction()} className="bg-app-bg w-fit px-2 btn-hover rounded-xl">Sign out</button>
+      <div className="flex md:flex-row md:justify-between flex-col items-center align-middle justify-center mt-5">
+        <Link href="/privacy" className="underline">Privacy Policy</Link>
+        <Link href="/tos" className="underline">Terms Of Service</Link>
+        <button onClick={() => signOutAction()} className="underline">Sign out</button>
+      </div>
     </div>
   )
 }
