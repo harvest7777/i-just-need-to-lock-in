@@ -9,14 +9,15 @@ export default function EnterPomodoroButton() {
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const toggle = () => {
+    //whether they want to exit or not, u should start with a fresh slate
+    localStorage.removeItem("pomodoroStart");
+    localStorage.removeItem("pomodoroGoalMs");
+    localStorage.removeItem("totalPauseTimeMs");
+    localStorage.removeItem("lastPauseTime");
+    localStorage.removeItem("breakStartTime");
+    localStorage.removeItem("breakTimeMs");
     //user wants to exit pomodoro mode
     if (enabled) {
-      localStorage.removeItem("pomodoroStart");
-      localStorage.removeItem("pomodoroGoalMs");
-      localStorage.removeItem("totalPauseTimeMs");
-      localStorage.removeItem("lastPauseTime");
-      localStorage.removeItem("breakStartTime");
-      localStorage.removeItem("breakTimeMs");
       setBreakMode(false);
       setEnabled(false);
       document.title = "LOCK IN";
