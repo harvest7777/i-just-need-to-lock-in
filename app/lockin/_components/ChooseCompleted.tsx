@@ -19,7 +19,7 @@ interface ChooseDisplayInterface {
 }
 const ChooseCompleted: React.FC<ChooseDisplayInterface> = ({ timeSpentDisplay, setTimeSpentDisplay }) => {
   return (
-    <div className="relative z-10 w-full ">
+    <div className="relative z-10 w-full pt-2">
       <DropdownMenu modal={false} >
         <DropdownMenuTrigger className="w-full ring-0 focus:ring-0 focus:outline-hidden">
           <WordBlock text={"time spent " + timeSpentDisplay} className="w-full text-base! justify-between!"><RiArrowDropDownLine /></WordBlock>

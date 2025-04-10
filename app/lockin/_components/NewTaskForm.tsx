@@ -22,7 +22,7 @@ const NewTaskForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-row p-2 pt-0">
+    <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-row p-2 pt-2">
       {/* task input field container */}
       <div className="w-full">
         <div className="flex space-x-1">
