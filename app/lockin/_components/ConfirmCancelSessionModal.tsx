@@ -1,5 +1,3 @@
-"use client";
-
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 import { getTimeDisplayFromSeconds } from "@/app/(helpers)/getTimeDisplay";

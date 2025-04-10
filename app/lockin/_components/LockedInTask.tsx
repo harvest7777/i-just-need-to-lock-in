@@ -11,11 +11,10 @@ const LockedInTask = () => {
   const focusedTask = useTaskStore((state) => state.focusedTask);
   const startedFocusedTask = useTaskStore((state) => state.startedFocusedTask);
   const jsConfettiRef = useRef<JSConfetti | null>(null);
-  const [lastClicked, setLastClicked] = useState<number | null>(null);
-  const [clickAllowed, setClickAllowed] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
 
 
-  // Actions (don't trigger re-renders)
+  // actions (no re render apparently)
   const { handleStartTask, handlePauseTask, handleCompleteTask } = useTaskStore();
 
   const celebrate = () => {
@@ -32,7 +31,7 @@ const LockedInTask = () => {
           '#ffffff', // White
         ],
         confettiRadius: 7,
-        confettiNumber: 350,
+        confettiNumber: 200,
       });
     }
   }
@@ -43,40 +42,36 @@ const LockedInTask = () => {
     }
   }, [])
 
-  useEffect(() => {
-    if (!lastClicked) return;
-    const interval = setInterval(() => {
-      const secondsSinceLastClick = (Date.now() - lastClicked) / 1000;
-      const canClick = secondsSinceLastClick >= 1;
-      setClickAllowed(canClick);
-    }, 100)
-    return () => clearInterval(interval);
-  })
-
 
   return (
     <div className="w-full min-h-24 flex items-center align-middle justify-center space-x-5 rounded-xl outline-2 outline-app-bg">
       {/* Button container */}
       <h1 className="font-semibold md:text-2xl text-xl text-center"> {startedFocusedTask ? "🔒" : "🔓"} {focusedTask?.name}</h1>
       {!startedFocusedTask ? (
-        <CiPlay1 className={`text-4xl btn-hover flex-none ${!clickAllowed ? "hover:cursor-not-allowed" : "hover:cursor-pointer"}`} onClick={() => {
-          if (!clickAllowed) return;
-          setLastClicked(Date.now())
-          handleStartTask(focusedTask!)
-        }} />
+        <CiPlay1 className={`text-4xl btn-hover flex-none ${loading && "hover:cursor-progress"}`}
+          onClick={async () => {
+            if (loading) return;
+            setLoading(true);
+            await handleStartTask(focusedTask!)
+            setLoading(false);
+          }} />
       ) : (
-        <CiPause1 className={`text-4xl btn-hover flex-none ${!clickAllowed && "hover:cursor-not-allowed"}`} onClick={() => {
-          if (!clickAllowed) return;
-          setLastClicked(Date.now())
-          handlePauseTask(focusedTask!)
-        }} />
+        <CiPause1 className={`text-4xl btn-hover flex-none ${loading && "hover:cursor-progress"}`}
+          onClick={async () => {
+            if (loading) return;
+            setLoading(true);
+            await handlePauseTask(focusedTask!);
+            setLoading(false);
+          }} />
       )}
-      <IoCheckmarkOutline className={`text-4xl btn-hover flex-none ${!clickAllowed && "hover:cursor-not-allowed"}`} onClick={() => {
-        if (!clickAllowed) return;
-        setLastClicked(Date.now())
-        handleCompleteTask(focusedTask!);
-        celebrate();
-      }} />
+      <IoCheckmarkOutline className={`text-4xl btn-hover flex-none ${loading && "hover:cursor-progress"}`}
+        onClick={async () => {
+          if (loading) return;
+          setLoading(true);
+          await handleCompleteTask(focusedTask!);
+          celebrate();
+          setLoading(false);
+        }} />
     </div>
   );
 };
