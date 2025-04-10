@@ -30,7 +30,7 @@ export default function EnterPomodoroButton() {
     <div>
       {showModal && <EnterPomodoroModal setShowModal={setShowModal} />}
       <p className="relative btn-hover text-lg font-bold text-app-highlight">
-        {enabled ? (<span onClick={() => toggle()}>normal mode</span>) : (<span onClick={() => setShowModal(true)}>pomodoro ✨</span>)}
+        {enabled ? (<span onClick={() => toggle()}>normal mode</span>) : (<span onClick={() => toggle()}>pomodoro ✨</span>)}
       </p>
     </div>
   )
