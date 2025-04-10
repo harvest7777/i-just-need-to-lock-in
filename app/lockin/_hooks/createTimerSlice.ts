@@ -2,6 +2,7 @@ import { StateCreator } from "zustand";
 import { TaskState } from "./createTaskSlice";
 import { startTask, pauseTask, completeTask } from "@/app/(api)/taskTimeServices";
 import { updateLastActive } from "@/app/(api)/profileServices";
+import { difference } from "next/dist/build/utils";
 
 export interface TimerState {
   pomodoroEnabled: boolean;
@@ -11,9 +12,9 @@ export interface TimerState {
 }
 export interface TimerAction {
   lockIntoTask: (task: Task) => void;
-  handleCompleteTask: (task: Task) => void;
-  handleStartTask: (task: Task) => void;
-  handlePauseTask: (task: Task) => void;
+  handleCompleteTask: (task: Task) => Promise<void>;
+  handleStartTask: (task: Task) => Promise<void>;
+  handlePauseTask: (task: Task) => Promise<void>;
   updateTaskAndStates: (task: Task, updatedTask: Task) => void;
   setPomodoroEnabled: (status: boolean) => void;
   setBreakMode: (status: boolean) => void;
@@ -47,9 +48,9 @@ export const createTimerSlice: StateCreator<
   },
   handleCompleteTask: async (task: Task) => {
     // Immediately update on ui
-    set({ focusedTask: null })
-    set({ startedFocusedTask: false })
     const completedTask = await completeTask(task);
+    set({ startedFocusedTask: false })
+    set({ focusedTask: null })
     if (get().pomodoroEnabled) localStorage.setItem("lastPauseTime", String(Date.now()));
     get().updateTaskAndStates(task, completedTask);
     set((state) => ({
@@ -73,7 +74,8 @@ export const createTimerSlice: StateCreator<
 
   },
   handlePauseTask: async (task: Task) => {
-    // If you are pausing a task that's not focused, do nothing
+    console.log("user tried pasuing")
+    // if you are pausing a task that's not focused, do nothing
     if (task.task_id !== get().focusedTask?.task_id) return;
 
     // Immediately update on ui
@@ -83,7 +85,6 @@ export const createTimerSlice: StateCreator<
     const updatedTask: Task = await pauseTask(task);
     get().updateTaskAndStates(task, updatedTask);
     await updateLastActive();
-    // set({ focusedTask: updatedTask })
   },
   updateTaskAndStates: (task: Task, updatedTask: Task) => {
     // Find the old task and replace it with new task. 
