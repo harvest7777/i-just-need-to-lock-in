@@ -1,7 +1,8 @@
-import HeaderSection from "./HeaderSection"
-import SellingPoints from "./SellingPoints"
-import Features from "./Features"
-import Statistics from "./Statistics"
+import HeaderSection from "./(landing-components)/HeaderSection"
+import SellingPoints from "./(landing-components)/SellingPoints"
+import Features from "./(landing-components)/Features"
+import Statistics from "./(landing-components)/Statistics"
+import Footer from "./(landing-components)/Footer"
 
 export default function Landing() {
   return (
@@ -10,6 +11,7 @@ export default function Landing() {
       <SellingPoints />
       <Features />
       <Statistics />
+      <Footer />
     </div>
   )
 }

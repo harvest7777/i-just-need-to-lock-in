@@ -1,7 +1,7 @@
 "use client";
 import { LabelList, Pie, PieChart } from "recharts"
 
-import { getTimeDisplayFromSeconds } from "./(helpers)/getTimeDisplay";
+import { getTimeDisplayFromSeconds } from "../(helpers)/getTimeDisplay";
 
 import {
   CardContent
