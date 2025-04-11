@@ -17,6 +17,7 @@ import PreLoader from "./PreLoader";
 import NewGroupButton from "./NewGroupButton";
 import PomodoroTimeDisplay from "./PomodoroTimeDisplay";
 import BreakTimer from "./BreakTimer";
+import { desyncDetected } from "@/app/(api)/taskServices";
 import { initializeTaskStore } from "@/app/(helpers)/taskStoreInit";
 import { useTaskStore } from "../_hooks/useTaskStore";
 
@@ -36,6 +37,11 @@ export default function Dashboard() {
   const handleBeforeUnload = (e: BeforeUnloadEvent) => {
     e.preventDefault();
   }
+  const handleVisibilityChange = async () => {
+    if (document.visibilityState === "visible" && await desyncDetected()) {
+      console.log("desync detected")
+    }
+  }
 
   useEffect(() => {
     if (startedFocusedTask) window.addEventListener('beforeunload', handleBeforeUnload);
@@ -43,6 +49,7 @@ export default function Dashboard() {
 
     return () => window.removeEventListener('beforeunload', handleBeforeUnload)
   }, [startedFocusedTask])
+
   // lazy load confetti
   useEffect(() => {
     setHydrated(true);
@@ -63,6 +70,10 @@ export default function Dashboard() {
         clearInterval(interval);
       }
     }, 1000); // Check every second
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => { document.removeEventListener('visibilitychange', handleVisibilityChange) };
+
   }, [])
 
   if (!hydrated) {
