@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from "react"
 import { formatTime } from "@/app/(helpers)/formatTime";
 import { useTaskStore } from "../_hooks/useTaskStore";
 
+import EditPomodoroTimes from "./EditPomodoroTimes";
 import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
@@ -12,6 +13,7 @@ export default function BreakTimer() {
   const [now, setNow] = useState<number>(Date.now());
   const [seconds, setSeconds] = useState<number>(-1);
   const [percentRem, setPercentRem] = useState(1);
+  const [showEdit, setShowEdit] = useState<boolean>(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const breakMode = useTaskStore((state) => state.breakMode);
@@ -82,7 +84,6 @@ export default function BreakTimer() {
 
     if (activeTime > breakTime) {
       clearInterval(intervalRef.current!);
-      console.log(activeTime, breakTime)
       document.title = "LOCK IN";
       if (localStorage.getItem("notifications") === "yes") {
         const text = "Break time over!";
@@ -104,7 +105,7 @@ export default function BreakTimer() {
     <div className="w-full flex flex-col items-center justify-center space-y-5">
       <div className="p-5 w-full pb-0">
         <div className="w-full min-h-24 flex items-center align-middle justify-center space-x-5 rounded-xl outline-2 outline-app-bg">
-          <h1 className="font-semibold md:text-2xl text-xl text-center">{seconds > 0 ? 'Enjoy your break (:' : 'Pomodoro session completed! Would you like to restart?'}</h1>
+          <h1 className="font-semibold md:text-2xl text-xl text-center">{seconds > 0 ? 'Enjoy your break (:' : 'Pomodoro session completed, great job 😊'}</h1>
         </div>
       </div>
       {seconds > 0 ? (
@@ -118,11 +119,21 @@ export default function BreakTimer() {
           )} />
         </div>
       ) : (
-        <div className="w-full flex space-x-5 justify-center align-middle items-center">
-          <p onClick={() => handleRestart()} className="w-fit outline-2 text-xl rounded-xl outline-app-highlight px-2 btn-hover">Yes</p>
-          <p onClick={() => handleLeave()} className="w-fit outline-2 text-xl rounded-xl outline-app-highlight px-2 btn-hover">No</p>
-        </div>
+        <div className="w-full">
+          <div className="w-full flex space-x-5 justify-center align-middle items-start">
+            <p onClick={() => handleRestart()} className="w-fit outline-2 text-xl rounded-xl outline-app-highlight px-2 btn-hover">Restart</p>
+            <div>
+              <p onClick={() => setShowEdit(!showEdit)} className="w-fit outline-2 text-xl rounded-xl outline-app-highlight px-2 btn-hover">Edit Times</p>
+            </div>
+            <p onClick={() => handleLeave()} className="w-fit outline-2 text-xl rounded-xl outline-app-highlight px-2 btn-hover">Exit</p>
+          </div>
 
+          {showEdit &&
+            <div className="w-full">
+              <EditPomodoroTimes />
+            </div>
+          }
+        </div>
       )}
 
     </div>

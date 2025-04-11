@@ -131,6 +131,8 @@ export default function PomodoroTimeDisplay() {
 
   useEffect(() => {
     if (!forceUpdate) return;
+    const storedGoal: string | null = localStorage.getItem("pomodoroGoalMs");
+    if (storedGoal) setPomodoroGoalMs(Number(storedGoal));
     pausedTimeRef.current = 0;
     startTimeRef.current = null;
     breakRef.current = false;
