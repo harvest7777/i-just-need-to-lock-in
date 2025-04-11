@@ -105,7 +105,7 @@ export default function BreakTimer() {
     <div className="w-full flex flex-col items-center justify-center space-y-5">
       <div className="p-5 w-full pb-0">
         <div className="w-full min-h-24 flex items-center align-middle justify-center space-x-5 rounded-xl outline-2 outline-app-bg">
-          <h1 className="font-semibold md:text-2xl text-xl text-center">{seconds > 0 ? 'Enjoy your break (:' : 'Pomodoro session completed, great job 😊'}</h1>
+          <h1 className="px-2 font-semibold md:text-2xl text-xl text-center">{seconds > 0 ? 'Enjoy your break (:' : 'Pomodoro session completed, great job 😊'}</h1>
         </div>
       </div>
       {seconds > 0 ? (

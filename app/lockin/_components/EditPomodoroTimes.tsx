@@ -27,21 +27,19 @@ export default function EditPomodoroTimes() {
   //doesnt make sense to deny both values just bc one is invalid
   useEffect(() => {
     //validate before storing to local storage
-    if (errors.minutesWork || !minutesWorkValue) return;
-
-    setValue("minutesWork", Number(minutesWorkValue), { shouldValidate: true });
+    if (!minutesWorkValue) return;
+    if (Number(minutesWorkValue) > 60 || Number(minutesWorkValue) < 5) return;
     const pomodoroGoalMs: number = Number(minutesWorkValue) * 60 * 1000;
     localStorage.setItem("pomodoroGoalMs", String(pomodoroGoalMs));
-    trigger("minutesWork")
 
   }, [minutesWorkValue])
 
   useEffect(() => {
     if (errors.minutesBreak || !minutesBreakValue) return;
-    setValue("minutesBreak", Number(minutesBreakValue), { shouldValidate: true });
+
+    if (Number(minutesBreakValue) > 60 || Number(minutesBreakValue) < 1) return;
     const breakTimeMs = Number(minutesBreakValue) * 60 * 1000;
     localStorage.setItem("breakTimeMs", String(breakTimeMs));
-    trigger("minutesBreak")
   }, [minutesBreakValue])
 
   //at this point these should NOT be null because the user is in pomodor pomodoro mode
@@ -61,7 +59,7 @@ export default function EditPomodoroTimes() {
       <div className="w-full flex justify-center gap-x-2 ">
         <label>Work Time:</label>
         <input
-          className="bg-app-bg w-18 rounded-lg px-2"
+          className="bg-app-bg w-12 rounded-lg px-2"
           defaultValue={defaultMinutesWork}
           type="number"
           {...register("minutesWork", {
@@ -70,7 +68,7 @@ export default function EditPomodoroTimes() {
             max: { value: 60, message: "Must be at most 60 minutes" },
             onChange: () => trigger("minutesWork")
           })} />
-        <span>minutes</span>
+        <span>mins</span>
         <div onClick={() => changeMinutes("minutesWork", 5)} className="btn-hover bg-app-highlight rounded-lg p-1">
           <FaPlus />
         </div>
@@ -82,7 +80,7 @@ export default function EditPomodoroTimes() {
       <div className="w-full flex justify-center gap-x-2 mt-3">
         <label>Break Time:</label>
         <input
-          className="bg-app-bg w-18 rounded-lg px-2"
+          className="bg-app-bg w-12 rounded-lg px-2"
           defaultValue={defaultMinutesBreak}
           type="number"
           {...register("minutesBreak", {
@@ -91,7 +89,7 @@ export default function EditPomodoroTimes() {
             max: { value: 60, message: "Must be at most 60 minutes" },
             onChange: () => trigger("minutesBreak")
           })} />
-        <span>minutes</span>
+        <span>mins</span>
         <div onClick={() => changeMinutes("minutesBreak", 5)} className="btn-hover bg-app-highlight rounded-lg p-1">
           <FaPlus />
         </div>
