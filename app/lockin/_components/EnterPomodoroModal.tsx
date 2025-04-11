@@ -20,8 +20,8 @@ export default function EnterPomodoroModal({ setShowModal }: EnterPomodoroModalP
   const onSubmit = async (data: TimeFormInput) => {
     let pomodoroGoalMs: number = Number(data.minutesWork * 60 * 1000);
     let pomodoroBreak: number = Number(data.minutesBreak * 60 * 1000);
-    pomodoroGoalMs = 1000;
-    pomodoroBreak = 1000;
+    // pomodoroGoalMs = 1000;
+    // pomodoroBreak = 1000;
 
     console.log(data.notificationsEnabled)
     if (data.notificationsEnabled) {
