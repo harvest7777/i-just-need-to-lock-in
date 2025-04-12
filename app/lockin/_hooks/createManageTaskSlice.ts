@@ -34,8 +34,7 @@ export const createManageTaskSlice: StateCreator<
       }))
       let curFocused = get().focusedTask;
       if (curFocused?.task_id === renamedTask.task_id) {
-        curFocused.name = renamedTask.name;
-        set({ focusedTask: curFocused })
+        set({ focusedTask: renamedTask })
       }
     },
     handleDeleteTask: async (task: Task) => {

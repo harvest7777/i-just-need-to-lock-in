@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import CompletedTasks from "./CompletedTasks";
 import IncompleteTasks from "./IncompleteTasks";
@@ -33,13 +33,20 @@ export default function Dashboard() {
   const [timerDisplay, setTimerDisplay] = useState<string>("session");
   const [cancelVisible, setCancelVisible] = useState<boolean>(false);
   const [hydrated, setHydrated] = useState<boolean>(false);
+  const desyncedRef = useRef<boolean>(false);
 
   const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+    if (desyncedRef) return;
     e.preventDefault();
   }
+
   const handleVisibilityChange = async () => {
     if (document.visibilityState === "visible" && await desyncDetected()) {
       console.log("desync detected")
+      desyncedRef.current = true;
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
     }
   }
 
