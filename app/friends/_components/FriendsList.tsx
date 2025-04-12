@@ -68,7 +68,7 @@ const FriendsList = React.memo(function FriendsList() {
         </Link>
       </div>
       {acceptedFriends.length === 0 && (
-        <div className="italic text-app-bg p-2">
+        <div className="w-full italic text-app-bg p-2">
           <span>Locking in is better with friends. Click the</span>
           <MdOutlineManageAccounts className="inline align-top text-xl mx-2" />
           <span>to add some!</span>

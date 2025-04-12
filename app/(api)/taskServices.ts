@@ -1,5 +1,7 @@
 import { supabase } from "@/utils/supabase/supabase";
 import { getDayStartEnd } from "@/app/(helpers)/getDayStartEnd";
+import { useTaskStore } from "../lockin/_hooks/useTaskStore";
+import { broadcastUpdatedTask } from "./realtimeServices";
 
 export const getTodaysTasks = async (): Promise<Task[]> => {
   const userId = (await supabase.auth.getUser()).data.user?.id;
@@ -93,6 +95,10 @@ export const renameTask = async (task: Task, newName: string) => {
     .select();
 
   if (error) throw (error);
+
+  const renamedTask: Task = data![0] as Task;
+  broadcastUpdatedTask(renamedTask);
+
   return data[0] as Task;
 }
 
@@ -129,4 +135,51 @@ export const updateTaskGroup = async (task: Task, groupId: number | null): Promi
 
   if (error) throw error;
   return data as Task;
+}
+
+export const tasksAreEqual = (a: Task, b: Task): boolean => {
+  //should never get here
+  if (!a && !b) return true;
+  if (!a || !b) return false;
+
+  return (
+    a.task_id === b.task_id &&
+    a.name === b.name &&
+    a.seconds_spent === b.seconds_spent &&
+    a.user_id === b.user_id &&
+    a.is_complete === b.is_complete &&
+    a.last_start_time === b.last_start_time &&
+    a.updated_at === b.updated_at
+  )
+}
+export const desyncDetected = async (): Promise<boolean> => {
+  const { focusedTask: clientFocusedTask } = useTaskStore.getState();
+  const { startedFocusedTask } = useTaskStore.getState();
+  //a user might have a task focused but not started, does it matter? wont i want to resync it regardless?
+
+  // check if the user was working on a task
+  const serverInProgressTask: Task | null = await getInProgressTask();
+
+  // set state accordingly
+  // only run if client and server disagree
+  // than whatever is set on clietn side
+
+  //client has something, server does not (musthve paused somewhere else)
+  if (!serverInProgressTask && startedFocusedTask) {
+    return true;
+  }
+
+  //server has a task, client does not (mustve started somewhere else)
+  if (serverInProgressTask && !startedFocusedTask) {
+    return true;
+  }
+
+  //the server and lcient have a task in progrss, but they are different. task must have been switched no another tab
+  if (serverInProgressTask && startedFocusedTask && !tasksAreEqual(serverInProgressTask, clientFocusedTask!)) {
+    console.log("not exactly equal")
+    console.log(serverInProgressTask, clientFocusedTask)
+    return true;
+  }
+  return false;
+
 }

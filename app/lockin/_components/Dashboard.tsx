@@ -1,6 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import toast, { Toaster } from 'react-hot-toast';
+
+import { useState, useEffect, useRef } from "react";
 
 import CompletedTasks from "./CompletedTasks";
 import IncompleteTasks from "./IncompleteTasks";
@@ -17,6 +19,7 @@ import PreLoader from "./PreLoader";
 import NewGroupButton from "./NewGroupButton";
 import PomodoroTimeDisplay from "./PomodoroTimeDisplay";
 import BreakTimer from "./BreakTimer";
+import { desyncDetected } from "@/app/(api)/taskServices";
 import { initializeTaskStore } from "@/app/(helpers)/taskStoreInit";
 import { useTaskStore } from "../_hooks/useTaskStore";
 
@@ -32,9 +35,23 @@ export default function Dashboard() {
   const [timerDisplay, setTimerDisplay] = useState<string>("session");
   const [cancelVisible, setCancelVisible] = useState<boolean>(false);
   const [hydrated, setHydrated] = useState<boolean>(false);
-
+  const desyncedRef = useRef<boolean>(false);
+  const desyncedToast = () => toast.error("Desync detected! Resyncing...");
   const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+    if (desyncedRef) return;
     e.preventDefault();
+  }
+
+  const handleVisibilityChange = async () => {
+    if (document.visibilityState === "visible" && await desyncDetected()) {
+      console.log("desync detected")
+      desyncedRef.current = true;
+      desyncedToast()
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    }
   }
 
   useEffect(() => {
@@ -43,6 +60,7 @@ export default function Dashboard() {
 
     return () => window.removeEventListener('beforeunload', handleBeforeUnload)
   }, [startedFocusedTask])
+
   // lazy load confetti
   useEffect(() => {
     setHydrated(true);
@@ -63,6 +81,10 @@ export default function Dashboard() {
         clearInterval(interval);
       }
     }, 1000); // Check every second
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => { document.removeEventListener('visibilitychange', handleVisibilityChange) };
+
   }, [])
 
   if (!hydrated) {
@@ -72,6 +94,7 @@ export default function Dashboard() {
   }
   return (
     <>
+      <Toaster />
       {cancelVisible && <StillWorkingModal setCancelVisible={setCancelVisible} />}
       <div className="flex md:flex-row md:gap-x-2 flex-col md:space-y-0 space-y-3">
         {/* graph and changelog container */}
