@@ -1,6 +1,5 @@
 import { GeistSans } from "geist/font/sans";
 import { Analytics } from "@vercel/analytics/react"
-import Head from "next/head";
 
 import HeaderAuth from "@/components/header-auth";
 import ThemeProvider from "./ThemeProvider";
