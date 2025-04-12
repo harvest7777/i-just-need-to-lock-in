@@ -1,12 +1,15 @@
 "use client";
 
-import { toast, Toaster } from "sonner";
+import toast, { Toaster } from 'react-hot-toast';
+
+const notify = () => toast.error('Here is your toast.');
+
 
 export default function PlaygroundPage() {
   return (
     <div>
-      <Toaster richColors position="top-right" />
-      <button className="btn-hover" onClick={() => toast('Toast')}>Render Toast</button>;
+      <button onClick={notify}>Make me a toast</button>
+      <Toaster />
     </div>
   )
 }

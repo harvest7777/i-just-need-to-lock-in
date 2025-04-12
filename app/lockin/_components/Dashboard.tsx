@@ -1,5 +1,7 @@
 "use client";
 
+import toast, { Toaster } from 'react-hot-toast';
+
 import { useState, useEffect, useRef } from "react";
 
 import CompletedTasks from "./CompletedTasks";
@@ -34,7 +36,7 @@ export default function Dashboard() {
   const [cancelVisible, setCancelVisible] = useState<boolean>(false);
   const [hydrated, setHydrated] = useState<boolean>(false);
   const desyncedRef = useRef<boolean>(false);
-
+  const desyncedToast = () => toast.error("Desync detected! Resyncing...");
   const handleBeforeUnload = (e: BeforeUnloadEvent) => {
     if (desyncedRef) return;
     e.preventDefault();
@@ -44,6 +46,8 @@ export default function Dashboard() {
     if (document.visibilityState === "visible" && await desyncDetected()) {
       console.log("desync detected")
       desyncedRef.current = true;
+      desyncedToast()
+
       setTimeout(() => {
         window.location.reload();
       }, 2000);
@@ -90,6 +94,7 @@ export default function Dashboard() {
   }
   return (
     <>
+      <Toaster />
       {cancelVisible && <StillWorkingModal setCancelVisible={setCancelVisible} />}
       <div className="flex md:flex-row md:gap-x-2 flex-col md:space-y-0 space-y-3">
         {/* graph and changelog container */}
