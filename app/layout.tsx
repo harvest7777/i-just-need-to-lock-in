@@ -18,10 +18,10 @@ export const metadata = {
   openGraph: {
     title: "LOCK IN",
     description: "Hop off reels and lock in.",
-    url: defaultUrl,
+    url: "https://imalockin.com",
     images: [
       {
-        url: `https://imalockin.com/lock-in-fr.png`,
+        url: "https://imalockin.com/lock-in-fr.png",
         width: 1200,
         height: 630,
         alt: "LOCK IN thumbnail",
@@ -32,7 +32,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "LOCK IN",
     description: "Hop off reels and lock in.",
-    images: [`https://imalockin.com/lock-in-fr.png`],
+    images: ["https://imalockin.com/lock-in-fr.png"],
   },
 };
 
