@@ -52,7 +52,7 @@ export const createTimerSlice: StateCreator<
     const completedTask = await completeTask(task);
     set({ focusedTask: null })
     if (get().pomodoroEnabled) localStorage.setItem("lastPauseTime", String(Date.now()));
-    if (get().startedFocusedTask) get().updateTaskAndStates(task, completedTask);
+    get().updateTaskAndStates(task, completedTask);
     set({ startedFocusedTask: false })
     set((state) => ({
       completedTasks: [...state.completedTasks!, completedTask]
@@ -81,12 +81,12 @@ export const createTimerSlice: StateCreator<
     if (task.task_id !== get().focusedTask?.task_id) return;
 
     document.title = "LOCK IN";
-    // Immediately update on ui
-    set({ startedFocusedTask: false });
     localStorage.setItem("lastPauseTime", String(Date.now()));
     // Pause the task and update it on the UI with the new total seconds spent
     const updatedTask: Task = await pauseTask(task);
     get().updateTaskAndStates(task, updatedTask);
+    // Immediately update on ui
+    set({ startedFocusedTask: false });
     await updateLastActive();
   },
   updateTaskAndStates: (task: Task, updatedTask: Task) => {
@@ -99,6 +99,7 @@ export const createTimerSlice: StateCreator<
       ),
     }));
 
+    if (!get().startedFocusedTask) return;
     // The task intervals need to be updated if the task was in progress
     let startTime = task.last_start_time;
     let endTime = new Date();
