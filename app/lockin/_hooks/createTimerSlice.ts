@@ -39,6 +39,7 @@ export const createTimerSlice: StateCreator<
       set({ focusedTask: null });
       return;
     }
+    //if u are switching tasks rgiht aaway u gotta pause the last one
     if (get().focusedTask && get().startedFocusedTask) {
       if (task.task_id == get().focusedTask?.task_id) return;
       get().handlePauseTask(get().focusedTask!);
@@ -74,10 +75,12 @@ export const createTimerSlice: StateCreator<
 
   },
   handlePauseTask: async (task: Task) => {
-    console.log("user tried pasuing")
+    // if u arent working on anything do nothing
+    if (!get().startedFocusedTask) return;
     // if you are pausing a task that's not focused, do nothing
     if (task.task_id !== get().focusedTask?.task_id) return;
 
+    document.title = "LOCK IN";
     // Immediately update on ui
     set({ startedFocusedTask: false });
     localStorage.setItem("lastPauseTime", String(Date.now()));

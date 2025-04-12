@@ -22,7 +22,6 @@ export default function PomodoroTimeDisplay() {
   const setBreakMode = useTaskStore((state) => state.setBreakMode);
 
 
-  const breakRef = useRef<boolean>(false);
   const [now, setNow] = useState<number>(Date.now());
 
   const handleStart = () => {
@@ -58,8 +57,12 @@ export default function PomodoroTimeDisplay() {
     clearInterval(intervalRef.current!);
   }
 
+  const handleSkipSession = () => {
+    handlePauseTask(focusedTask!);
+    //u absolutely can not be in this component without a focused task
+    enterBreakMode();
+  }
   const enterBreakMode = () => {
-    breakRef.current = true;
     setBreakMode(true);
     clearInterval(intervalRef.current!);
   }
@@ -95,12 +98,12 @@ export default function PomodoroTimeDisplay() {
       curActiveTime = now - supposedStart - pausedTimeRef.current;
       const secRemaining = Math.round((pomodoroGoalMs - curActiveTime) / 1000);
       const rem = Math.round(((pomodoroGoalMs - curActiveTime) / pomodoroGoalMs) * 100);
-      document.title = formatTime(secRemaining) + " remaining";
+      if (startedFocusedTask) document.title = formatTime(secRemaining) + " work";
       setPercentRem(rem);
       setSeconds(Math.max(0, secRemaining));
 
       //break mode may be entered without having a focused task. ex when refreshing
-      if (curActiveTime >= pomodoroGoalMs && !breakRef.current) {
+      if (curActiveTime >= pomodoroGoalMs) {
         document.title = "LOCK IN";
         const text = "You've just finished your work session!";
         if (localStorage.getItem("notifications") === "yes") {
@@ -114,10 +117,6 @@ export default function PomodoroTimeDisplay() {
       //finished working period
       if (focusedTask && startedFocusedTask && curActiveTime >= pomodoroGoalMs) {
         handlePauseTask(focusedTask);
-        // const chime = new Audio('/chime.mp3');
-        // chime.play().catch(() => {
-        //   console.log('work-couldnt-play-sound');
-        // })
       }
     }
 
@@ -135,7 +134,6 @@ export default function PomodoroTimeDisplay() {
     if (storedGoal) setPomodoroGoalMs(Number(storedGoal));
     pausedTimeRef.current = 0;
     startTimeRef.current = null;
-    breakRef.current = false;
     setForceUpdate(false);
     // clearInterval(intervalRef.current!);
     setNow(Date.now());
@@ -154,6 +152,7 @@ export default function PomodoroTimeDisplay() {
           }
         )} />
       </div>
+      <button onClick={() => handleSkipSession()} className="btn-hover bg-app-bg rounded-xl px-2 text-xl mt-5">i need a break 💔</button>
     </div>
   )
 }
