@@ -29,7 +29,6 @@ export default function BreakTimer() {
     }, 500)
 
   }
-
   const handleRestart = () => {
     localStorage.removeItem("lastPauseTime");
     localStorage.removeItem("totalPauseTimeMs");
@@ -49,6 +48,11 @@ export default function BreakTimer() {
     localStorage.removeItem("breakTimeMs");
     setBreakMode(false);
     setEnabled(false);
+  }
+  const handleSkipBreak = () => {
+    clearInterval(intervalRef.current!);
+    document.title = "LOCK IN";
+    setSeconds(0);
   }
 
   useEffect(() => {
@@ -80,7 +84,7 @@ export default function BreakTimer() {
     const rem = Math.round(((breakTime - activeTime) / breakTime) * 100);
     setPercentRem(rem);
     setSeconds(Math.max(secondsRemaining, 0));
-    if (breakMode) document.title = formatTime(secondsRemaining) + " remaining";
+    if (breakMode) document.title = formatTime(secondsRemaining) + " break";
 
     if (activeTime > breakTime) {
       clearInterval(intervalRef.current!);
@@ -92,10 +96,6 @@ export default function BreakTimer() {
           silent: true
         })
       }
-      // const chime = new Audio('/chime.mp3');
-      // chime.play().catch(() => {
-      //   console.log("break-couldnt-play-sound")
-      // })
     }
 
   }, [now])
@@ -109,7 +109,7 @@ export default function BreakTimer() {
         </div>
       </div>
       {seconds > 0 ? (
-        <div className="md:w-1/4 w-1/3">
+        <div className="md:w-1/4 w-1/3 flex flex-col items-center">
           <CircularProgressbar className="!text-red-50" value={percentRem} text={`${formatTime(seconds)}`} styles={buildStyles(
             {
               textColor: 'var(--color-app-text)',
@@ -117,15 +117,14 @@ export default function BreakTimer() {
               trailColor: 'var(--color-app-bg)'
             }
           )} />
+          <button onClick={() => handleSkipBreak()} className="text-center bg-app-bg rounded-xl px-2 md:text-xl text-md mt-5 btn-hover">skip break 💀</button>
         </div>
       ) : (
         <div className="w-full">
-          <div className="w-full flex space-x-5 justify-center align-middle items-start">
-            <p onClick={() => handleRestart()} className="w-fit outline-2 text-xl rounded-xl outline-app-highlight px-2 btn-hover">Restart</p>
-            <div>
-              <p onClick={() => setShowEdit(!showEdit)} className="w-fit outline-2 text-xl rounded-xl outline-app-highlight px-2 btn-hover">Edit Times</p>
-            </div>
-            <p onClick={() => handleLeave()} className="w-fit outline-2 text-xl rounded-xl outline-app-highlight px-2 btn-hover">Exit</p>
+          <div className="w-full flex space-x-5 justify-center align-middle items-start md:text-xl text-md">
+            <button onClick={() => handleRestart()} className="w-fit outline-2  rounded-xl outline-app-highlight px-2 btn-hover">Restart</button>
+            <button onClick={() => setShowEdit(!showEdit)} className="w-fit outline-2  rounded-xl outline-app-highlight px-2 btn-hover">Edit Times</button>
+            <button onClick={() => handleLeave()} className="w-fit outline-2 rounded-xl outline-app-highlight px-2 btn-hover">Exit</button>
           </div>
 
           {showEdit &&

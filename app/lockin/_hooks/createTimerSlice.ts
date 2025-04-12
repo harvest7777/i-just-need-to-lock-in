@@ -39,6 +39,7 @@ export const createTimerSlice: StateCreator<
       set({ focusedTask: null });
       return;
     }
+    //if u are switching tasks rgiht aaway u gotta pause the last one
     if (get().focusedTask && get().startedFocusedTask) {
       if (task.task_id == get().focusedTask?.task_id) return;
       get().handlePauseTask(get().focusedTask!);
@@ -51,7 +52,7 @@ export const createTimerSlice: StateCreator<
     const completedTask = await completeTask(task);
     set({ focusedTask: null })
     if (get().pomodoroEnabled) localStorage.setItem("lastPauseTime", String(Date.now()));
-    if (get().startedFocusedTask) get().updateTaskAndStates(task, completedTask);
+    get().updateTaskAndStates(task, completedTask);
     set({ startedFocusedTask: false })
     set((state) => ({
       completedTasks: [...state.completedTasks!, completedTask]
@@ -74,16 +75,18 @@ export const createTimerSlice: StateCreator<
 
   },
   handlePauseTask: async (task: Task) => {
-    console.log("user tried pasuing")
+    // if u arent working on anything do nothing
+    if (!get().startedFocusedTask) return;
     // if you are pausing a task that's not focused, do nothing
     if (task.task_id !== get().focusedTask?.task_id) return;
 
-    // Immediately update on ui
-    set({ startedFocusedTask: false });
+    document.title = "LOCK IN";
     localStorage.setItem("lastPauseTime", String(Date.now()));
     // Pause the task and update it on the UI with the new total seconds spent
     const updatedTask: Task = await pauseTask(task);
     get().updateTaskAndStates(task, updatedTask);
+    // Immediately update on ui
+    set({ startedFocusedTask: false });
     await updateLastActive();
   },
   updateTaskAndStates: (task: Task, updatedTask: Task) => {
@@ -96,6 +99,7 @@ export const createTimerSlice: StateCreator<
       ),
     }));
 
+    if (!get().startedFocusedTask) return;
     // The task intervals need to be updated if the task was in progress
     let startTime = task.last_start_time;
     let endTime = new Date();

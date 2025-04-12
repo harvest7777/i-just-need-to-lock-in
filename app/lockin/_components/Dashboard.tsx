@@ -38,7 +38,7 @@ export default function Dashboard() {
   const desyncedRef = useRef<boolean>(false);
   const desyncedToast = () => toast.error("Desync detected! Resyncing...");
   const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-    if (desyncedRef) return;
+    if (desyncedRef.current) return;
     e.preventDefault();
   }
 
