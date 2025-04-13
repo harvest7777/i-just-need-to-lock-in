@@ -36,7 +36,12 @@ export default function Dashboard() {
   const [cancelVisible, setCancelVisible] = useState<boolean>(false);
   const [hydrated, setHydrated] = useState<boolean>(false);
   const desyncedRef = useRef<boolean>(false);
+
+  const socketRef = useRef<WebSocket | null>(null);
+  const heartbeatRef = useRef<NodeJS.Timeout | null>(null);
+
   const desyncedToast = () => toast.error("Desync detected! Resyncing...");
+
   const handleBeforeUnload = (e: BeforeUnloadEvent) => {
     if (desyncedRef.current) return;
     e.preventDefault();
@@ -83,7 +88,31 @@ export default function Dashboard() {
     }, 1000); // Check every second
 
     document.addEventListener('visibilitychange', handleVisibilityChange);
-    return () => { document.removeEventListener('visibilitychange', handleVisibilityChange) };
+    const socket = new WebSocket("wss://ws.postman-echo.com/raw");
+    socketRef.current = socket;
+    socket.onopen = () => {
+      console.log("WebSocket connected");
+
+      heartbeatRef.current = setInterval(() => {
+        if (socket.readyState === WebSocket.OPEN) {
+          socket.send("ping");
+          console.log("Heartbeat sent");
+        }
+      }, 15000);
+    };
+
+    socket.onmessage = (event: MessageEvent) => {
+      console.log("Received:", event.data);
+    };
+
+    socket.onclose = () => {
+      console.log("WebSocket closed");
+    };
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      if (heartbeatRef.current) clearInterval(heartbeatRef.current);
+      if (socketRef.current) socketRef.current.close();
+    };
 
   }, [])
 
