@@ -34,7 +34,7 @@ export const createTimerSlice: StateCreator<
   setForceUpdate: (status: boolean) => set({ forceUpdate: status }),
   setBreakMode: (status: boolean) => set({ breakMode: status }),
   setPomodoroEnabled: (status: boolean) => set({ pomodoroEnabled: status }),
-  lockIntoTask: (task: Task) => {
+  lockIntoTask: async (task: Task) => {
     if (task === null) {
       set({ focusedTask: null });
       return;
@@ -42,15 +42,17 @@ export const createTimerSlice: StateCreator<
     //if u are switching tasks rgiht aaway u gotta pause the last one
     if (get().focusedTask && get().startedFocusedTask) {
       if (task.task_id == get().focusedTask?.task_id) return;
-      get().handlePauseTask(get().focusedTask!);
+      await get().handlePauseTask(get().focusedTask!);
     }
     set({ focusedTask: task })
-    get().handleStartTask(task);
+    await get().handleStartTask(task);
   },
   handleCompleteTask: async (task: Task) => {
     // Immediately update on ui
     const completedTask = await completeTask(task);
     set({ focusedTask: null })
+    // This comes first to update immediately on ui
+    set({ startedFocusedTask: true });
     if (get().pomodoroEnabled) localStorage.setItem("lastPauseTime", String(Date.now()));
     get().updateTaskAndStates(task, completedTask);
     set({ startedFocusedTask: false })
@@ -60,8 +62,6 @@ export const createTimerSlice: StateCreator<
     await updateLastActive();
   },
   handleStartTask: async (task: Task) => {
-    // This comes first to update immediately on ui
-    set({ startedFocusedTask: true });
     const startedTask = await startTask(task);
     // We must update the daily task with our new task data
     set((state) => ({
@@ -70,6 +70,8 @@ export const createTimerSlice: StateCreator<
       ) ?? []
     }));
 
+    // This comes first to update immediately on ui
+    set({ startedFocusedTask: true });
     // We must update the focused task with the new task data
     set({ focusedTask: startedTask })
 
