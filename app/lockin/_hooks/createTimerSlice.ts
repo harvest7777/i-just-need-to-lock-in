@@ -52,7 +52,6 @@ export const createTimerSlice: StateCreator<
     const completedTask = await completeTask(task);
     set({ focusedTask: null })
     // This comes first to update immediately on ui
-    set({ startedFocusedTask: true });
     if (get().pomodoroEnabled) localStorage.setItem("lastPauseTime", String(Date.now()));
     get().updateTaskAndStates(task, completedTask);
     set({ startedFocusedTask: false })
