@@ -75,7 +75,7 @@ const StopwatchComponent: React.FC<StopWatchProps> = ({ setCancelVisible }) => {
   return (
     <div className="md:text-2xl text-xl flex items-center align-middle justify-center space-x-2">
       <WordBlock text={formatTime(secondsPassed)} />
-      {focusedTask?.last_start_time && <h1 onClick={() => setCancelVisible(true)} className="w-fit px-2 rounded-xl btn-hover bg-red-800 hover:text-app-fg">cancel</h1>}
+      {startedFocusedTask && <h1 onClick={() => setCancelVisible(true)} className="w-fit px-2 rounded-xl btn-hover bg-red-800 hover:text-app-fg">cancel</h1>}
     </div>
   );
 };
