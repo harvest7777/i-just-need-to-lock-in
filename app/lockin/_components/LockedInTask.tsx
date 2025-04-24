@@ -4,15 +4,15 @@ import { CiPause1 } from "react-icons/ci";
 import { CiPlay1 } from "react-icons/ci";
 import { IoCheckmarkOutline } from "react-icons/io5";
 import { useTaskStore } from "../_hooks/useTaskStore";
+import { useRef, useCallback } from "react";
 import JSConfetti from "js-confetti";
-import { useRef } from "react";
 
 const LockedInTask = () => {
+  const jsConfettiRef = useRef<JSConfetti | null>(null);
+
   const focusedTask = useTaskStore((state) => state.focusedTask);
   const startedFocusedTask = useTaskStore((state) => state.startedFocusedTask);
-  const jsConfettiRef = useRef<JSConfetti | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-
 
   // actions (no re render apparently)
   const { handleStartTask, handlePauseTask, handleCompleteTask } = useTaskStore();
@@ -36,11 +36,36 @@ const LockedInTask = () => {
     }
   }
 
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       jsConfettiRef.current = new JSConfetti();
     }
   }, [])
+
+  useEffect(() => {
+    const handleKeyPress = async (event: KeyboardEvent) => {
+      const pressedSpace: boolean = event.key === ' ';
+
+      if (loading || !pressedSpace || !focusedTask) return;
+      if (startedFocusedTask) {
+        setLoading(true);
+        console.log("pausing")
+        await handlePauseTask(focusedTask);
+        setLoading(false);
+      } else {
+        setLoading(true);
+        console.log("resuming")
+        await handleStartTask(focusedTask);
+        setLoading(false);
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyPress);
+    return () => {
+      document.removeEventListener('keydown', handleKeyPress);
+    }
+  }, [startedFocusedTask, loading, focusedTask])
 
 
   return (
