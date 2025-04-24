@@ -46,19 +46,20 @@ const LockedInTask = () => {
   useEffect(() => {
     const handleKeyPress = async (event: KeyboardEvent) => {
       const pressedSpace: boolean = event.key === ' ';
-
-      if (loading || !pressedSpace || !focusedTask) return;
-      if (startedFocusedTask) {
-        setLoading(true);
-        console.log("pausing")
-        await handlePauseTask(focusedTask);
-        setLoading(false);
-      } else {
-        setLoading(true);
-        console.log("resuming")
-        await handleStartTask(focusedTask);
-        setLoading(false);
-      }
+      console.log(pressedSpace);
+      //
+      // if (loading || !pressedSpace || !focusedTask) return;
+      // if (startedFocusedTask) {
+      //   setLoading(true);
+      //   console.log("pausing")
+      //   await handlePauseTask(focusedTask);
+      //   setLoading(false);
+      // } else {
+      //   setLoading(true);
+      //   console.log("resuming")
+      //   await handleStartTask(focusedTask);
+      //   setLoading(false);
+      // }
     }
 
     document.addEventListener('keydown', handleKeyPress);
