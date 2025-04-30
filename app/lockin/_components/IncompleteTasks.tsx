@@ -119,10 +119,11 @@ const IncompleteTasks = () => {
                   <EditGroupName group={group} handleRenameGroup={handleRenameGroup} setEditingGroupId={setEditingGroupId} />
                 ) : (
                   <div className="flex flex-1">
-                    <div className="flex-1 gap-x-2 hover:cursor-pointer" onClick={() => handleToggleShowGroup(group.id)}>
-                      <span className={`hover:cursor-pointer line-clamp-1  ${shownGroups.includes(group.id) && "font-semibold"} `} onClick={() => handleToggleShowGroup(group.id)}>{group.name}</span>
+                    <div className="flex-1 gap-x-2 hover:cursor-pointer line-clamp-1" onClick={() => handleToggleShowGroup(group.id)}>
+                      <span className={`hover:cursor-pointer ${shownGroups.includes(group.id) && "font-semibold"} `} onClick={() => handleToggleShowGroup(group.id)}>{group.name}</span>
                       <span className=""> {!shownGroups.includes(group.id) && `(${countToDos(group.id)})`}</span>
                     </div>
+
                     <div className="flex flex-none">
                       <RiDeleteBin6Line className="md:hidden group-hover:block text-2xl flex-none btn-hover text-app-bg hover:text-red-800" onClick={() => setGroupToDelete(group)} />
                       <MdOutlineDriveFileRenameOutline className="md:hidden group-hover:block text-2xl flex-none btn-hover text-app-bg hover:text-blue-600" onClick={() => { setEditingGroupId(group.id); setEditingTaskId(null); }} />
