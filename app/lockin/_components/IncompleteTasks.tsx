@@ -120,7 +120,7 @@ const IncompleteTasks = () => {
                 ) : (
                   <div className="flex flex-1">
                     <div className="flex-1 gap-x-2 hover:cursor-pointer" onClick={() => handleToggleShowGroup(group.id)}>
-                      <span className={`hover:cursor-pointer  ${shownGroups.includes(group.id) && "font-semibold"} `} onClick={() => handleToggleShowGroup(group.id)}>{group.name}</span>
+                      <span className={`hover:cursor-pointer line-clamp-1  ${shownGroups.includes(group.id) && "font-semibold"} `} onClick={() => handleToggleShowGroup(group.id)}>{group.name}</span>
                       <span className=""> {!shownGroups.includes(group.id) && `(${countToDos(group.id)})`}</span>
                     </div>
                     <div className="flex flex-none">
@@ -151,7 +151,7 @@ const IncompleteTasks = () => {
                         <EditTaskName handleRenameTask={handleRenameTask} task={task} setEditingTaskId={setEditingTaskId} />
                       ) : (
                         <>
-                          <p className="flex-1 rounded-lg">{task.name}</p>
+                          <p className="flex-1 rounded-lg line-clamp-1">{task.name}</p>
                           <div className="flex space-x-1" onPointerDown={(e) => { e.stopPropagation() }} onTouchStart={(e) => { e.stopPropagation() }} onMouseDown={(e) => { e.stopPropagation() }}>
                             <RiDeleteBin6Line className="md:hidden group-hover:block text-2xl flex-none btn-hover text-app-bg hover:text-red-800" onClick={() => { setTaskToDelete(task) }} />
                             <MdOutlineDriveFileRenameOutline className="md:hidden group-hover:block text-2xl flex-none btn-hover text-app-bg hover:text-blue-600" onClick={() => { setEditingTaskId(task.task_id); setEditingGroupId(null); }} />
@@ -179,7 +179,7 @@ const IncompleteTasks = () => {
                 <EditTaskName handleRenameTask={handleRenameTask} task={task} setEditingTaskId={setEditingTaskId} />
               ) : (
                 <>
-                  <p className="flex-1 rounded-lg ">{task.name}</p>
+                  <p className="flex-1 rounded-lg line-clamp-1">{task.name}</p>
                   <div className="flex space-x-1" onPointerDown={(e) => { e.stopPropagation() }} onTouchStart={(e) => { e.stopPropagation() }} onMouseDown={(e) => { e.stopPropagation() }}>
                     <RiDeleteBin6Line className="md:hidden group-hover:block text-2xl flex-none btn-hover text-app-bg hover:text-red-800" onClick={() => { setTaskToDelete(task) }} />
                     <MdOutlineDriveFileRenameOutline className="md:hidden group-hover:block text-2xl flex-none btn-hover text-app-bg hover:text-blue-600" onClick={() => { setEditingTaskId(task.task_id); setEditingGroupId(null); }} />
