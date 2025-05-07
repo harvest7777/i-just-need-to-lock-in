@@ -211,3 +211,25 @@ export const cancelLastStart = async (task: Task | null) => {
   console.log(data);
   if (error) throw error;
 }
+
+/**
+ * Gets time spent on tasks during some day N where N = today - daysBack.
+ *
+ * @param userId - The uuid of the user to get tasks from.
+ * @param daysBack - How many days back you want to check (>=0)
+ * @returns A list of objects with task id, name, and time spent from some user.
+ */
+export interface TPastTaskTime{
+  name: string,
+  time_spent: number,
+  task_name: string,
+  task_id: number
+}
+export const getPastTaskTime = async(daysBack: number, userId: string): Promise<TPastTaskTime[]>=> {
+  // Takes in a UUID and offset number of daysBack. Will return the time spent on each task that day from that userId.
+  const { data, error } = await supabase.rpc('get_hours', { offset_value: daysBack, user_uuid: userId });
+  if (!data) throw new Error(`Couldn't get task time from ${daysBack} days ago!`);
+  if(error) throw new Error(error);
+
+  return data as TPastTaskTime[];
+}
