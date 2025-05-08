@@ -9,3 +9,10 @@ export const formatTime = (time: number) => {
   return formattedString;
 };
 
+export const secondsToHoursMins = (seconds: number) => {
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const hrString: string = `${hours > 0? hours+"h": ""}`
+  return `${hrString} ${minutes}m`;
+};
+

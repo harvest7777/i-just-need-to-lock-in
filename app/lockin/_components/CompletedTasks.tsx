@@ -11,37 +11,42 @@ import PreLoaderSmall from "./PreLoaderSmall";
 
 const CompletedTasks = () => {
   // Pre-process intervals into a Map
-  const { completedTasks, taskIntervals, setToDos, setCompletedTasks, toDos } = useTaskStore();
+  const { completedTasks, taskIntervals, setToDos, setCompletedTasks, toDos } =
+    useTaskStore();
   const [timeSpentDisplay, setTimeSpentDisplay] = useState<string>("today");
   const intervalMap = processIntervals(taskIntervals);
 
   const handleMarkTaskIncomplete = async (task: Task) => {
     const updatedTask = await markTaskIncomplete(task);
 
-    const taskExists = toDos!.some(todo => todo.task_id === updatedTask.task_id);
+    const taskExists = toDos!.some(
+      (todo) => todo.task_id === updatedTask.task_id
+    );
 
     const updatedToDos = taskExists
-      ? toDos!.map(todo =>
-        todo.task_id === updatedTask.task_id ? updatedTask : todo
-      )
+      ? toDos!.map((todo) =>
+          todo.task_id === updatedTask.task_id ? updatedTask : todo
+        )
       : [...toDos!, updatedTask];
 
     setToDos(updatedToDos);
-    const updatedCompleted = completedTasks!.filter((t) => t.task_id !== updatedTask.task_id);
+    const updatedCompleted = completedTasks!.filter(
+      (t) => t.task_id !== updatedTask.task_id
+    );
     setCompletedTasks(updatedCompleted);
-  }
+  };
   const formatMinutes = (minutes: number) => {
     const hours = Math.floor(minutes / 60);
     const mins = minutes % 60;
-    return `${hours > 0 ? `${hours}h ` : ''}${mins}m`;
-  }
+    return `${hours > 0 ? `${hours}h ` : ""}${mins}m`;
+  };
   if (completedTasks === null || taskIntervals === null) {
     return (
       <div className="flex flex-col items-center w-full p-2">
         <h1 className="font-bold text-xl pl-2 w-full">Completed Today</h1>
         <PreLoaderSmall />
       </div>
-    )
+    );
   }
   return (
     <div className="flex flex-col items-center w-full p-2">
@@ -53,24 +58,41 @@ const CompletedTasks = () => {
       )}
       {completedTasks
         .slice() // to avoid mutating original
-        .sort((a, b) => (intervalMap.get(b.task_id) || 0) - (intervalMap.get(a.task_id) || 0))
+        .sort(
+          (a, b) =>
+            (intervalMap.get(b.task_id) || 0) -
+            (intervalMap.get(a.task_id) || 0)
+        )
         .map((task) => {
           const dailySeconds = intervalMap.get(task.task_id) || 0;
           const dailyMinutes = Math.round(dailySeconds / 60);
-          const totalMinutes = Math.round(task.seconds_spent / 60)
+          const totalMinutes = Math.round(task.seconds_spent / 60);
           return (
             <div className="flex w-full my-1 space-x-2" key={task.task_id}>
-              <RiArrowGoBackFill onClick={() => handleMarkTaskIncomplete(task)} className="text-app-bg text-2xl btn-hover flex-none hover:text-orange-400" />
+              <RiArrowGoBackFill
+                onClick={() => handleMarkTaskIncomplete(task)}
+                className="text-app-bg text-2xl btn-hover flex-none hover:text-orange-400"
+              />
               <p className="italic line-through flex-1 text-app-text">
                 {task.name}
               </p>
-              {timeSpentDisplay == "today" && (<p className="flex-none italic text-app-text rounded-r-md rounded-tr-md text-right pr-2">{formatMinutes(dailyMinutes)}</p>)}
-              {timeSpentDisplay == "total" && (<p className="flex-none italic text-app-text rounded-r-md rounded-tr-md text-right pr-2">{formatMinutes(totalMinutes)}</p>)}
-
+              {timeSpentDisplay == "today" && (
+                <p className="flex-none italic text-app-text rounded-r-md rounded-tr-md text-right pr-2">
+                  {formatMinutes(dailyMinutes)}
+                </p>
+              )}
+              {timeSpentDisplay == "total" && (
+                <p className="flex-none italic text-app-text rounded-r-md rounded-tr-md text-right pr-2">
+                  {formatMinutes(totalMinutes)}
+                </p>
+              )}
             </div>
           );
         })}
-      <ChooseCompleted timeSpentDisplay={timeSpentDisplay} setTimeSpentDisplay={setTimeSpentDisplay} />
+      <ChooseCompleted
+        timeSpentDisplay={timeSpentDisplay}
+        setTimeSpentDisplay={setTimeSpentDisplay}
+      />
     </div>
   );
 };
@@ -85,7 +107,10 @@ const processIntervals = (taskIntervals: TaskInterval[] | null) => {
     const durationInSeconds =
       (new Date(end_time).getTime() - new Date(start_time).getTime()) / 1000;
 
-    intervalMap.set(task_id, (intervalMap.get(task_id) || 0) + durationInSeconds);
+    intervalMap.set(
+      task_id,
+      (intervalMap.get(task_id) || 0) + durationInSeconds
+    );
   });
 
   return intervalMap;
