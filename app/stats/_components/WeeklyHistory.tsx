@@ -94,15 +94,20 @@ const WeeklyHistory = () => {
 
   const dayToPastTimes = (dayNumber: number) => {
     const tasks = pastTimes?.get(dayNumber);
+    const currentDate = new Date();
+    const day = currentDate.getDay();
+
     if (!pastTimes || !tasks || tasks.length === 0) {
       return (
-        <p className="text-center">
-          Didn't lock in on {dayNumberToWord[dayNumber]}
+        <p className="text-center mt-3 pb-3">
+          {dayNumber >= day
+            ? "No session data yet"
+            : `Didn't lock in on ${dayNumberToWord[dayNumber]}`}
         </p>
       );
     }
     return (
-      <ul className="w-full list-none px-5">
+      <ul className="w-full list-none flex flex-col px-5 gap-y-1 mt-3 pb-3">
         {tasks.map((task: TPastTaskTime) => (
           <li
             key={task.task_id}
