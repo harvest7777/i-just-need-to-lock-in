@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import BarGraph from "@/app/lockin/_components/BarGraph";
-
+import BarGraph from "./BarGraph";
 import { MdArrowForwardIos } from "react-icons/md";
 
 import { getOffsetIntervals } from "@/app/(helpers)/getTimeOffsets";
@@ -12,7 +11,7 @@ import { getUserId } from "@/app/(api)/profileServices";
 import { TPastTaskTime } from "@/app/(api)/taskTimeServices";
 import { secondsToHoursMins } from "@/app/(helpers)/formatTime";
 
-import PreLoaderSmall from "@/app/lockin/_components/PreLoaderSmall";
+import PreLoaderSmall from "@/app/_components/PreLoaderSmall";
 
 const WeeklyHistory = () => {
   // get intervals based on some offset

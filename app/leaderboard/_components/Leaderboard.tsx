@@ -1,8 +1,8 @@
-"use client"
+"use client";
 import { getMostLockedInFriends } from "@/app/(api)/friendServices";
-import { useState, useEffect } from "react"
+import { useState, useEffect } from "react";
 import { LeaderboardData } from "@/app/manage-friends/_services/leaderboard_schema";
-import PreLoaderSmall from "@/app/lockin/_components/PreLoaderSmall";
+import PreLoaderSmall from "@/app/_components/PreLoaderSmall";
 
 export default function Leaderboard() {
   const [leaderboard, setLeaderboard] = useState<LeaderboardData[]>([]);
@@ -18,24 +18,40 @@ export default function Leaderboard() {
     setLeaderboardDay(lockedInFriendsDay);
     setLeaderboardWeek(lockedInFriendsWeek);
     setLoading(false);
-  }
+  };
   useEffect(() => {
     initialize();
-  }, [])
+  }, []);
 
   if (loading) {
     return (
       <div className="md:w-1/2 w-full bg-app-fg card-outline">
         <PreLoaderSmall />
       </div>
-    )
+    );
   }
   return (
     <div className="md:w-1/2 w-full py-5 flex flex-col space-y-5 items-center justify-center align-middle bg-app-fg card-outline">
       {/* option selection container */}
       <div className="flex text-2xl p-2 w-1/2 justify-between text-app-text">
-        <p onClick={() => { setShow("Day"); setLeaderboard(leaderboardDay) }} className={`${show === "Day" ? "text-app-highlight font-bold" : ""} btn-hover w-1/2 text-center`}>Day</p>
-        <p onClick={() => { setShow("Week"); setLeaderboard(leaderboardWeek) }} className={`${show === "Week" ? "text-app-highlight font-bold" : ""} btn-hover w-1/2 text-center`}>Week</p>
+        <p
+          onClick={() => {
+            setShow("Day");
+            setLeaderboard(leaderboardDay);
+          }}
+          className={`${show === "Day" ? "text-app-highlight font-bold" : ""} btn-hover w-1/2 text-center`}
+        >
+          Day
+        </p>
+        <p
+          onClick={() => {
+            setShow("Week");
+            setLeaderboard(leaderboardWeek);
+          }}
+          className={`${show === "Week" ? "text-app-highlight font-bold" : ""} btn-hover w-1/2 text-center`}
+        >
+          Week
+        </p>
       </div>
       {leaderboard.length > 0 ? (
         <div className="flex flex-col items-center ">
@@ -46,7 +62,9 @@ export default function Leaderboard() {
                 <div className="h-full flex flex-col items-center justify-center align-middle">
                   <p>{leaderboard[1].friend_name}</p>
                   <span className="text-2xl font-bold">🥈</span>
-                  <p className="md:text-sm">{leaderboard[1].formatted_locked}</p>
+                  <p className="md:text-sm">
+                    {leaderboard[1].formatted_locked}
+                  </p>
                 </div>
               ) : (
                 <span className="text-2xl font-bold">🥈</span>
@@ -66,7 +84,9 @@ export default function Leaderboard() {
                 <div className="h-full flex flex-col items-center justify-center align-middle">
                   <p>{leaderboard[2].friend_name}</p>
                   <span className="text-2xl font-bold">🥉</span>
-                  <p className="md:text-sm">{leaderboard[2].formatted_locked}</p>
+                  <p className="md:text-sm">
+                    {leaderboard[2].formatted_locked}
+                  </p>
                 </div>
               ) : (
                 <span className="text-2xl font-bold">🥉</span>
@@ -77,20 +97,18 @@ export default function Leaderboard() {
           <div className="mt-5 w-full divide-y divide-app-bg px-2 rounded-xl">
             {leaderboard.slice(3).map((data, index) => (
               <div key={index} className="flex justify-between p-2">
-                <p>{index + 4}. {data.friend_name}</p>
+                <p>
+                  {index + 4}. {data.friend_name}
+                </p>
                 <p>{data.formatted_locked}</p>
               </div>
             ))}
           </div>
-          <div>
-          </div>
+          <div></div>
         </div>
       ) : (
         <p className="text-center">No hours logged for this time period!</p>
-      )
-      }
-
+      )}
     </div>
-  )
+  );
 }
-

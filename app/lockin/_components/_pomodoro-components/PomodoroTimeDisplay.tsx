@@ -2,9 +2,9 @@
 
 import { formatTime } from "@/app/(helpers)/formatTime";
 import { useState, useEffect, useRef } from "react";
-import { useTaskStore } from "../_hooks/useTaskStore";
-import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
+import { useTaskStore } from "../../_hooks/useTaskStore";
+import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 
 export default function PomodoroTimeDisplay() {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -21,11 +21,11 @@ export default function PomodoroTimeDisplay() {
   const handlePauseTask = useTaskStore((state) => state.handlePauseTask);
   const setBreakMode = useTaskStore((state) => state.setBreakMode);
 
-
   const [now, setNow] = useState<number>(Date.now());
 
   const handleStart = () => {
-    const storedPausedTotal: string | null = localStorage.getItem("totalPauseTimeMs");
+    const storedPausedTotal: string | null =
+      localStorage.getItem("totalPauseTimeMs");
     const lastPause: string | null = localStorage.getItem("lastPauseTime");
     const storedStart: string | null = localStorage.getItem("pomodoroStart");
 
@@ -49,29 +49,30 @@ export default function PomodoroTimeDisplay() {
 
     intervalRef.current = setInterval(() => {
       setNow(Date.now());
-    }, 500)
-  }
+    }, 500);
+  };
 
   const handlePause = () => {
     //pauses by making the interval stop updating
     clearInterval(intervalRef.current!);
-  }
+  };
 
   const handleSkipSession = () => {
     handlePauseTask(focusedTask!);
     //u absolutely can not be in this component without a focused task
     enterBreakMode();
-  }
+  };
   const enterBreakMode = () => {
     setBreakMode(true);
     clearInterval(intervalRef.current!);
-  }
+  };
 
   useEffect(() => {
     const storedStart: string | null = localStorage.getItem("pomodoroStart");
     const storedGoal: string | null = localStorage.getItem("pomodoroGoalMs");
     const lastPause: string | null = localStorage.getItem("lastPauseTime");
-    const storedPausedTotal: string | null = localStorage.getItem("totalPauseTimeMs");
+    const storedPausedTotal: string | null =
+      localStorage.getItem("totalPauseTimeMs");
 
     // get the time spent paused
     let timeSpentPaused = 0;
@@ -87,7 +88,7 @@ export default function PomodoroTimeDisplay() {
     setNow(Date.now());
 
     return () => clearInterval(intervalRef.current!);
-  }, [])
+  }, []);
 
   // this useeffect's only responsibility is updating activetime when now updates
   useEffect(() => {
@@ -97,8 +98,11 @@ export default function PomodoroTimeDisplay() {
     if (pomodoroGoalMs !== null && pausedTimeRef.current !== null) {
       curActiveTime = now - supposedStart - pausedTimeRef.current;
       const secRemaining = Math.round((pomodoroGoalMs - curActiveTime) / 1000);
-      const rem = Math.round(((pomodoroGoalMs - curActiveTime) / pomodoroGoalMs) * 100);
-      if (startedFocusedTask) document.title = formatTime(secRemaining) + " work";
+      const rem = Math.round(
+        ((pomodoroGoalMs - curActiveTime) / pomodoroGoalMs) * 100
+      );
+      if (startedFocusedTask)
+        document.title = formatTime(secRemaining) + " work";
       setPercentRem(rem);
       setSeconds(Math.max(0, secRemaining));
 
@@ -109,24 +113,26 @@ export default function PomodoroTimeDisplay() {
         if (localStorage.getItem("notifications") === "yes") {
           new Notification("Pomodoro", {
             body: text,
-            silent: true
-          })
+            silent: true,
+          });
         }
         enterBreakMode();
       }
       //finished working period
-      if (focusedTask && startedFocusedTask && curActiveTime >= pomodoroGoalMs) {
+      if (
+        focusedTask &&
+        startedFocusedTask &&
+        curActiveTime >= pomodoroGoalMs
+      ) {
         handlePauseTask(focusedTask);
       }
     }
-
-  }, [now])
+  }, [now]);
 
   useEffect(() => {
     if (startedFocusedTask) handleStart();
     else handlePause();
-
-  }, [startedFocusedTask, forceUpdate])
+  }, [startedFocusedTask, forceUpdate]);
 
   useEffect(() => {
     if (!forceUpdate) return;
@@ -138,21 +144,28 @@ export default function PomodoroTimeDisplay() {
     // clearInterval(intervalRef.current!);
     setNow(Date.now());
     return () => clearInterval(intervalRef.current!);
-
-  }, [forceUpdate])
+  }, [forceUpdate]);
 
   return (
     <div className="w-full flex flex-col items-center justify-center">
       <div className="md:w-1/4 w-1/3">
-        <CircularProgressbar className="!text-red-50" value={percentRem} text={`${formatTime(seconds)}`} styles={buildStyles(
-          {
-            textColor: 'var(--color-app-text)',
-            pathColor: 'var(--color-app-highlight)',
-            trailColor: 'var(--color-app-bg)'
-          }
-        )} />
+        <CircularProgressbar
+          className="!text-red-50"
+          value={percentRem}
+          text={`${formatTime(seconds)}`}
+          styles={buildStyles({
+            textColor: "var(--color-app-text)",
+            pathColor: "var(--color-app-highlight)",
+            trailColor: "var(--color-app-bg)",
+          })}
+        />
       </div>
-      <button onClick={() => handleSkipSession()} className="btn-hover bg-app-bg rounded-xl px-2 text-xl mt-5">i need a break 💔</button>
+      <button
+        onClick={() => handleSkipSession()}
+        className="btn-hover bg-app-bg rounded-xl px-2 text-xl mt-5"
+      >
+        i need a break 💔
+      </button>
     </div>
-  )
+  );
 }

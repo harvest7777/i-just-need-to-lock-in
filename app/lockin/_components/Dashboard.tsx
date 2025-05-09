@@ -1,28 +1,28 @@
 "use client";
 
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
 
 import { useState, useEffect, useRef } from "react";
 
-import CompletedTasks from "./CompletedTasks";
-import IncompleteTasks from "./IncompleteTasks";
-import LockedInTask from "./LockedInTask";
-import NewTaskForm from "./NewTaskForm";
-import Stopwatch from "./TotalStopwatch";
-import BarGraph from "./BarGraph";
+import CompletedTasks from "./_task-manager-components/CompletedTasks";
+import IncompleteTasks from "./_task-manager-components/IncompleteTasks";
+import LockedInTask from "./_task-time-components/LockedInTask";
+import NewTaskForm from "./_task-manager-components/NewTaskForm";
+import Stopwatch from "./_task-time-components/TotalStopwatch";
+import BarGraph from "@/app/stats/_components/BarGraph";
 import FriendsList from "@/app/friends/_components/FriendsList";
-import StillWorkingModal from "./ConfirmCancelSessionModal";
-import DailyStopwatch from "./DailyStopwatch";
-import ChooseDisplay from "./ChooseTimer";
-import SessionStopWatch from "./SessionStopwatch";
-import PreLoader from "./PreLoader";
-import NewGroupButton from "./NewGroupButton";
-import PomodoroTimeDisplay from "./PomodoroTimeDisplay";
-import BreakTimer from "./BreakTimer";
+import StillWorkingModal from "./_task-time-components/ConfirmCancelSessionModal";
+import DailyStopwatch from "./_task-time-components/DailyStopwatch";
+import ChooseDisplay from "./_task-time-components/ChooseTimer";
+import SessionStopWatch from "./_task-time-components/SessionStopwatch";
+import PreLoader from "../../_components/PreLoader";
+import NewGroupButton from "./_task-manager-components/NewGroupButton";
+import PomodoroTimeDisplay from "./_pomodoro-components/PomodoroTimeDisplay";
+import BreakTimer from "./_pomodoro-components/BreakTimer";
+
 import { desyncDetected } from "@/app/(api)/taskServices";
 import { initializeTaskStore } from "@/app/(helpers)/taskStoreInit";
 import { useTaskStore } from "../_hooks/useTaskStore";
-
 
 export default function Dashboard() {
   const focusedTask = useTaskStore((state) => state.focusedTask);
@@ -31,7 +31,7 @@ export default function Dashboard() {
   const breakMode = useTaskStore((state) => state.breakMode);
   const startedFocusedTask = useTaskStore((state) => state.startedFocusedTask);
   const setCompletedTasks = useTaskStore((state) => state.setCompletedTasks);
-  const setTaskIntervals = useTaskStore((state => state.setTaskIntervals));
+  const setTaskIntervals = useTaskStore((state) => state.setTaskIntervals);
   const [timerDisplay, setTimerDisplay] = useState<string>("session");
   const [cancelVisible, setCancelVisible] = useState<boolean>(false);
   const [hydrated, setHydrated] = useState<boolean>(false);
@@ -45,26 +45,27 @@ export default function Dashboard() {
   const handleBeforeUnload = (e: BeforeUnloadEvent) => {
     if (desyncedRef.current) return;
     e.preventDefault();
-  }
+  };
 
   const handleVisibilityChange = async () => {
-    if (document.visibilityState === "visible" && await desyncDetected()) {
-      console.log("desync detected")
+    if (document.visibilityState === "visible" && (await desyncDetected())) {
+      console.log("desync detected");
       desyncedRef.current = true;
-      desyncedToast()
+      desyncedToast();
 
       setTimeout(() => {
         window.location.reload();
       }, 2000);
     }
-  }
+  };
 
   useEffect(() => {
-    if (startedFocusedTask) window.addEventListener('beforeunload', handleBeforeUnload);
-    else window.removeEventListener('beforeunload', handleBeforeUnload)
+    if (startedFocusedTask)
+      window.addEventListener("beforeunload", handleBeforeUnload);
+    else window.removeEventListener("beforeunload", handleBeforeUnload);
 
-    return () => window.removeEventListener('beforeunload', handleBeforeUnload)
-  }, [startedFocusedTask])
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [startedFocusedTask]);
 
   // lazy load confetti
   useEffect(() => {
@@ -87,7 +88,7 @@ export default function Dashboard() {
       }
     }, 1000); // Check every second
 
-    document.addEventListener('visibilitychange', handleVisibilityChange);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
     const socket = new WebSocket("wss://ws.postman-echo.com/raw");
     socketRef.current = socket;
     socket.onopen = () => {
@@ -109,22 +110,21 @@ export default function Dashboard() {
       console.log("WebSocket closed");
     };
     return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
       if (heartbeatRef.current) clearInterval(heartbeatRef.current);
       if (socketRef.current) socketRef.current.close();
     };
-
-  }, [])
+  }, []);
 
   if (!hydrated) {
-    return (
-      <PreLoader />
-    )
+    return <PreLoader />;
   }
   return (
     <>
       <Toaster />
-      {cancelVisible && <StillWorkingModal setCancelVisible={setCancelVisible} />}
+      {cancelVisible && (
+        <StillWorkingModal setCancelVisible={setCancelVisible} />
+      )}
       <div className="flex md:flex-row md:gap-x-2 flex-col md:space-y-0 space-y-3">
         {/* graph and changelog container */}
         <div className="md:order-2 order-1 md:w-3/5 w-full flex flex-col">
@@ -135,9 +135,11 @@ export default function Dashboard() {
                 <div className="w-full space-y-5 p-5 rounded-2xl h-min">
                   <LockedInTask />
                   {!pomodoroEnabled && (
-
                     <div className="flex justify-center items-center align-middle space-x-2">
-                      <ChooseDisplay timerDisplay={timerDisplay} setTimerDisplay={setTimerDisplay} />
+                      <ChooseDisplay
+                        timerDisplay={timerDisplay}
+                        setTimerDisplay={setTimerDisplay}
+                      />
                       {timerDisplay == "today" && (
                         <DailyStopwatch setCancelVisible={setCancelVisible} />
                       )}
@@ -152,11 +154,15 @@ export default function Dashboard() {
                 </div>
               </>
             ) : (
-              !breakMode &&
-              <p className="text-center lg:text-2xl text-xl w-full mb-2 py-5">{pomodoroEnabled ? "You're in pomodoro mode, pick a task to start working!" : "Click the ⭐ next to any task to lock in!"}</p>
+              !breakMode && (
+                <p className="text-center lg:text-2xl text-xl w-full mb-2 py-5">
+                  {pomodoroEnabled
+                    ? "You're in pomodoro mode, pick a task to start working!"
+                    : "Click the ⭐ next to any task to lock in!"}
+                </p>
+              )
             )}
             {pomodoroEnabled && (
-
               <div className="w-full space-y-5 pb-5 rounded-2xl h-min">
                 <div className="flex justify-center">
                   <div className={breakMode ? "hidden" : "w-full"}>
@@ -193,8 +199,7 @@ export default function Dashboard() {
             <FriendsList />
           </div>
         </div>
-
       </div>
     </>
-  )
+  );
 }
