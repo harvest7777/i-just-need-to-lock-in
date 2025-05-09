@@ -2,17 +2,25 @@
 
 import { useState, useEffect } from "react";
 
-import { Bar, BarChart, CartesianGrid, Label, Tooltip, XAxis, YAxis } from "recharts"
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Label,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 import {
   ChartConfig,
   ChartContainer,
   ChartTooltipContent,
-} from "@/components/ui/chart"
+} from "@/components/ui/chart";
 
 import { calculateHourlyIntervals } from "@/app/(helpers)/calculateHourlyIntervals";
 import { getTimeDisplayFromIntervals } from "@/app/(helpers)/getTimeDisplay";
-import PreLoaderSmall from "./PreLoaderSmall";
+import PreLoaderSmall from "../../_components/PreLoaderSmall";
 
 interface BarGraphProps {
   taskIntervals: TaskInterval[] | null;
@@ -29,12 +37,10 @@ const BarGraph: React.FC<BarGraphProps> = ({ taskIntervals }) => {
       setHourIntervals(calculateHourlyIntervals(taskIntervals));
       setTimeDisplay(getTimeDisplayFromIntervals(taskIntervals));
     }
-  }, [taskIntervals])
+  }, [taskIntervals]);
 
   if (hourIntervals === null) {
-    return (
-      <PreLoaderSmall />
-    )
+    return <PreLoaderSmall />;
   }
   const chartData = [
     { time: "12AM", minutes: hourIntervals[0] },
@@ -60,7 +66,7 @@ const BarGraph: React.FC<BarGraphProps> = ({ taskIntervals }) => {
     { time: "8PM", minutes: hourIntervals[20] },
     { time: "9PM", minutes: hourIntervals[21] },
     { time: "10PM", minutes: hourIntervals[22] },
-    { time: "11PM", minutes: hourIntervals[23] }
+    { time: "11PM", minutes: hourIntervals[23] },
   ];
 
   const appHighlightColor = getComputedStyle(document.documentElement)
@@ -75,13 +81,21 @@ const BarGraph: React.FC<BarGraphProps> = ({ taskIntervals }) => {
       label: "Minutes",
       color: appHighlightColor || "#10b981",
     },
-  } satisfies ChartConfig
+  } satisfies ChartConfig;
 
   return (
     <div className="h-full">
-      <ChartContainer config={chartConfig} className="min-h-[100px] max-h-[250px] w-full pr-4">
+      <ChartContainer
+        config={chartConfig}
+        className="min-h-[100px] max-h-[250px] w-full pr-4"
+      >
         <BarChart data={chartData}>
-          <CartesianGrid vertical={false} strokeDasharray={"3 3"} strokeWidth={3} stroke={strokeColor} />
+          <CartesianGrid
+            vertical={false}
+            strokeDasharray={"3 3"}
+            strokeWidth={3}
+            stroke={strokeColor}
+          />
           <XAxis
             dataKey="time"
             tickLine={true}
@@ -92,14 +106,30 @@ const BarGraph: React.FC<BarGraphProps> = ({ taskIntervals }) => {
             padding={{ left: 0, right: 30 }}
             tick={{ fontSize: 14 }}
           />
-          <YAxis tick={{ fontSize: 14 }} allowDataOverflow={false} tickCount={3} axisLine={false} unit={"m"} domain={[0, 60]} dx={-8} />
-          <Tooltip cursor={false} content={<ChartTooltipContent className="bg-app-fg border-none" />} />
-          <Bar dataKey="minutes" fill="var(--color-minutes)" radius={3} barSize={100} />
+          <YAxis
+            tick={{ fontSize: 14 }}
+            allowDataOverflow={false}
+            tickCount={3}
+            axisLine={false}
+            unit={"m"}
+            domain={[0, 60]}
+            dx={-8}
+          />
+          <Tooltip
+            cursor={false}
+            content={<ChartTooltipContent className="bg-app-fg border-none" />}
+          />
+          <Bar
+            dataKey="minutes"
+            fill="var(--color-minutes)"
+            radius={3}
+            barSize={100}
+          />
         </BarChart>
       </ChartContainer>
       <p className="text-l text-app-text pl-6 text-center">{timeDisplay}</p>
     </div>
-  )
-}
+  );
+};
 
 export default BarGraph;

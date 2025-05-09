@@ -1,14 +1,14 @@
 "use client";
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState, useRef } from "react";
 import { formatTime } from "@/app/(helpers)/formatTime";
-import { useTaskStore } from "../_hooks/useTaskStore";
+import { useTaskStore } from "../../_hooks/useTaskStore";
 
 import EditPomodoroTimes from "./EditPomodoroTimes";
-import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
+import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 
 export default function BreakTimer() {
-  const [breakTime, setBreakTime] = useState<number>(0)
+  const [breakTime, setBreakTime] = useState<number>(0);
   const [breakStartTime, setBreakStartTime] = useState<number | null>(null);
   const [now, setNow] = useState<number>(Date.now());
   const [seconds, setSeconds] = useState<number>(-1);
@@ -20,15 +20,14 @@ export default function BreakTimer() {
   const forceUpdate = useTaskStore((state) => state.forceUpdate);
   const setForceUpdate = useTaskStore((state) => state.setForceUpdate);
   const setBreakMode = useTaskStore((state) => state.setBreakMode);
-  const setEnabled = useTaskStore((state) => state.setPomodoroEnabled)
+  const setEnabled = useTaskStore((state) => state.setPomodoroEnabled);
 
   const handleStart = () => {
     clearInterval(intervalRef.current!);
     intervalRef.current = setInterval(() => {
       setNow(Date.now());
-    }, 500)
-
-  }
+    }, 500);
+  };
   const handleRestart = () => {
     localStorage.removeItem("lastPauseTime");
     localStorage.removeItem("totalPauseTimeMs");
@@ -38,7 +37,7 @@ export default function BreakTimer() {
     clearInterval(intervalRef.current!);
     setForceUpdate(true);
     setBreakMode(false);
-  }
+  };
   const handleLeave = () => {
     localStorage.removeItem("pomodoroStart");
     localStorage.removeItem("pomodoroGoalMs");
@@ -48,12 +47,12 @@ export default function BreakTimer() {
     localStorage.removeItem("breakTimeMs");
     setBreakMode(false);
     setEnabled(false);
-  }
+  };
   const handleSkipBreak = () => {
     clearInterval(intervalRef.current!);
     document.title = "LOCK IN";
     setSeconds(0);
-  }
+  };
 
   useEffect(() => {
     const storedBreakTime: string | null = localStorage.getItem("breakTimeMs");
@@ -62,7 +61,7 @@ export default function BreakTimer() {
       handleStart();
     }
     setNow(Date.now());
-  }, [forceUpdate])
+  }, [forceUpdate]);
 
   useEffect(() => {
     if (!breakMode) return;
@@ -75,7 +74,7 @@ export default function BreakTimer() {
     const startTime: string = localStorage.getItem("breakStartTime")!;
     setBreakStartTime(Number(startTime));
     handleStart();
-  }, [breakMode])
+  }, [breakMode]);
 
   useEffect(() => {
     let activeTime = 0;
@@ -93,48 +92,72 @@ export default function BreakTimer() {
         const text = "Break time over!";
         new Notification("Pomodoro", {
           body: text,
-          silent: true
-        })
+          silent: true,
+        });
       }
     }
-
-  }, [now])
-
+  }, [now]);
 
   return (
     <div className="w-full flex flex-col items-center justify-center space-y-5">
       <div className="p-5 w-full pb-0">
         <div className="w-full min-h-24 flex items-center align-middle justify-center space-x-5 rounded-xl outline-2 outline-app-bg">
-          <h1 className="px-2 font-semibold md:text-2xl text-xl text-center">{seconds > 0 ? 'Enjoy your break (:' : 'Pomodoro session completed, great job 😊'}</h1>
+          <h1 className="px-2 font-semibold md:text-2xl text-xl text-center">
+            {seconds > 0
+              ? "Enjoy your break (:"
+              : "Pomodoro session completed, great job 😊"}
+          </h1>
         </div>
       </div>
       {seconds > 0 ? (
         <div className="md:w-1/4 w-1/3 flex flex-col items-center">
-          <CircularProgressbar className="!text-red-50" value={percentRem} text={`${formatTime(seconds)}`} styles={buildStyles(
-            {
-              textColor: 'var(--color-app-text)',
-              pathColor: 'var(--color-app-highlight)',
-              trailColor: 'var(--color-app-bg)'
-            }
-          )} />
-          <button onClick={() => handleSkipBreak()} className="text-center bg-app-bg rounded-xl px-2 md:text-xl text-md mt-5 btn-hover">skip break 💀</button>
+          <CircularProgressbar
+            className="!text-red-50"
+            value={percentRem}
+            text={`${formatTime(seconds)}`}
+            styles={buildStyles({
+              textColor: "var(--color-app-text)",
+              pathColor: "var(--color-app-highlight)",
+              trailColor: "var(--color-app-bg)",
+            })}
+          />
+          <button
+            onClick={() => handleSkipBreak()}
+            className="text-center bg-app-bg rounded-xl px-2 md:text-xl text-md mt-5 btn-hover"
+          >
+            skip break 💀
+          </button>
         </div>
       ) : (
         <div className="w-full">
           <div className="w-full flex space-x-5 justify-center align-middle items-start md:text-xl text-md">
-            <button onClick={() => handleRestart()} className="w-fit outline-2  rounded-xl outline-app-highlight px-2 btn-hover">Restart</button>
-            <button onClick={() => setShowEdit(!showEdit)} className="w-fit outline-2  rounded-xl outline-app-highlight px-2 btn-hover">Edit Times</button>
-            <button onClick={() => handleLeave()} className="w-fit outline-2 rounded-xl outline-app-highlight px-2 btn-hover">Exit</button>
+            <button
+              onClick={() => handleRestart()}
+              className="w-fit outline-2  rounded-xl outline-app-highlight px-2 btn-hover"
+            >
+              Restart
+            </button>
+            <button
+              onClick={() => setShowEdit(!showEdit)}
+              className="w-fit outline-2  rounded-xl outline-app-highlight px-2 btn-hover"
+            >
+              Edit Times
+            </button>
+            <button
+              onClick={() => handleLeave()}
+              className="w-fit outline-2 rounded-xl outline-app-highlight px-2 btn-hover"
+            >
+              Exit
+            </button>
           </div>
 
-          {showEdit &&
+          {showEdit && (
             <div className="w-full">
               <EditPomodoroTimes />
             </div>
-          }
+          )}
         </div>
       )}
-
     </div>
-  )
+  );
 }

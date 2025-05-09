@@ -1,9 +1,15 @@
-import React, { useState, useEffect, useRef, Dispatch, SetStateAction } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  Dispatch,
+  SetStateAction,
+} from "react";
 
 import WordBlock from "@/components/ui/word-block";
 
 import { getTodaysWorkingTime } from "@/app/(api)/taskTimeServices";
-import { useTaskStore } from "../_hooks/useTaskStore";
+import { useTaskStore } from "../../_hooks/useTaskStore";
 
 interface StopWatchProps {
   // focusedTask: Task | null;
@@ -28,15 +34,18 @@ const DailyStopwatch: React.FC<StopWatchProps> = ({ setCancelVisible }) => {
     if (taskIntervals === null) return;
     // If there is a focused task, get its initial seconds
     if (focusedTask) {
-      initialSecondsRef.current = await getTodaysWorkingTime(focusedTask, taskIntervals);
+      initialSecondsRef.current = await getTodaysWorkingTime(
+        focusedTask,
+        taskIntervals
+      );
       // Setting start time and now time will cause secondsSpent to update, causing re render
       setStartTime(Date.now() - initialSecondsRef.current * 1000);
       setNow(Date.now());
     }
-  }
+  };
 
   const handleStart = () => {
-    // Continuously set a new time which will cuase secondsPassed to update  
+    // Continuously set a new time which will cuase secondsPassed to update
     clearInterval(intervalRef.current!);
     intervalRef.current = setInterval(() => {
       // Update the current time every 10ms.
@@ -44,11 +53,11 @@ const DailyStopwatch: React.FC<StopWatchProps> = ({ setCancelVisible }) => {
         setNow(Date.now());
       }
     }, 500);
-  }
+  };
 
   const handleStop = () => {
     clearInterval(intervalRef.current!);
-  }
+  };
 
   let secondsPassed = 0;
   if (startTime != null && now != null) {
@@ -59,14 +68,13 @@ const DailyStopwatch: React.FC<StopWatchProps> = ({ setCancelVisible }) => {
     handleUpdate();
     if (startedFocusedTask === true) {
       handleStart();
-    }
-    else {
+    } else {
       handleStop();
     }
     return () => {
       handleStop();
-    }
-  }, [focusedTask, startedFocusedTask])
+    };
+  }, [focusedTask, startedFocusedTask]);
 
   const formatTime = (time: number) => {
     if (time === -1) return "Loading...";
@@ -75,14 +83,21 @@ const DailyStopwatch: React.FC<StopWatchProps> = ({ setCancelVisible }) => {
     const seconds = time % 60;
     let formattedString = "";
     if (hours > 0) formattedString += String(hours).padStart(2, "0") + ":";
-    formattedString += String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
+    formattedString +=
+      String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
     return formattedString;
   };
 
   return (
     <div className="md:text-2xl text-xl flex items-center align-middle justify-center space-x-2">
       <WordBlock text={formatTime(secondsPassed)} />
-      {startedFocusedTask && <WordBlock onClick={() => setCancelVisible(true)} className="bg-red-800 hover:text-app-fg btn-hover" text="cancel" />}
+      {startedFocusedTask && (
+        <WordBlock
+          onClick={() => setCancelVisible(true)}
+          className="bg-red-800 hover:text-app-fg btn-hover"
+          text="cancel"
+        />
+      )}
     </div>
   );
 };

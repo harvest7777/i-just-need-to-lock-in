@@ -6,8 +6,8 @@ import ChooseCompleted from "./ChooseCompleted";
 import { RiArrowGoBackFill } from "react-icons/ri";
 
 import { markTaskIncomplete } from "@/app/(api)/taskServices";
-import { useTaskStore } from "../_hooks/useTaskStore";
-import PreLoaderSmall from "./PreLoaderSmall";
+import { useTaskStore } from "../../_hooks/useTaskStore";
+import PreLoaderSmall from "@/app/_components/PreLoaderSmall";
 
 const CompletedTasks = () => {
   // Pre-process intervals into a Map
