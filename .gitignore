@@ -29,6 +29,9 @@ yarn-error.log*
 .env*.local
 .env
 
+# testing files
+**/sensitive_user.json
+
 # vercel
 .vercel
 #env 
