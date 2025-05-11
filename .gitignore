@@ -31,7 +31,7 @@ yarn-error.log*
 
 # testing files
 **/sensitive_user.json
-/test-results
+/test-results/
 
 # vercel
 .vercel
