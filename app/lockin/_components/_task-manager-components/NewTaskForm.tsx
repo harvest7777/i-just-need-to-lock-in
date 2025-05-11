@@ -42,6 +42,7 @@ const NewTaskForm = () => {
             className="px-2 w-5/6 rounded-lg bg-app-bg"
           />
           <button
+            data-testid="add-task-button"
             type="submit"
             className="bg-app-highlight rounded-lg w-1/6 text-app-fg btn-hover flex items-center justify-center"
           >

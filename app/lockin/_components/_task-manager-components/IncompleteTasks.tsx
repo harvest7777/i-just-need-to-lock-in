@@ -169,10 +169,12 @@ const IncompleteTasks = () => {
 
                     <div className="flex flex-none">
                       <RiDeleteBin6Line
+                        data-testid="delete-task-button"
                         className="md:hidden group-hover:block text-2xl flex-none btn-hover text-app-bg hover:text-red-800"
                         onClick={() => setGroupToDelete(group)}
                       />
                       <MdOutlineDriveFileRenameOutline
+                        data-testid="rename-task-button"
                         className="md:hidden group-hover:block text-2xl flex-none btn-hover text-app-bg hover:text-blue-600"
                         onClick={() => {
                           setEditingGroupId(group.id);
@@ -243,6 +245,7 @@ const IncompleteTasks = () => {
                               }}
                             />
                             <FaRegStar
+                              data-testid="focus-task-button"
                               className={`text-2xl flex-none btn-hover text-app-bg ${focusedTask?.task_id == task.task_id && "text-yellow-400"} hover:text-yellow-600 ${breakMode && "hover:cursor-not-allowed"}`}
                               onClick={() => {
                                 if (!breakMode) lockIntoTask(task);
@@ -293,12 +296,14 @@ const IncompleteTasks = () => {
                     }}
                   >
                     <RiDeleteBin6Line
+                      data-testid="delete-task-button"
                       className="md:hidden group-hover:block text-2xl flex-none btn-hover text-app-bg hover:text-red-800"
                       onClick={() => {
                         setTaskToDelete(task);
                       }}
                     />
                     <MdOutlineDriveFileRenameOutline
+                      data-testid="rename-task-button"
                       className="md:hidden group-hover:block text-2xl flex-none btn-hover text-app-bg hover:text-blue-600"
                       onClick={() => {
                         setEditingTaskId(task.task_id);
@@ -306,6 +311,7 @@ const IncompleteTasks = () => {
                       }}
                     />
                     <FaRegStar
+                      data-testid="focus-task-button"
                       className={`text-2xl flex-none btn-hover text-app-bg ${focusedTask?.task_id == task.task_id && "text-yellow-400"} hover:text-yellow-600 ${breakMode && "hover:cursor-not-allowed"}`}
                       onClick={() => {
                         if (!breakMode) lockIntoTask(task);
