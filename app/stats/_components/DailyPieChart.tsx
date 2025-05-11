@@ -116,7 +116,7 @@ export default function Playground() {
         Your Day At A Glance
       </h1>
       {chartData.length === 0 ? (
-        <p className="py-5">
+        <p className="py-5 text-center">
           You have no hours logged today, nothing to show here :(
         </p>
       ) : (
