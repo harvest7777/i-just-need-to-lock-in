@@ -1,5 +1,5 @@
 import { GeistSans } from "geist/font/sans";
-import { Analytics } from "@vercel/analytics/react"
+import { Analytics } from "@vercel/analytics/react";
 
 import HeaderAuth from "@/components/header-auth";
 import ThemeProvider from "./ThemeProvider";
@@ -41,7 +41,6 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-
   const supabase = await createClient();
   const {
     data: { user },

@@ -1,15 +1,9 @@
 "use client";
-
-import toast, { Toaster } from 'react-hot-toast';
-
-const notify = () => toast.error('Here is your toast.');
-
-
-export default function PlaygroundPage() {
+import AddInterval from "./AddInterval";
+export default function Playground() {
   return (
-    <div>
-      <button onClick={notify}>Make me a toast</button>
-      <Toaster />
+    <div className="w-1/3">
+      <AddInterval />
     </div>
-  )
+  );
 }
