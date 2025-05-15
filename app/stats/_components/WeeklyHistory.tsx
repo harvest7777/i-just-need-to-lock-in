@@ -10,6 +10,7 @@ import { getPastTaskTime } from "@/app/(api)/taskTimeServices";
 import { getUserId } from "@/app/(api)/profileServices";
 import { TPastTaskTime } from "@/app/(api)/taskTimeServices";
 import { secondsToHoursMins } from "@/app/(helpers)/formatTime";
+import DisplayTimeSpent from "./DisplayTimeSpent";
 
 import PreLoaderSmall from "@/app/_components/PreLoaderSmall";
 
@@ -105,20 +106,7 @@ const WeeklyHistory = () => {
         </p>
       );
     }
-    return (
-      <ul className="w-full list-none flex flex-col px-5 gap-y-1 mt-3 pb-3">
-        {tasks.map((task: TPastTaskTime) => (
-          <li
-            key={task.task_id}
-            className="flex justify-between w-full items-center align-middle"
-          >
-            <span>{task.task_name}</span>
-            <span className="flex-1 align-middle items-center mx-5 border-b-3 border-dotted border-app-bg self-center h-[0px]" />
-            <span>{secondsToHoursMins(Math.floor(task.time_spent))}</span>
-          </li>
-        ))}
-      </ul>
-    );
+    return <DisplayTimeSpent tasks={tasks} />;
   };
   return (
     <div className="flex flex-col justify-center items-center align-middle select-none bg-app-fg card-outline pb-2">
