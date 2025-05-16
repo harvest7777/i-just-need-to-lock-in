@@ -3,11 +3,15 @@ import { secondsToHoursMins } from "@/app/(helpers)/formatTime";
 
 interface DisplayTimeSpentProps {
   tasks: TPastTaskTime[];
+  className?: string;
 }
-export default function DisplayTimeSpent({ tasks }: DisplayTimeSpentProps) {
+export default function DisplayTimeSpent({
+  tasks,
+  className,
+}: DisplayTimeSpentProps) {
   if (!tasks || tasks.length === 0) return;
   return (
-    <ul className="w-full list-none flex flex-col px-5 gap-y-1 mt-3 pb-3">
+    <ul className={`w-full list-none flex flex-col px-5 gap-y-1 ${className}`}>
       {tasks
         .filter((task) => task.time_spent >= 60)
         .map((task: TPastTaskTime) => (

@@ -1,5 +1,3 @@
-import { supabase } from "@/utils/supabase/supabase";
-
 export const getTimeDisplayFromIntervals = (data: TaskInterval[]) => {
     let totalSeconds=0;
     data.forEach((interval) => {
@@ -16,8 +14,8 @@ export const getTimeDisplayFromIntervals = (data: TaskInterval[]) => {
 
     const timeDisplay =
         hours > 0
-        ? `${hours} hr${hours > 1 ? "s" : ""} ${minutes} min`
-        : `${minutes} min`;
+        ? `${hours}h ${minutes}m`
+        : `${minutes}m`;
     return timeDisplay;
 }
 
@@ -28,8 +26,8 @@ export const getTimeDisplayFromSeconds = (seconds: number) => {
 
     const timeDisplay =
         hours > 0
-        ? `${hours} hr${hours > 1 ? "s" : ""} ${minutes} min`
-        : `${minutes} min`;
+        ? `${hours}h${hours > 1 ? "s" : ""} ${minutes}m`
+        : `${minutes}m`;
     return timeDisplay;
 
 }
