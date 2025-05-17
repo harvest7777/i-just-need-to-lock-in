@@ -31,7 +31,6 @@ export default function GenerateSummary() {
 
       const canvas = await html2canvas(statsRef.current, {
         useCORS: true,
-        scale: 2,
       });
 
       canvas.toBlob(async (blob) => {
@@ -70,32 +69,38 @@ export default function GenerateSummary() {
       </button>
 
       {showModal && (
-        <div className="absolute top-0 left-0 w-full h-screen flex items-center justify-center align-middle z-50">
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center align-middle z-50">
           <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50"></div>
           {timeSpent && taskIntervals ? (
-            <div className="bg-app-fg flex flex-col gap-y-3 card-outline z-50 w-[450px] pb-2">
+            <div className="bg-app-fg flex flex-col gap-y-3 card-outline z-50 max-w-[calc(100%-15px)] w-[400px] pb-2 p-2 max-h-[calc(100%-15px)] overflow-y-scroll">
               <div
                 ref={statsRef}
-                className="flex flex-col gap-y-3 bg-app-fg rounded-xl p-2"
+                className=" flex flex-col gap-y-3 bg-app-fg rounded-x p-2"
               >
-                <h1 className="font-bold text-xl text-center">🔒 {today}</h1>
-                <div className="pt-2 pb-1.5 border-1 border-app-bg rounded-xl">
-                  <p className="px-5 font-bold mb-1">Stats:</p>
-                  <MiscStats />
-                </div>
-                <div className="pt-3 pb-1 border-1 border-app-bg rounded-xl">
-                  <p className="px-5 font-bold mb-1">Locked In During:</p>
-                  <BarGraph taskIntervals={taskIntervals} showTotal={false} />
-                </div>
-                <div className="pt-2 pb-1.5 border-1 border-app-bg rounded-xl">
-                  <p className="px-5 font-bold mb-1">Worked On:</p>
-                  <DisplayTimeSpent tasks={timeSpent} />
+                <p className="font-bold text-xl text-center">🔒 {today}</p>
+
+                {/* container for the stats */}
+                <div className="border-2 border-app-bg rounded-xl py-2">
+                  <div className="pb-1.5 rounded-xl">
+                    <p className="px-5 font-bold">Stats:</p>
+                    <MiscStats className="mb-3" />
+                    <BarGraph
+                      taskIntervals={taskIntervals}
+                      showTotal={false}
+                      maxHeight={100}
+                    />
+                  </div>
+
+                  <div className="pt-2 pb-1.5rounded-xl">
+                    <p className="px-5 font-bold">Worked On:</p>
+                    <DisplayTimeSpent tasks={timeSpent} />
+                  </div>
                 </div>
                 <h1 className="text-center italic ">
                   made with 🤍 https://imalockin.com
                 </h1>
               </div>
-              <div className="flex justify-center gap-x-5">
+              <div className="flex justify-center gap-x-5 pb-2">
                 <button
                   className="bg-app-bg rounded-xl p-2 text-xl font-bold btn-hover"
                   onClick={() => setShowModal(false)}

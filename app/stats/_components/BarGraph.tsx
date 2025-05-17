@@ -17,9 +17,14 @@ import PreLoaderSmall from "../../_components/PreLoaderSmall";
 interface BarGraphProps {
   taskIntervals: TaskInterval[] | null;
   showTotal?: boolean;
+  maxHeight?: number;
 }
 
-const BarGraph: React.FC<BarGraphProps> = ({ taskIntervals, showTotal }) => {
+const BarGraph: React.FC<BarGraphProps> = ({
+  taskIntervals,
+  showTotal,
+  maxHeight,
+}) => {
   // This component houses the hourintervals for the graph display
   // This component houses the time display
   const [hourIntervals, setHourIntervals] = useState<number[] | null>(null);
@@ -80,7 +85,7 @@ const BarGraph: React.FC<BarGraphProps> = ({ taskIntervals, showTotal }) => {
     <div className="h-full">
       <ChartContainer
         config={chartConfig}
-        className="min-h-[100px] max-h-[250px] w-full pr-4"
+        className={`min-h-[100px] max-h-[${maxHeight ? maxHeight : "250"}px] w-full pr-4`}
       >
         <BarChart data={chartData}>
           <CartesianGrid
