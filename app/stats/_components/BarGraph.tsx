@@ -2,15 +2,7 @@
 
 import { useState, useEffect } from "react";
 
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Label,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
+import { Bar, BarChart, CartesianGrid, Tooltip, XAxis, YAxis } from "recharts";
 
 import {
   ChartConfig,
@@ -24,9 +16,15 @@ import PreLoaderSmall from "../../_components/PreLoaderSmall";
 
 interface BarGraphProps {
   taskIntervals: TaskInterval[] | null;
+  showTotal?: boolean;
+  maxHeight?: number;
 }
 
-const BarGraph: React.FC<BarGraphProps> = ({ taskIntervals }) => {
+const BarGraph: React.FC<BarGraphProps> = ({
+  taskIntervals,
+  showTotal,
+  maxHeight,
+}) => {
   // This component houses the hourintervals for the graph display
   // This component houses the time display
   const [hourIntervals, setHourIntervals] = useState<number[] | null>(null);
@@ -87,7 +85,7 @@ const BarGraph: React.FC<BarGraphProps> = ({ taskIntervals }) => {
     <div className="h-full">
       <ChartContainer
         config={chartConfig}
-        className="min-h-[100px] max-h-[250px] w-full pr-4"
+        className={`min-h-[100px] max-h-[${maxHeight ? maxHeight : "250"}px] w-full pr-4`}
       >
         <BarChart data={chartData}>
           <CartesianGrid
@@ -127,7 +125,9 @@ const BarGraph: React.FC<BarGraphProps> = ({ taskIntervals }) => {
           />
         </BarChart>
       </ChartContainer>
-      <p className="text-l text-app-text pl-6 text-center">{timeDisplay}</p>
+      {showTotal !== false && (
+        <p className="text-l text-app-text pl-6 text-center">{timeDisplay}</p>
+      )}
     </div>
   );
 };
