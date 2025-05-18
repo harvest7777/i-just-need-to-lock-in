@@ -29,11 +29,12 @@ export default function GenerateSummary() {
 
   const handleCopy = async () => {
     if (!statsRef.current) return;
+
+    const newTab = window.open("", "_blank");
     try {
       await document.fonts.ready;
       const canvas = await html2canvas(statsRef.current, { useCORS: true });
       const dataURL = canvas.toDataURL();
-      const newTab = window.open();
       if (newTab) {
         newTab.document.body.innerHTML = `<img src="${dataURL}" style="max-width: 400px; display: block; margin: auto;" />`;
         newTab.document.title = "Download or copy the image!";
