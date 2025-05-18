@@ -33,7 +33,7 @@ export default function EnterPomodoroButton() {
         {enabled ? (
           <span onClick={() => toggle()}>normal mode</span>
         ) : (
-          <span onClick={() => toggle()}>pomodoro ✨</span>
+          <span onClick={() => toggle()}>pomodoro</span>
         )}
       </p>
     </div>

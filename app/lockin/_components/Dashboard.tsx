@@ -20,6 +20,7 @@ import NewGroupButton from "./_task-manager-components/NewGroupButton";
 import PomodoroTimeDisplay from "./_pomodoro-components/PomodoroTimeDisplay";
 import BreakTimer from "./_pomodoro-components/BreakTimer";
 import GenerateSummary from "@/app/stats/_components/_summary-components/GenerateSummary";
+import ChangelogButton from "./_changelog-components/ChangelogButton";
 
 import { desyncDetected } from "@/app/(api)/taskServices";
 import { initializeTaskStore } from "@/app/(helpers)/taskStoreInit";
@@ -197,6 +198,7 @@ export default function Dashboard() {
         </div>
         {/* container for friends */}
         <div className="flex flex-col md:w-1/5 order-3 w-full space-y-3">
+          <ChangelogButton />
           <div className="bg-app-fg card-outline">
             <FriendsList />
           </div>
