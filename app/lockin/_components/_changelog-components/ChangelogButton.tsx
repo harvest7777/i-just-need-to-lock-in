@@ -50,10 +50,10 @@ export default function ChangelogButton() {
       </button>
 
       {showModal && (
-        <div className="fixed top-0 left-0 w-full h-full flex justify-center align-middle z-50">
+        <div className="fixed top-0 left-0 w-full h-full flex flex-col items-center justify-center align-middle z-50">
           <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50"></div>
 
-          <div className="relative md:w-3/5 w-11/12 bg-app-fg p-3 rounded-xl h-fit md:mt-28 text-xl flex flex-col justify-center items-center max-h-4/5 overflow-hidden">
+          <div className="relative md:w-3/5 w-11/12 bg-app-fg p-3 rounded-xl text-xl flex flex-col justify-center items-center">
             <Changelog />
 
             <button
