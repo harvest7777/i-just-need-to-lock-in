@@ -12,20 +12,18 @@ export default function DisplayTimeSpent({
   if (!tasks || tasks.length === 0) return;
   return (
     <ul className={`w-full list-none flex flex-col px-5 gap-y-1 ${className}`}>
-      {tasks
-        .filter((task) => task.time_spent >= 60)
-        .map((task: TPastTaskTime) => (
-          <li
-            key={task.task_id}
-            className="flex justify-between w-full items-center align-middle"
-          >
-            <span>{task.task_name}</span>
-            <span className="flex-1 align-middle items-center mx-5 border-b-3 border-dotted border-app-bg self-center h-[0px]" />
-            <span className="line-clamp-1">
-              {secondsToHoursMins(Math.floor(task.time_spent))}
-            </span>
-          </li>
-        ))}
+      {tasks.map((task: TPastTaskTime) => (
+        <li
+          key={task.task_id}
+          className="flex justify-between w-full items-center align-middle"
+        >
+          <span>{task.task_name}</span>
+          <span className="flex-1 align-middle items-center mx-5 border-b-3 border-dotted border-app-bg self-center h-[0px]" />
+          <span className="line-clamp-1">
+            {secondsToHoursMins(Math.floor(task.time_spent))}
+          </span>
+        </li>
+      ))}
     </ul>
   );
 }

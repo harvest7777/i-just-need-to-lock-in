@@ -13,7 +13,7 @@ import html2canvas from "html2canvas-pro";
 export default function GenerateSummary() {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [timeSpent, setTimeSpent] = useState<TPastTaskTime[] | null>(null);
-  const [copied, setCopied] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
   const statsRef = useRef<HTMLDivElement | null>(null);
   const taskIntervals = useTaskStore((state) => state.taskIntervals);
 
@@ -22,31 +22,54 @@ export default function GenerateSummary() {
     const fetchedTimeSpent = await getPastTaskTime(0, userId);
     setTimeSpent(fetchedTimeSpent);
   };
+  const handleClick = async () => {
+    await init();
+    setShowModal(true);
+  };
 
   const handleCopy = async () => {
     if (!statsRef.current) return;
-
     try {
       await document.fonts.ready;
-
-      const canvas = await html2canvas(statsRef.current, {
-        useCORS: true,
-      });
-
-      canvas.toBlob(async (blob) => {
-        if (!blob) return;
-
-        await navigator.clipboard.write([
-          new ClipboardItem({ [blob.type]: blob }),
-        ]);
-
-        console.log("Image copied to clipboard");
-        setCopied(true);
-        setTimeout(() => setCopied(false), 3000);
-      });
+      const canvas = await html2canvas(statsRef.current, { useCORS: true });
+      const dataURL = canvas.toDataURL();
+      const newTab = window.open();
+      if (newTab) {
+        newTab.document.body.innerHTML = `<img src="${dataURL}" style="max-width: 400px; display: block; margin: auto;" />`;
+        newTab.document.title = "Download or copy the image!";
+      } else {
+        console.error("Failed to open new tab (popup blocked?)");
+        setError(true);
+        setTimeout(() => {
+          setError(false);
+        }, 3000);
+      }
     } catch (err) {
-      console.error("Failed to copy image:", err);
+      console.error(err);
     }
+    // try {
+    //   await document.fonts.ready;
+
+    //   const canvas = await html2canvas(statsRef.current, {
+    //     useCORS: true,
+    //   });
+    //   const dataurl = canvas.toDataURL();
+    //   console.log(dataurl)
+
+    //   canvas.toBlob(async (blob) => {
+    //     if (!blob) return;
+
+    //     await navigator.clipboard.write([
+    //       new ClipboardItem({ [blob.type]: blob }),
+    //     ]);
+
+    //     console.log("Image copied to clipboard");
+    //     setCopied(true);
+    //     setTimeout(() => setCopied(false), 3000);
+    //   });
+    // } catch (err) {
+    //   console.error("Failed to copy image:", err);
+    // }
   };
 
   const today = new Date().toLocaleDateString(undefined, {
@@ -62,7 +85,7 @@ export default function GenerateSummary() {
   return (
     <div>
       <button
-        onClick={() => setShowModal(true)}
+        onClick={() => handleClick()}
         className="w-full font-bold text-lg btn-hover outline-1 bg-app-fg outline-app-highlight rounded-xl"
       >
         ✨Daily Summary
@@ -111,9 +134,14 @@ export default function GenerateSummary() {
                   onClick={() => handleCopy()}
                   className="bg-app-highlight rounded-xl p-2 text-xl font-bold btn-hover"
                 >
-                  {copied ? "Copied!" : "Copy"}
+                  Generate Image
                 </button>
               </div>
+              {error && (
+                <p className="text-sm text-red-800 text-center">
+                  Couldn't open image in new tab, perhaps popups are blocked?
+                </p>
+              )}
             </div>
           ) : (
             <PreLoaderSmall />
