@@ -23,7 +23,7 @@ interface BarGraphProps {
 const BarGraph: React.FC<BarGraphProps> = ({
   taskIntervals,
   showTotal,
-  maxHeight,
+  maxHeight = 200,
 }) => {
   // This component houses the hourintervals for the graph display
   // This component houses the time display
@@ -85,7 +85,8 @@ const BarGraph: React.FC<BarGraphProps> = ({
     <div className="h-full">
       <ChartContainer
         config={chartConfig}
-        className={`min-h-[100px] max-h-[${maxHeight ? maxHeight : "250"}px] w-full pr-4`}
+        className={`min-h-[100px] w-full pr-4`}
+        style={{ maxHeight }}
       >
         <BarChart data={chartData}>
           <CartesianGrid

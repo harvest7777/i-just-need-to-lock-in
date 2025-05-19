@@ -9,8 +9,10 @@ import { FaUserFriends } from "react-icons/fa";
 import Dropdown from "./ui/dropdown";
 import Link from "next/link";
 import EnterPomodoroButton from "@/app/lockin/_components/_pomodoro-components/EnterPomodoroButton";
+
 import { useTaskStore } from "@/app/lockin/_hooks/useTaskStore";
 import { usePathname } from "next/navigation";
+import Streak from "./Streak";
 
 export default function AuthButton() {
   const pomodoroEnabled = useTaskStore((state) => state.pomodoroEnabled);
@@ -18,7 +20,7 @@ export default function AuthButton() {
   const isDashboard = pathname.startsWith("/lockin");
   return (
     // Nav container
-    <div className="p-2 my-2 mb-3 rounded-2xl h-10 w-full flex items-center gap-4 justify-between ">
+    <div className="p-2 my-2 mb-3 rounded-2xl h-10 w-full flex items-center gap-4 justify-between text-app-highlight">
       <Link href="/lockin" className="flex sm:space-x-3 space-x-2 btn-hover">
         <FaHome className="text-app-highlight h-full sm:text-4xl text-2xl" />
         <div className="flex align-center items-baseline space-x-3">
@@ -32,10 +34,11 @@ export default function AuthButton() {
         className={`flex md:gap-x-10 gap-x-2 ${pomodoroEnabled && "!gap-x-0"}`}
       >
         {isDashboard && <EnterPomodoroButton />}
-        <div className="md:flex hidden gap-x-10 text-3xl">
+        <div className="md:flex hidden gap-x-8 text-3xl">
           {/* <Link href="/lockin" className={`relative ${pomodoroEnabled && 'hidden'}`}> */}
           {/*   <p className="text-lg btn-hover font-bold">home</p> */}
           {/* </Link> */}
+          <Streak />
           <Link
             href="/leaderboard"
             className={`relative ${pomodoroEnabled && "hidden"}`}
