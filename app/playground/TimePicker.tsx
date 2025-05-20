@@ -35,6 +35,7 @@ export default function TimePicker({
     setSelectedDate(now);
   };
 
+  // only hour min for simplicity
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     field: "hour" | "minute"

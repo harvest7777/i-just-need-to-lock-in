@@ -26,7 +26,6 @@ export default function AddInterval() {
             <h1 className="text-center text-2xl font-bold">
               Manually Add An Interval
             </h1>
-
             <div className="w-fit flex flex-col gap-y-5">
               <TaskPicker setSelectedTask={setSelectedTask} />
               <div className="flex gap-x-2">
