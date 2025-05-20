@@ -2,7 +2,6 @@
 import { useState } from "react";
 import TimePicker from "./TimePicker";
 import TaskPicker from "./TaskPicker";
-import WordBlock from "@/components/ui/word-block";
 
 export default function AddInterval() {
   const [start, setStart] = useState<Date | null>(null);
