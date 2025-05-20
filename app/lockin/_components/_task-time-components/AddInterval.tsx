@@ -6,8 +6,8 @@ import TaskPicker from "./TaskPicker";
 export default function AddInterval() {
   const [start, setStart] = useState<Date | null>(null);
   const [end, setEnd] = useState<Date | null>(null);
-  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [visible, setVisible] = useState<boolean>(false);
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   return (
     <div>
       <button
