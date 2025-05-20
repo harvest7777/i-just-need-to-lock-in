@@ -35,3 +35,34 @@ export const updateLastActive = async () => {
   if (error) throw error;
 }
 
+export const updateLogin = async () => {
+  const now = new Date().toISOString();
+  const uuid = await getUserId();
+  const { error } = await supabase
+    .from("profiles")
+    .update({ last_login: now })
+    .eq("user_id", uuid)
+  if (error) throw error;
+}
+
+export const getStreak = async ():Promise<number> => {
+  const uuid = await getUserId();
+  const {data, error } = await supabase.from("profiles").select("streak").eq("user_id", uuid).single();
+  if (error) throw error;
+  return data.streak;
+}
+
+export const getLastLogin = async (): Promise<Date|null> => {
+  const uuid = await getUserId();
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("last_login")
+    .eq("user_id", uuid)
+    .single();
+
+    if (error) throw error;
+
+    if(data.last_login==null) return null;
+    const utcDate = new Date(data.last_login);
+    return utcDate;
+};
