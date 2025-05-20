@@ -60,7 +60,7 @@ export default function Streak() {
       <HoverCardContent>
         <p className="text-sm">
           Keep up the good work! You've checked in {streak}{" "}
-          {streak > 1 ? "day" : "days"} in a row!
+          {streak > 1 ? "days" : "day"} in a row!
         </p>
       </HoverCardContent>
     </HoverCard>
