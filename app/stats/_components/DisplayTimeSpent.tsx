@@ -17,9 +17,9 @@ export default function DisplayTimeSpent({
           key={task.task_id}
           className="flex justify-between w-full items-center align-middle"
         >
-          <span>{task.task_name}</span>
+          <span className="line-clamp-1">{task.task_name}</span>
           <span className="flex-1 align-middle items-center mx-5 border-b-3 border-dotted border-app-bg self-center h-[0px]" />
-          <span className="line-clamp-1">
+          <span className="">
             {secondsToHoursMins(Math.floor(task.time_spent))}
           </span>
         </li>

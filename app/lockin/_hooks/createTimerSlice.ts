@@ -2,7 +2,6 @@ import { StateCreator } from "zustand";
 import { TaskState } from "./createTaskSlice";
 import { startTask, pauseTask, completeTask } from "@/app/(api)/taskTimeServices";
 import { updateLastActive } from "@/app/(api)/profileServices";
-import { difference } from "next/dist/build/utils";
 
 export interface TimerState {
   pomodoroEnabled: boolean;

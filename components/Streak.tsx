@@ -27,6 +27,7 @@ export default function Streak() {
 
     if (
       !lastLogin ||
+      //todo fix this to make it get day
       Math.floor(
         (today.getTime() - lastLogin.getTime()) / (1000 * 60 * 60 * 24)
       ) > 1
