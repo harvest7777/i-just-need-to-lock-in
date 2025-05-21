@@ -16,6 +16,9 @@ export interface TaskAction {
   setFocusedTask: (task: Task | null) => void;
   setStartedFocusedTask: (started: boolean) => void;
   setTaskIntervals: (intervals: TaskInterval[]) => void;
+  updateTask: (updatedTask: Task) => void;
+  addTaskInterval: (taskInterval: TaskInterval) => void;
+
 }
 
 export const createTaskSlice: StateCreator<
@@ -36,7 +39,17 @@ export const createTaskSlice: StateCreator<
   setCompletedTasks: (tasks: Task[]) => set({ completedTasks: tasks }),
   setFocusedTask: (task: Task | null) => set({ focusedTask: task }),
   setStartedFocusedTask: (isStarted: boolean) => set({ startedFocusedTask: isStarted }),
-  setTaskIntervals: (taskIntervals: TaskInterval[]) => set({ taskIntervals: taskIntervals })
+  setTaskIntervals: (taskIntervals: TaskInterval[]) => set({ taskIntervals: taskIntervals }),
+  updateTask: (updatedTask: Task ) =>  
+    set((state) => ({
+      toDos: state.toDos?.map((task) =>
+        task.task_id === updatedTask.task_id ? updatedTask : task
+      ) ?? []
+    })),
+    addTaskInterval: (taskInterval: TaskInterval) =>
+      set((state) => ({
+        taskIntervals: [...(state.taskIntervals || []), taskInterval]
+      })),
 
 })
 

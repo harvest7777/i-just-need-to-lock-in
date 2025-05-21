@@ -3,6 +3,22 @@ import { getDayStartEnd } from "@/app/(helpers)/getDayStartEnd";
 import { useTaskStore } from "../lockin/_hooks/useTaskStore";
 import { broadcastUpdatedTask } from "./realtimeServices";
 
+export const getTaskById = async (taskId: number): Promise<Task> => {
+  // Fetch a task by its ID
+  const { data, error } = await supabase
+    .from("tasks")
+    .select("*")
+    .eq("task_id", taskId)
+    .single();
+
+  if (error) {
+    console.log("getTaskById() - Error fetching task");
+    throw error;
+  }
+
+  return data as Task;
+}
+
 export const getTodaysTasks = async (): Promise<Task[]> => {
   const userId = (await supabase.auth.getUser()).data.user?.id;
   if (userId == null) {

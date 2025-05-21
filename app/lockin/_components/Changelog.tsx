@@ -9,6 +9,9 @@ export default function Changelog() {
         <span className="text-app-text">Pomodoro mode, timer updates</span>
       </div> */}
       <div className="max-h-60 overflow-y-auto border-y-2 border-app-bg">
+        <p className="text-app-text">
+          🟩 5/20/2025 - Added manually add interval
+        </p>
         <p className="text-app-text">🟩 5/17/2025 - Added changelog</p>
         <p className="text-app-text">
           🟩 5/16/2025 - Added daily summary generator

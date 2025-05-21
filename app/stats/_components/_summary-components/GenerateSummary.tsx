@@ -96,7 +96,7 @@ export default function GenerateSummary() {
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center align-middle z-50">
           <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50"></div>
           {timeSpent && taskIntervals ? (
-            <div className="bg-app-fg flex flex-col gap-y-3 card-outline z-50 max-w-[calc(100%-15px)] w-[400px] pb-2 p-2 max-h-[calc(100%-15px)] overflow-y-scroll">
+            <div className="bg-app-fg flex flex-col gap-y-3 card-outline z-50 max-w-[calc(100%-15px)]  w-[400px] pb-2 p-2 max-h-[calc(100%-30px)] overflow-y-scroll">
               <div
                 ref={statsRef}
                 className=" flex flex-col gap-y-3 bg-app-fg rounded-x p-2"
@@ -108,11 +108,13 @@ export default function GenerateSummary() {
                   <div className="pb-1.5 rounded-xl">
                     <p className="px-5 font-bold">Stats:</p>
                     <MiscStats className="mb-3" />
-                    <BarGraph
-                      taskIntervals={taskIntervals}
-                      showTotal={false}
-                      maxHeight={100}
-                    />
+                    <div className="h-[150px] flex-shrink-0 min-h-[150px]">
+                      <BarGraph
+                        taskIntervals={taskIntervals}
+                        showTotal={false}
+                        maxHeight={150}
+                      />
+                    </div>
                   </div>
 
                   <div className="pt-2 pb-1.5rounded-xl">

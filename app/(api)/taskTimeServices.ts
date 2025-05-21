@@ -34,6 +34,7 @@ export const pauseTask = async (task: Task): Promise<Task> => {
 
   // fetch the new task to make sure u get whether its in progress type shi
   const taskId = task.task_id;
+
   const { data: curTask, error: errorFetch } = await supabase
     .from("tasks")
     .select("*")
@@ -50,24 +51,9 @@ export const pauseTask = async (task: Task): Promise<Task> => {
   const nowUTC = new Date();
   const lastStartTimeUTC = new Date(lastStartTimeString);
 
-  const additionalSeconds = Math.floor((nowUTC.getTime() - lastStartTimeUTC.getTime()) / 1000);
-  const newSecondsSpent = additionalSeconds + curTask.seconds_spent;
+  // const additionalSeconds = Math.floor((nowUTC.getTime() - lastStartTimeUTC.getTime()) / 1000);
+  // const newSecondsSpent = additionalSeconds + curTask.seconds_spent;
 
-  // Update task time
-  const { data: updatedTask, error: errorUpdate } = await supabase
-    .from("tasks")
-    .update({
-      seconds_spent: newSecondsSpent,
-      last_start_time: null,
-    })
-    .eq("task_id", taskId)
-    .select("*");
-
-  if (errorUpdate) throw (errorUpdate);
-
-  // Send updated task to friends
-  const newTaskStatus: Task = updatedTask[0];
-  await broadcastUpdatedTask(newTaskStatus);
 
   // Add new working interval
   let newDay;
@@ -105,6 +91,24 @@ export const pauseTask = async (task: Task): Promise<Task> => {
 
     if (errorSetInterval) throw (errorSetInterval);
   }
+  // Update task time
+  const { data: updatedTask, error: errorUpdate } = await supabase
+    .from("tasks")
+    .update({
+      // seconds_spent: newSecondsSpent,
+      last_start_time: null,
+    })
+    .eq("task_id", taskId)
+    .select("*");
+
+  if (errorUpdate) throw (errorUpdate);
+
+  // Send updated task to friends
+  const newTaskStatus: Task = updatedTask[0];
+  await broadcastUpdatedTask(newTaskStatus);
+  
+  console.log(updatedTask[0]);
+
   return updatedTask[0] as Task;
 }
 
@@ -232,4 +236,18 @@ export const getPastTaskTime = async(daysBack: number, userId: string): Promise<
   if(error) throw new Error(error);
 
   return data as TPastTaskTime[];
+}
+
+export const addTaskInterval = async (taskId: number, startTime: Date, endTime: Date): Promise<TaskInterval> => {
+  //assumes startTime and endTime are in UTC
+  const { data, error } = await supabase
+    .from("task_intervals")
+    .insert({
+      task_id: taskId,
+      start_time: startTime.toISOString(),
+      end_time: endTime.toISOString()
+    }).select();
+
+  if (error) throw error;
+  return data[0] as TaskInterval;
 }

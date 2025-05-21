@@ -46,7 +46,6 @@ const LockedInTask = () => {
   useEffect(() => {
     const handleKeyPress = async (event: KeyboardEvent) => {
       const pressedSpace: boolean = event.key === " ";
-      console.log(pressedSpace);
       //
       // if (loading || !pressedSpace || !focusedTask) return;
       // if (startedFocusedTask) {
