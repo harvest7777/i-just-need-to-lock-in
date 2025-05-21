@@ -96,7 +96,7 @@ export default function GenerateSummary() {
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center align-middle z-50">
           <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50"></div>
           {timeSpent && taskIntervals ? (
-            <div className="bg-app-fg flex flex-col gap-y-3 card-outline z-50 max-w-[calc(100%-15px)]  w-[400px] pb-2 p-2 max-h-[calc(100%-30px)] overflow-y-scroll">
+            <div className="bg-app-fg flex flex-col gap-y-3 card-outline z-50 max-w-[calc(100%-15px)]  w-[400px] pb-2 p-2 max-h-[calc(100%-30px)] overflow-y-auto">
               <div
                 ref={statsRef}
                 className=" flex flex-col gap-y-3 bg-app-fg rounded-x p-2"
@@ -105,17 +105,17 @@ export default function GenerateSummary() {
 
                 {/* container for the stats */}
                 <div className="border-2 border-app-bg rounded-xl py-2">
-                  <div className="pb-1.5 rounded-xl">
+                  <div className="rounded-xl">
                     <p className="px-5 font-bold">Stats:</p>
-                    <MiscStats className="mb-3" />
-                    <div className="h-[150px] flex-shrink-0 min-h-[150px]">
+                    <MiscStats />
+                    <div className="min-h-[150px] py-5">
                       <BarGraph
                         taskIntervals={taskIntervals}
                         showTotal={false}
                         maxHeight={150}
                       />
                     </div>
-                    <div className="mt-2 mb-1.5 rounded-xl">
+                    <div>
                       <p className="px-5 font-bold">Worked On:</p>
                       <DisplayTimeSpent tasks={timeSpent} />
                     </div>
