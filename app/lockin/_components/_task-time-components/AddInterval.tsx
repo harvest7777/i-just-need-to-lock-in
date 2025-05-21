@@ -12,6 +12,7 @@ export default function AddInterval() {
   const [visible, setVisible] = useState<boolean>(false);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [error, setError] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const updateTask = useTaskStore((state) => state.updateTask);
   const insertTaskInterval = useTaskStore((state) => state.addTaskInterval);
 
@@ -26,8 +27,20 @@ export default function AddInterval() {
     //convert time to utc
     if (!start || !end || !selectedTask) {
       setError(true);
+      setErrorMessage("Need a start time, end time, and task!");
       setTimeout(() => {
         setError(false);
+        setErrorMessage("");
+      }, 5000);
+      return;
+    }
+
+    if (start > end) {
+      setError(true);
+      setErrorMessage("End time must be after start time!");
+      setTimeout(() => {
+        setError(false);
+        setErrorMessage("");
       }, 5000);
       return;
     }
@@ -50,18 +63,18 @@ export default function AddInterval() {
         onClick={() => setVisible(true)}
         className="w-full font-bold text-lg btn-hover outline-1 bg-app-fg outline-app-highlight rounded-xl"
       >
-        Add Interval
+        ✨Add Interval
       </button>
 
       {visible && (
         <div className="fixed top-0 left-0 w-full min-h-full flex justify-center  items-center z-50">
           {/* background */}
           <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50"></div>
-          <div className="md:w-1/2 w-11/12 p-5 rounded-xl bg-app-fg flex flex-col items-center align-middle justify-center gap-y-5 z-50">
+          <div className="md:w-1/2 w-11/12 p-5 rounded-xl bg-app-fg flex flex-col items-center align-middle justify-center z-50">
             <h1 className="text-center text-2xl font-bold">
               Manually Add An Interval
             </h1>
-            <div className="w-fit flex flex-col gap-y-5">
+            <div className="w-fit flex flex-col gap-y-5 mt-5">
               <TaskPicker setSelectedTask={setSelectedTask} />
               <div className="flex gap-x-2 items-center">
                 <p className="w-12">Start</p>
@@ -105,12 +118,10 @@ export default function AddInterval() {
                 {!start || !end ? "[time]" : calculateDifference(start, end)}
               </span>
             </div>
-            {error && (
-              <p className="text-red-800 text-center italic text-sm">
-                Please select a task, start time, and end time
-              </p>
-            )}
-            <div className="flex justify-center items-center align-middle space-x-8 mt-3">
+            <div className="min-h-5 w-full text-red-800 text-center italic text-sm">
+              {errorMessage}
+            </div>
+            <div className="flex justify-center items-center align-middle space-x-8 mt-3/">
               <button
                 onClick={() => addInterval()}
                 className="p-2 text-center rounded-xl font-bold bg-app-highlight w-fit btn-hover"

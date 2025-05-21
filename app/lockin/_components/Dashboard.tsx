@@ -184,7 +184,6 @@ export default function Dashboard() {
         </div>
         {/* container for task lists */}
         <div className="md:order-1 order-2 flex flex-col md:w-1/5 w-full space-y-3">
-          <GenerateSummary />
           <div className="bg-app-fg card-outline">
             <div className="flex justify-between w-full p-2 pb-0">
               <h1 className="font-bold text-xl pl-2 flex-1">To Do</h1>
@@ -196,11 +195,13 @@ export default function Dashboard() {
           <div className="bg-app-fg card-outline">
             <CompletedTasks />
           </div>
+
+          <GenerateSummary />
+          <ChangelogButton />
+          <AddInterval />
         </div>
         {/* container for friends */}
         <div className="flex flex-col md:w-1/5 order-3 w-full space-y-3">
-          <ChangelogButton />
-          <AddInterval />
           <div className="bg-app-fg card-outline">
             <FriendsList />
           </div>
