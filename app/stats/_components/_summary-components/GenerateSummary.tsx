@@ -108,11 +108,13 @@ export default function GenerateSummary() {
                   <div className="pb-1.5 rounded-xl">
                     <p className="px-5 font-bold">Stats:</p>
                     <MiscStats className="mb-3" />
-                    <BarGraph
-                      taskIntervals={taskIntervals}
-                      showTotal={false}
-                      maxHeight={150}
-                    />
+                    <div className="h-[150px] flex-shrink-0 min-h-[150px]">
+                      <BarGraph
+                        taskIntervals={taskIntervals}
+                        showTotal={false}
+                        maxHeight={150}
+                      />
+                    </div>
                   </div>
 
                   <div className="pt-2 pb-1.5rounded-xl">
