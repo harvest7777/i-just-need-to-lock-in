@@ -115,11 +115,10 @@ export default function GenerateSummary() {
                         maxHeight={150}
                       />
                     </div>
-                  </div>
-
-                  <div className="pt-2 pb-1.5rounded-xl">
-                    <p className="px-5 font-bold">Worked On:</p>
-                    <DisplayTimeSpent tasks={timeSpent} />
+                    <div className="mt-2 mb-1.5 rounded-xl">
+                      <p className="px-5 font-bold">Worked On:</p>
+                      <DisplayTimeSpent tasks={timeSpent} />
+                    </div>
                   </div>
                 </div>
                 <h1 className="text-center italic ">
