@@ -108,7 +108,7 @@ export default function GenerateSummary() {
                   <div className="rounded-xl">
                     <p className="px-5 font-bold">Stats:</p>
                     <MiscStats />
-                    <div className="min-h-[150px] py-5">
+                    <div className="min-h-[150px] pt-5 md:pb-5 pb-10">
                       <BarGraph
                         taskIntervals={taskIntervals}
                         showTotal={false}
@@ -116,7 +116,7 @@ export default function GenerateSummary() {
                       />
                     </div>
                     <div>
-                      <p className="px-5 font-bold">Worked On:</p>
+                      <p className=" px-5 font-bold">Worked On:</p>
                       <DisplayTimeSpent tasks={timeSpent} />
                     </div>
                   </div>
