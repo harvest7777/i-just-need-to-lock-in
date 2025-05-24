@@ -5,16 +5,15 @@ import { cancelLastStart } from "@/app/(api)/taskTimeServices";
 import { broadcastUpdatedTask } from "@/app/(api)/realtimeServices";
 import { useTaskStore } from "../../_hooks/useTaskStore";
 
-interface StillWorkingModalProps {
-  // focusedTask: Task|null;
-  // setFocusedTask: Dispatch<SetStateAction<Task|null>>;
-  // setToDos: Dispatch<SetStateAction<Task[]>>;
-  // setStartedFocusedTask: Dispatch<SetStateAction<boolean>>;
-  setCancelVisible: Dispatch<SetStateAction<boolean>>;
-}
-export default function StillWorkingModal({
-  setCancelVisible,
-}: StillWorkingModalProps) {
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
+export default function StillWorkingModal() {
   const {
     focusedTask,
     setFocusedTask,
@@ -22,6 +21,7 @@ export default function StillWorkingModal({
     setToDos,
     setStartedFocusedTask,
   } = useTaskStore();
+  const [open, setOpen] = useState(false);
   const [timeSpent, setTimeSpent] = useState<string>("0 min");
 
   // when a task has been in progress for a very long time, make sure the user is actually still working
@@ -51,18 +51,25 @@ export default function StillWorkingModal({
       setToDos(updatedToDos);
     }
     setFocusedTask(null);
-    setCancelVisible(false);
+    setOpen(false);
   };
-  return (
-    focusedTask != null && (
-      <div className="fixed top-0 left-0 w-full min-h-full flex justify-center md:items-start items-center z-50">
-        {/* Background Overlay */}
-        <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50"></div>
 
-        {/* Modal Content */}
-        <div className="relative md:w-3/5 w-11/12 bg-app-fg p-3 rounded-xl h-fit md:mt-28 text-xl flex flex-col justify-center items-center">
-          <h1 className="text-center text-2xl font-bold">Cancel Session?</h1>
-          <div className="mt-3">
+  if (!focusedTask) return null;
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <button className="w-fit px-2 rounded-xl btn-hover h-8 md:text-2xl text-xl bg-red-700 hover:text-app-fg">
+          cancel
+        </button>
+      </DialogTrigger>
+      <DialogContent className="md:max-w-2xl">
+        <DialogHeader>
+          <DialogTitle className="text-2xl font-bold text-center">
+            Confirm Cancel Session
+          </DialogTitle>
+        </DialogHeader>
+        <div className="flex flex-col items-center justify-center">
+          <div>
             <span>You've been working on </span>
             <span className=" px-2 bg-app-bg rounded-xl">
               {focusedTask.name}
@@ -79,22 +86,14 @@ export default function StillWorkingModal({
             <span className="px-2 bg-app-bg rounded-xl">{timeSpent}</span>
             <span> to your graph and total time?</span>
           </div>
-          <div className="flex space-x-8">
-            <p
-              onClick={() => handleCancelSession()}
-              className="mt-3 p-2 text-center  bg-red-800 rounded-xl font-bold w-fit btn-hover"
-            >
-              Cancel Session
-            </p>
-            <p
-              onClick={() => setCancelVisible(false)}
-              className="mt-3 p-2 text-center rounded-xl font-bold bg-app-bg w-fit btn-hover"
-            >
-              Continue Session
-            </p>
-          </div>
+          <button
+            onClick={() => handleCancelSession()}
+            className="mt-3 p-2 text-center  bg-red-800 rounded-xl font-bold w-fit btn-hover"
+          >
+            Cancel Session
+          </button>
         </div>
-      </div>
-    )
+      </DialogContent>
+    </Dialog>
   );
 }

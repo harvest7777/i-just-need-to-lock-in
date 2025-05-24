@@ -30,15 +30,10 @@ export default function AuthButton() {
           {/* <p className="text-emerald-800">beta 1.0</p> */}
         </div>
       </Link>
-      <div
-        className={`flex md:gap-x-10 gap-x-2 ${pomodoroEnabled && "!gap-x-0"}`}
-      >
+      <div className={`flex md:gap-x-8 gap-x-3`}>
         <Streak />
         {isDashboard && <EnterPomodoroButton />}
-        <div className="md:flex hidden gap-x-8 text-3xl">
-          {/* <Link href="/lockin" className={`relative ${pomodoroEnabled && 'hidden'}`}> */}
-          {/*   <p className="text-lg btn-hover font-bold">home</p> */}
-          {/* </Link> */}
+        <div className="md:flex hidden md:gap-x-8 gap-x-3 text-3xl">
           <Link
             href="/leaderboard"
             className={`relative ${pomodoroEnabled && "hidden"}`}

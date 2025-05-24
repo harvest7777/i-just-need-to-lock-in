@@ -28,7 +28,7 @@ export default function EnterPomodoroButton() {
   };
   return (
     <div>
-      {showModal && <EnterPomodoroModal setShowModal={setShowModal} />}
+      {<EnterPomodoroModal showModal={showModal} setShowModal={setShowModal} />}
       <p className="relative btn-hover text-lg font-bold text-app-highlight">
         {enabled ? (
           <span onClick={() => toggle()}>normal mode</span>

@@ -101,7 +101,7 @@ export default function TimePicker({ setSelectedDate }: TimePickerProps) {
                 <RiArrowDropDownLine />
               </WordBlock>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-[var(--radix-popper-anchor-width)] mt-1 bg-app-fg border-none">
+            <DropdownMenuContent className="z-50 w-[var(--radix-popper-anchor-width)] mt-1 bg-app-fg border-none">
               <DropdownMenuRadioGroup
                 value={period}
                 onValueChange={(v) => handlePeriodChange(v as "AM" | "PM")}

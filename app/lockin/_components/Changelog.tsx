@@ -3,7 +3,6 @@
 export default function Changelog() {
   return (
     <div className="w-full h-full">
-      <h1 className="text-center text-2xl font-bold mb-3">Changelog</h1>
       {/* <div className="mb-2">
         <span className="text-green-600 font-bold">In Development - </span>
         <span className="text-app-text">Pomodoro mode, timer updates</span>

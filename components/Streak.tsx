@@ -21,21 +21,22 @@ export default function Streak() {
   const streakToast = () => toast.success("Daily checkin complete!");
   const toastFiredRef = useRef<boolean>(false);
 
-  const init = async () => {
-    const lastLogin: Date | null = await getLastLogin();
-    const today = new Date();
+  const isSameDay = (date1: Date, date2: Date): boolean => {
+    return (
+      date1.getDate() === date2.getDate() &&
+      date1.getMonth() === date2.getMonth() &&
+      date1.getFullYear() === date2.getFullYear()
+    );
+  };
 
-    if (
-      !lastLogin ||
-      //todo fix this to make it get day
-      Math.floor(
-        (today.getTime() - lastLogin.getTime()) / (1000 * 60 * 60 * 24)
-      ) > 1
-    ) {
+  const init = async () => {
+    const todday = new Date();
+    const lastLogin = await getLastLogin();
+    if (!lastLogin || !isSameDay(todday, lastLogin)) {
       if (!toastFiredRef.current) {
         setTimeout(() => {
           streakToast();
-        }, 1000);
+        }, 1500);
         toastFiredRef.current = true;
       }
     }
