@@ -40,7 +40,7 @@ const MakeGroupModal: React.FC<MakeGroupModalProps> = ({ setVisible }) => {
       {errors.groupName && (
         <p className="text-red-500">{errors.groupName.message}</p>
       )}
-      <div className="flex justify-center items-center align-middle space-x-8 mt-3">
+      <div className=" mt-8">
         <button
           type="submit"
           className="p-2 text-center rounded-xl font-bold bg-app-highlight w-fit btn-hover"

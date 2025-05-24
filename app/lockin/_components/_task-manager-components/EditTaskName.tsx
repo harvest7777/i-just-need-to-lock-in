@@ -12,7 +12,11 @@ interface EditTaskNameProps {
   task: Task;
 }
 
-const EditTaskName: React.FC<EditTaskNameProps> = ({ handleRenameTask, setEditingTaskId, task }) => {
+const EditTaskName: React.FC<EditTaskNameProps> = ({
+  handleRenameTask,
+  setEditingTaskId,
+  task,
+}) => {
   const { register, handleSubmit, reset } = useForm<FormData>();
   const onSubmit = (data: FormData, task: Task) => {
     if (!data.newTaskName.trim()) {
@@ -26,8 +30,22 @@ const EditTaskName: React.FC<EditTaskNameProps> = ({ handleRenameTask, setEditin
   };
 
   return (
-    <div className="flex flex-1 space-x-1" onPointerDown={(e) => { e.stopPropagation() }} onTouchStart={(e) => { e.stopPropagation() }} onMouseDown={(e) => { e.stopPropagation() }}>
-      <form onSubmit={handleSubmit((data) => onSubmit(data, task))} className="flex-1" >
+    <div
+      className="flex flex-1 space-x-1"
+      onPointerDown={(e) => {
+        e.stopPropagation();
+      }}
+      onTouchStart={(e) => {
+        e.stopPropagation();
+      }}
+      onMouseDown={(e) => {
+        e.stopPropagation();
+      }}
+    >
+      <form
+        onSubmit={handleSubmit((data) => onSubmit(data, task))}
+        className="flex-1"
+      >
         <input
           id="newTaskName"
           type="text"
@@ -36,8 +54,11 @@ const EditTaskName: React.FC<EditTaskNameProps> = ({ handleRenameTask, setEditin
           className="w-full rounded-lg bg-app-bg pl-2"
         />
       </form>
-      <IoCheckmarkOutline className="text-2xl flex-none btn-hover text-app-bg hover:text-green-600" onClick={handleSubmit((data) => onSubmit(data, task))} />
+      <IoCheckmarkOutline
+        className="text-2xl flex-none btn-hover text-app-bg hover:text-green-600"
+        onClick={handleSubmit((data) => onSubmit(data, task))}
+      />
     </div>
-  )
-}
+  );
+};
 export default EditTaskName;

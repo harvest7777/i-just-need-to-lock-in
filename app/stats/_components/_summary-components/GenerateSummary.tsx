@@ -10,6 +10,14 @@ import { getUserId } from "@/app/(api)/profileServices";
 import PreLoaderSmall from "@/app/_components/PreLoaderSmall";
 import html2canvas from "html2canvas-pro";
 
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
 export default function GenerateSummary() {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [timeSpent, setTimeSpent] = useState<TPastTaskTime[] | null>(null);
@@ -84,22 +92,27 @@ export default function GenerateSummary() {
   }, []);
 
   return (
-    <div>
-      <button
-        onClick={() => handleClick()}
-        className="w-full font-bold text-lg btn-hover outline-1 bg-app-fg outline-app-highlight rounded-xl"
-      >
-        ✨Daily Summary
-      </button>
-
-      {showModal && (
-        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center align-middle z-50">
-          <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50"></div>
+    <Dialog open={showModal} onOpenChange={setShowModal}>
+      <DialogTrigger asChild>
+        <button
+          onClick={() => handleClick()}
+          className="w-full font-bold text-lg btn-hover outline-1 bg-app-fg outline-app-highlight rounded-xl"
+        >
+          ✨Daily Summary
+        </button>
+      </DialogTrigger>
+      <DialogContent className="md:max-w-2xl max-h-[calc(100%-30px)] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle className="text-2xl font-bold text-center">
+            Daily Summary
+          </DialogTitle>
+        </DialogHeader>
+        <div className="flex flex-col justify-center items-center overflow-y-scroll ">
           {timeSpent && taskIntervals ? (
-            <div className="bg-app-fg flex flex-col gap-y-3 card-outline z-50 max-w-[calc(100%-15px)]  w-[400px] pb-2 p-2 max-h-[calc(100%-30px)] overflow-y-auto">
+            <div className="flex flex-col justify-center items-center">
               <div
                 ref={statsRef}
-                className=" flex flex-col gap-y-3 bg-app-fg rounded-x p-2"
+                className=" flex flex-col gap-y-3 bg-app-fg rounded-xl p-2"
               >
                 <p className="font-bold text-xl text-center">🔒 {today}</p>
 
@@ -125,20 +138,12 @@ export default function GenerateSummary() {
                   made with 🤍 https://imalockin.com
                 </h1>
               </div>
-              <div className="flex justify-center gap-x-5 pb-2">
-                <button
-                  className="bg-app-bg rounded-xl p-2 text-xl font-bold btn-hover"
-                  onClick={() => setShowModal(false)}
-                >
-                  Close
-                </button>
-                <button
-                  onClick={() => handleCopy()}
-                  className="bg-app-highlight rounded-xl p-2 text-xl font-bold btn-hover"
-                >
-                  Generate Image
-                </button>
-              </div>
+              <button
+                onClick={() => handleCopy()}
+                className="mt-8 bg-app-highlight rounded-xl p-2 font-bold btn-hover"
+              >
+                Generate Image
+              </button>
               {error && (
                 <p className="text-sm text-red-800 text-center">
                   Couldn't open image in new tab, perhaps popups are blocked?
@@ -149,7 +154,7 @@ export default function GenerateSummary() {
             <PreLoaderSmall />
           )}
         </div>
-      )}
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 }

@@ -1,24 +1,11 @@
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  Dispatch,
-  SetStateAction,
-} from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import WordBlock from "@/components/ui/word-block";
 
 import { getTodaysWorkingTime } from "@/app/(api)/taskTimeServices";
 import { useTaskStore } from "../../_hooks/useTaskStore";
 
-interface StopWatchProps {
-  // focusedTask: Task | null;
-  // startedFocusedTask: boolean;
-  // taskIntervals: TaskInterval[];
-  setCancelVisible: Dispatch<SetStateAction<boolean>>;
-}
-
-const DailyStopwatch: React.FC<StopWatchProps> = ({ setCancelVisible }) => {
+const DailyStopwatch: React.FC = () => {
   const { focusedTask, startedFocusedTask, taskIntervals } = useTaskStore();
   const [startTime, setStartTime] = useState<number | null>(null);
   const [now, setNow] = useState<number | null>(null);
@@ -91,13 +78,6 @@ const DailyStopwatch: React.FC<StopWatchProps> = ({ setCancelVisible }) => {
   return (
     <div className="md:text-2xl text-xl flex items-center align-middle justify-center space-x-2">
       <WordBlock text={formatTime(secondsPassed)} />
-      {startedFocusedTask && (
-        <WordBlock
-          onClick={() => setCancelVisible(true)}
-          className="bg-red-800 hover:text-app-fg btn-hover"
-          text="cancel"
-        />
-      )}
     </div>
   );
 };
