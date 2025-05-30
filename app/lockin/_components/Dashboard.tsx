@@ -11,7 +11,6 @@ import NewTaskForm from "./_task-manager-components/NewTaskForm";
 import Stopwatch from "./_task-time-components/TotalStopwatch";
 import BarGraph from "@/app/stats/_components/BarGraph";
 import FriendsList from "@/app/friends/_components/FriendsList";
-import StillWorkingModal from "./_task-time-components/ConfirmCancelSessionModal";
 import DailyStopwatch from "./_task-time-components/DailyStopwatch";
 import ChooseDisplay from "./_task-time-components/ChooseTimer";
 import SessionStopWatch from "./_task-time-components/SessionStopwatch";
@@ -26,6 +25,7 @@ import AddInterval from "./_task-time-components/AddInterval";
 import { desyncDetected } from "@/app/(api)/taskServices";
 import { initializeTaskStore } from "@/app/(helpers)/taskStoreInit";
 import { useTaskStore } from "../_hooks/useTaskStore";
+import StillWorkingModal from "./_task-time-components/ConfirmCancelSessionModal";
 
 export default function Dashboard() {
   const focusedTask = useTaskStore((state) => state.focusedTask);
@@ -36,7 +36,6 @@ export default function Dashboard() {
   const setCompletedTasks = useTaskStore((state) => state.setCompletedTasks);
   const setTaskIntervals = useTaskStore((state) => state.setTaskIntervals);
   const [timerDisplay, setTimerDisplay] = useState<string>("session");
-  const [cancelVisible, setCancelVisible] = useState<boolean>(false);
   const [hydrated, setHydrated] = useState<boolean>(false);
   const desyncedRef = useRef<boolean>(false);
 
@@ -125,9 +124,6 @@ export default function Dashboard() {
   return (
     <>
       <Toaster />
-      {cancelVisible && (
-        <StillWorkingModal setCancelVisible={setCancelVisible} />
-      )}
       <div className="flex md:flex-row md:gap-x-2 flex-col md:space-y-0 space-y-3">
         {/* graph and changelog container */}
         <div className="md:order-2 order-1 md:w-3/5 w-full flex flex-col">
@@ -143,15 +139,10 @@ export default function Dashboard() {
                         timerDisplay={timerDisplay}
                         setTimerDisplay={setTimerDisplay}
                       />
-                      {timerDisplay == "today" && (
-                        <DailyStopwatch setCancelVisible={setCancelVisible} />
-                      )}
-                      {timerDisplay == "total" && (
-                        <Stopwatch setCancelVisible={setCancelVisible} />
-                      )}
-                      {timerDisplay == "session" && (
-                        <SessionStopWatch setCancelVisible={setCancelVisible} />
-                      )}
+                      {timerDisplay == "today" && <DailyStopwatch />}
+                      {timerDisplay == "total" && <Stopwatch />}
+                      {timerDisplay == "session" && <SessionStopWatch />}
+                      <StillWorkingModal />
                     </div>
                   )}
                 </div>
