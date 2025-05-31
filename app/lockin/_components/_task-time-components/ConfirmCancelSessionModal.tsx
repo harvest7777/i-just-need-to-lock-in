@@ -24,6 +24,18 @@ export default function StillWorkingModal() {
   const [open, setOpen] = useState(false);
   const [timeSpent, setTimeSpent] = useState<string>("0 min");
 
+  const handleOpen = (open: boolean) => {
+    setOpen(open);
+    const lastStartTimeString = focusedTask?.last_start_time;
+    const nowUTC = new Date();
+    let lastStartTimeUTC = new Date();
+    if (lastStartTimeString) lastStartTimeUTC = new Date(lastStartTimeString);
+
+    const secondsThisSession = Math.floor(
+      (nowUTC.getTime() - lastStartTimeUTC.getTime()) / 1000
+    );
+    setTimeSpent(getTimeDisplayFromSeconds(secondsThisSession));
+  };
   // when a task has been in progress for a very long time, make sure the user is actually still working
   useEffect(() => {
     // calculate seconds spent on task this session
@@ -56,7 +68,7 @@ export default function StillWorkingModal() {
 
   if (!focusedTask) return null;
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleOpen}>
       <DialogTrigger asChild>
         <button className="w-fit px-2 rounded-xl btn-hover h-8 md:text-2xl text-xl bg-red-700 hover:text-app-fg">
           cancel
