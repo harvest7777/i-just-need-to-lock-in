@@ -142,7 +142,7 @@ export default function Dashboard() {
                       {timerDisplay == "today" && <DailyStopwatch />}
                       {timerDisplay == "total" && <Stopwatch />}
                       {timerDisplay == "session" && <SessionStopWatch />}
-                      <StillWorkingModal />
+                      {startedFocusedTask && <StillWorkingModal />}
                     </div>
                   )}
                 </div>

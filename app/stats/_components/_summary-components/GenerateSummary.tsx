@@ -107,12 +107,12 @@ export default function GenerateSummary() {
             Daily Summary
           </DialogTitle>
         </DialogHeader>
-        <div className="flex flex-col justify-center items-center overflow-y-scroll ">
+        <div className="flex flex-col justify-center items-center overflow-y-scroll">
           {timeSpent && taskIntervals ? (
-            <div className="flex flex-col justify-center items-center">
+            <div className="flex flex-col justify-center items-center  md:w-[400px] w-full">
               <div
                 ref={statsRef}
-                className=" flex flex-col gap-y-3 bg-app-fg rounded-xl p-2"
+                className=" flex flex-col gap-y-3 bg-app-fg rounded-xl w-full"
               >
                 <p className="font-bold text-xl text-center">🔒 {today}</p>
 
