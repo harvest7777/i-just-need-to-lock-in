@@ -90,7 +90,9 @@ export default function Dashboard() {
       }
     }, 1000); // Check every second
 
-    document.addEventListener("visibilitychange", handleVisibilityChange);
+    setTimeout(() => {
+      document.addEventListener("visibilitychange", handleVisibilityChange);
+    }, 5000);
     const socket = new WebSocket("wss://ws.postman-echo.com/raw");
     socketRef.current = socket;
     socket.onopen = () => {

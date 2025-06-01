@@ -163,9 +163,7 @@ export const tasksAreEqual = (a: Task, b: Task): boolean => {
     a.name === b.name &&
     a.seconds_spent === b.seconds_spent &&
     a.user_id === b.user_id &&
-    a.is_complete === b.is_complete &&
-    a.last_start_time === b.last_start_time &&
-    a.updated_at === b.updated_at
+    a.is_complete === b.is_complete 
   )
 }
 export const desyncDetected = async (): Promise<boolean> => {
@@ -192,7 +190,6 @@ export const desyncDetected = async (): Promise<boolean> => {
 
   //the server and lcient have a task in progrss, but they are different. task must have been switched no another tab
   if (serverInProgressTask && startedFocusedTask && !tasksAreEqual(serverInProgressTask, clientFocusedTask!)) {
-    console.log("not exactly equal")
     console.log(serverInProgressTask, clientFocusedTask)
     return true;
   }

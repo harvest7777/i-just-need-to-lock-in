@@ -76,7 +76,7 @@ export default function AddInterval() {
   return (
     <Dialog open={visible} onOpenChange={handleVisibleChange} modal={false}>
       <DialogTrigger asChild>
-        <button className="w-full font-bold text-lg btn-hover outline-1 bg-app-fg outline-app-highlight rounded-xl">
+        <button className="text-app-text w-full font-bold text-lg btn-hover outline-1 bg-app-fg outline-app-highlight rounded-xl">
           ✨Add Interval
         </button>
       </DialogTrigger>
@@ -84,7 +84,7 @@ export default function AddInterval() {
       {visible && (
         <div className="fixed inset-0 bg-black/50 z-40 pointer-events-none" />
       )}
-      <DialogContent className="md:max-w-2xl">
+      <DialogContent className="md:max-w-2xl text-app-text">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold text-center">
             Manually Add An Interval
